@@ -16,6 +16,6 @@ export const paths: Paths = {
       purchase_orders: "/crm/list/purchase-order",
       debit_notes: "/crm/list/debit-notes",
     },
-    vendor: "/crm/list/purchase",
+    vendor: "/crm/vendor",
   },
 };
