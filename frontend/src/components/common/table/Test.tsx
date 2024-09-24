@@ -185,7 +185,7 @@ const Test: React.FC<list_props> = ({set_open})=> {
                         isClearable
                         className="w-full sm:max-w-[44%]"
                         placeholder="Search by name..."
-                        startContent={<SearchIcon />}
+                        // startContent={<SearchIcon />}
                         value={filterValue}
                         onClear={() => onClear()}
                         onValueChange={onSearchChange}
