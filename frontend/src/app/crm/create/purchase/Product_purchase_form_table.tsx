@@ -17,8 +17,6 @@ import {
   Product_purchase_form_tableprops,
   purchase_product_list_props,
 } from "@/types/Purchase_type";
-import Notification from "@/components/common/notifications/Notification";
-import { NotificationState } from "@/types/Notification_type";
 import { formatCurrency } from "@/lib/service/currencyUtils";
 import Select_normal from "@/components/common/fields/Select_normal";
 import { convertTaxToNumber } from "@/lib/service/convertTaxToNumber";
@@ -38,13 +36,14 @@ const customHeaderContent = <div></div>;
 
 const Product_purchase_form_table: React.FC<
   Product_purchase_form_tableprops
-> = ({ product_list, set_product_list, additional_number_data, set_additional_data }) => {
-
+> = ({
+  product_list,
+  set_product_list,
+  additional_number_data,
+  set_additional_data,
+}) => {
   const [error, setError] = useState<boolean>(false);
-  const [showNotification, setShowNotification] = useState<NotificationState>({
-    status: "success",
-    message: "",
-  });
+
   const renderCell = (row: any, columnKey: string) => {
     const handleInputChange = (
       value: any,
@@ -196,25 +195,29 @@ const Product_purchase_form_table: React.FC<
     }
   };
   const footercontent = () => {
-    const handleDiscountChange = () => { };
+    const handleDiscountChange = () => {};
 
-    const handleInputChange = (value: string | number, index: number, field: keyof additional_props) => {
-      set_additional_data(prevData => {
+    const handleInputChange = (
+      value: string | number,
+      index: number,
+      field: keyof additional_props
+    ) => {
+      set_additional_data((prevData) => {
         // Create a copy of the existing data
         const newData: additional_props[] = [...prevData];
         // Update the specific item with the new value
         newData[index] = {
           ...newData[index],
-          [field]: value
+          [field]: value,
         };
         // Calculate updated values
         const updated_new_data: additional_props[] = newData.map((item) => {
-          const taxNumber = item.tax ? convertTaxToNumber(item.tax, '%') : 0;
+          const taxNumber = item.tax ? convertTaxToNumber(item.tax, "%") : 0;
           let withTax = item.withTax ?? 0;
-          let withoutTax = item.withoutTax
+          let withoutTax = item.withoutTax;
           if (withTax > 0 && taxNumber > 0) {
             withTax = calculate_without_GST_amount(withTax, taxNumber);
-            withoutTax = withTax
+            withoutTax = withTax;
           }
           return {
             ...item,
@@ -227,7 +230,10 @@ const Product_purchase_form_table: React.FC<
       });
     };
 
-    const aditional_data = ['Delivery/ Shipping Charges (+)', 'Packaging Charges (+)']
+    const aditional_data = [
+      "Delivery/ Shipping Charges (+)",
+      "Packaging Charges (+)",
+    ];
     const category_gst = [
       {
         label: "0",
@@ -279,14 +285,14 @@ const Product_purchase_form_table: React.FC<
           {/* body */}
           <div>
             {aditional_data.map((item, i) => (
-
               <div key={i} className="items-center flex">
                 <div className="w-52">{item}</div>
                 <div className="w-20">
                   <div className="min-h-[52px]">
-                    <Select_normal label={""} options={category_gst}
-                      get_value={(value) => handleInputChange(value, i, 'tax')}
-
+                    <Select_normal
+                      label={""}
+                      options={category_gst}
+                      get_value={(value) => handleInputChange(value, i, "tax")}
                     />
                   </div>
                 </div>
@@ -296,7 +302,9 @@ const Product_purchase_form_table: React.FC<
                       type="number"
                       label=""
                       value={additional_number_data[i]?.withoutTax ?? 0}
-                      get_value={(value) => handleInputChange(value, i, 'withoutTax')}
+                      get_value={(value) =>
+                        handleInputChange(value, i, "withoutTax")
+                      }
                     />
                   </div>
                 </div>
@@ -306,13 +314,14 @@ const Product_purchase_form_table: React.FC<
                       type="number"
                       label=""
                       value={additional_number_data[i]?.withTax ?? 0}
-                      get_value={(value) => handleInputChange(value, i, 'withTax')}
+                      get_value={(value) =>
+                        handleInputChange(value, i, "withTax")
+                      }
                     />
                   </div>
                 </div>
               </div>
             ))}
-
           </div>
         </div>
       </div>
@@ -321,12 +330,6 @@ const Product_purchase_form_table: React.FC<
 
   return (
     <>
-      {error && (
-        <Notification
-          status={showNotification.status}
-          message={showNotification.message}
-        />
-      )}
       <Next_form_table
         columns={columns}
         rows={product_list}
