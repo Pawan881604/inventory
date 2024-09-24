@@ -29,11 +29,15 @@ const Purchase_form: React.FC = () => {
   const [product_list, set_product_list] = useState<
     purchase_product_list_props[]
   >([]);
-  const [additional_number_data, set_additional_data] = useState<additional_props[]>([{
-    tax: '0',
-    withoutTax: 0,
-    withTax: 0,
-  }])
+  const [additional_number_data, set_additional_data] = useState<
+    additional_props[]
+  >([
+    {
+      tax: "0",
+      withoutTax: 0,
+      withTax: 0,
+    },
+  ]);
   const [publishStatus, setPublishStatus] = useState<string>("");
   const [productname, setproductname] = useState<string>("");
   const [qnty, set_qnty] = useState<number | string>(1);
@@ -179,11 +183,11 @@ const Purchase_form: React.FC = () => {
             <div>
               <div className="flex flex-col items-center md:flex-row gap-2">
                 <div className="w-full md:w-3/12 ">
-                  <Select_normal
+                  {/* <Select_normal
                     label={"Select by category"}
                     options={category}
                     // get_value={ }
-                  />
+                  /> */}
                 </div>
                 <div className="w-full md:w-6/12">
                   <Autocomplete_normal
@@ -194,11 +198,11 @@ const Purchase_form: React.FC = () => {
                 </div>
                 <div className="w-full flex items-center gap-2 md:w-3/12">
                   <div>
-                    <Input_normal
+                    {/* <Input_normal
                       type="number"
                       label="Quantity"
                       // get_value={set_qnty}
-                    />
+                    /> */}
                   </div>
                   <div>
                     <Button
@@ -214,9 +218,9 @@ const Purchase_form: React.FC = () => {
               </div>
             </div>
             <div>
-              <Product_purchase_form_table product_list={product_list} set_product_list={set_product_list}
+              {/* <Product_purchase_form_table product_list={product_list} set_product_list={set_product_list}
                 additional_number_data={additional_number_data} set_additional_data={set_additional_data}
-              />
+              /> */}
             </div>
             <div>
               <div>
@@ -227,12 +231,14 @@ const Purchase_form: React.FC = () => {
               <div></div>
             </div>
             <div>
-
               <div className="flex gap-2">
                 <Button type="button" onClick={() => setPublishStatus("Draft")}>
                   Save as Draft
                 </Button>
-                <Button onClick={() => setPublishStatus("Publish")} type="submit">
+                <Button
+                  onClick={() => setPublishStatus("Publish")}
+                  type="submit"
+                >
                   Publish
                 </Button>
               </div>
