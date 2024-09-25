@@ -16,5 +16,17 @@ class VendorController {
       }
     }
   );
+  all_vendors = AsyncHandler.handle(
+    async (req: Request, res: Response, next: NextFunction) => {
+      const vendor = await this.vendorService.all_vendors(req.body, next);
+
+      if (vendor) {
+        return res.status(201).json({
+          success: true,
+          vendor,
+        });
+      }
+    }
+  );
 }
 export default VendorController;

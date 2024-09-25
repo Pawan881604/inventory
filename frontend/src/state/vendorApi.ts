@@ -1,6 +1,13 @@
 import { Vendor_Data, vendr_form } from "@/types/Vendor_type";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
+export interface Vendors {
+  name: string;
+  phone: string;
+  email: string;
+  // Add other fields as needed
+}
+
 export const vendorApi = createApi({
   reducerPath: "vendorApi",
   baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:7000/" }),
@@ -12,7 +19,15 @@ export const vendorApi = createApi({
         body: data,
       }),
     }),
+    getAllVendors: build.query<Vendors[], string | void>({
+      query: (search) => ({
+        url: "/api/vendor/all-vendors",
+        params: search ? { search } : {},
+        method: "GET",
+      }),
+    }),
   }),
 });
 
-export const { useAddNew_vendorMutation } = vendorApi;
+// Export both the mutation and the query hooks
+export const { useAddNew_vendorMutation, useGetAllVendorsQuery } = vendorApi;

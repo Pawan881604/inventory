@@ -38,5 +38,8 @@ class VendorRepository {
   async findByGstin(gstin: string) {
     return await VendorModel.findOne({ gstin });
   }
+  async all_vendors() {
+    return await VendorModel.find();
+  }
 }
 export default VendorRepository;
