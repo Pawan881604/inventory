@@ -37,7 +37,7 @@ const Vendor: React.FC = () => {
       {/* <div>
                 <PageHeader title={'Vendors'} link={''}/>
             </div> */}
-      <Popover_component
+      {/* <Popover_component
         open={isOpen}
         set_open={setIsOpen}
         components={
@@ -48,7 +48,7 @@ const Vendor: React.FC = () => {
             onSubmit={onSubmit}
           />
         }
-      />
+      /> */}
 
       {/* <Vendor_from /> */}
       <Vendor_list set_open={setIsOpen} />
