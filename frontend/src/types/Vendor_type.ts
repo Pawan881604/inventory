@@ -14,3 +14,7 @@ export interface vendr_form {
   credit: string;
   linking_customer: string;
 }
+
+export interface Vendor_Data {
+  token: string;
+}

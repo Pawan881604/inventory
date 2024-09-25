@@ -24,6 +24,7 @@ import {
 import { PersistGate } from "redux-persist/integration/react";
 import createWebStorage from "redux-persist/lib/storage/createWebStorage";
 import { usersApi } from "@/state/usersApi";
+import { vendorApi } from "@/state/vendorApi";
 
 /* REDUX PERSISTENCE */
 const createNoopStorage = () => {
@@ -54,6 +55,7 @@ const rootReducer = combineReducers({
   global: globalReducer,
   [api.reducerPath]: api.reducer,
   [usersApi.reducerPath]: usersApi.reducer,
+  [vendorApi.reducerPath]: vendorApi.reducer,
 });
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
@@ -66,7 +68,7 @@ export const makeStore = () => {
         serializableCheck: {
           ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
         },
-      }).concat(api.middleware).concat(usersApi.middleware),
+      }).concat(api.middleware).concat(usersApi.middleware).concat(vendorApi.middleware),
   });
 };
 

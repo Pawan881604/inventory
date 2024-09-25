@@ -13,9 +13,10 @@ import React from "react";
 interface Props {
   open: boolean;
   set_open: (value: boolean) => void;
+  components: React.JSX.Element; // Define the components prop
 }
 
-const PopoverComponent: React.FC<Props> = ({ open, set_open }) => {
+const PopoverComponent: React.FC<Props> = ({ open, set_open, components }) => {
   return (
     <Modal
       size={"2xl"}
@@ -26,24 +27,9 @@ const PopoverComponent: React.FC<Props> = ({ open, set_open }) => {
       <ModalContent>
         {(onClose) => (
           <>
-            <ModalHeader className="flex flex-col gap-1">
-              Modal Title
-            </ModalHeader>
             <ModalBody>
-              <Vendor_from />
+              {components}
             </ModalBody>
-            <ModalFooter>
-              <Button
-                color="danger"
-                variant="light"
-                onPress={() => set_open(false)}
-              >
-                Close
-              </Button>
-              <Button color="primary" onPress={() => set_open(false)}>
-                Action
-              </Button>
-            </ModalFooter>
           </>
         )}
       </ModalContent>

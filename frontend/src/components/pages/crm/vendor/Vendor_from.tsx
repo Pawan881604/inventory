@@ -2,24 +2,38 @@
 import Input_field from "@/components/common/fields/Input_field";
 import Phone_number_field from "@/components/common/fields/Phone_number_field";
 import { vendr_form } from "@/types/Vendor_type";
-import { Button } from "@nextui-org/react";
+import { Button, ModalFooter, ModalHeader } from "@nextui-org/react";
 import React from "react";
 import { useForm } from "react-hook-form";
-
-const Vendor_from = () => {
+interface vender_form_props {
+  open: boolean;
+  set_open: (value: boolean) => void;
+  onSubmit: (data: vendr_form) => void;
+  isLoading:boolean,
+}
+const Vendor_from: React.FC<vender_form_props> = ({ open, set_open, onSubmit,isLoading }) => {
   const {
     control,
     handleSubmit,
     setValue,
     formState: { errors },
-  } = useForm<vendr_form>();
+  } = useForm<vendr_form>({
+    defaultValues: {
+      country: "India", // Set default country value
+    },
+  });
+
+
   return (
     <div>
       <div>
-        <form>
+        <ModalHeader className="flex flex-col gap-1">
+          Vender From
+        </ModalHeader>
+        <form onSubmit={handleSubmit(onSubmit)}>
           <div className="flex  items-center justify-between p-2">
-            <p>Basic Details</p>
-            <Button>Link Customer</Button>
+            <p className="text-lg">Basic Details</p>
+            <Button className="bg-black text-white">Link Customer</Button>
           </div>
           <div className="bg-white">
             <div className="flex flex-wrap gap-2">
@@ -39,6 +53,7 @@ const Vendor_from = () => {
                   label="Phone"
                 />
               </div>
+
               <div className="w-[49%]">
                 <Input_field
                   control={control}
@@ -50,7 +65,7 @@ const Vendor_from = () => {
             </div>
           </div>
           <div className="w-full">
-            <p>Company Details</p>
+            <p className="text-lg py-2">Company Details</p>
           </div>
           <div className="bg-white">
             <div className="flex flex-wrap gap-2">
@@ -79,7 +94,7 @@ const Vendor_from = () => {
                 />
               </div>
               <div className="w-full">
-                <p>Billing Address</p>
+                <p className="text-lg">Billing Address</p>
               </div>
               <div className="w-[49%]">
                 <Input_field
@@ -130,6 +145,20 @@ const Vendor_from = () => {
                 />
               </div>
             </div>
+          </div>
+          <div>
+            <ModalFooter>
+              <Button
+                color="danger"
+                variant="light"
+                onPress={() => set_open(false)}
+              >
+                Close
+              </Button>
+              <Button isLoading={isLoading}  className="bg-black text-white" type="submit" >
+                Save
+              </Button>
+            </ModalFooter>
           </div>
         </form>
       </div>

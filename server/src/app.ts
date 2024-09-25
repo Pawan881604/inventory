@@ -10,6 +10,8 @@ import UserController from "./api/controllers/userController";
 import { repositoriesLoader } from "./loaders/repositoriesLoader";
 import errorMiddleware from "./middlewares/error";
 import cors from "cors";
+import VendorController from "./api/controllers/vendorController";
+import vendorRoutes from "./api/routes/vendorRoutes";
 // Middleware to parse JSON bodies
 app.use(express.json());
 // Middleware to parse URL-encoded bodies (form submissions)
@@ -30,9 +32,12 @@ const services = servicesLoader(repositories);
 
 // Create controllers
 const userController = new UserController(services.userService);
+const vendorController = new VendorController(services.vendorService);
 
 // Set up routes
 app.use("/api/auth", userRoutes(userController));
+app.use("/api/vendor", vendorRoutes(vendorController));
+
 app.use(errorMiddleware);
 
 export default app;
