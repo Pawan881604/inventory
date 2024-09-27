@@ -28,14 +28,14 @@ const Vendor_list: React.FC<list_props> = ({ set_open }) => {
       const cellValue = vendor[columnKey as keyof vendr_list];
 
       switch (columnKey) {
-        case "name":
+        case "vendor_name":
           return (
             <User
               avatarProps={{ radius: "lg", src: "" }} // Replace with a valid image URL if available
-              description={vendor.email}
+              description={vendors.vendor_name}
               name={cellValue}
             >
-              {vendor.email}
+              {vendors.vendor_name}
             </User>
           );
         case "actions":
@@ -64,11 +64,12 @@ const Vendor_list: React.FC<list_props> = ({ set_open }) => {
     },
     []
   );
+  
   return (
     <div>
       {/* <Test set_open={set_open} data={data} />
        */}
-      <List_table data={vendors} renderCell={renderCell} />
+      <List_table data={vendors} loading={isLoading} renderCell={renderCell} />
     </div>
   );
 };

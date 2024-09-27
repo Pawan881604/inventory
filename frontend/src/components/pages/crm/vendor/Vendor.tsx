@@ -8,6 +8,7 @@ import { vendr_form } from "@/types/Vendor_type";
 import { useAddNew_vendorMutation } from "@/state/vendorApi";
 import { generate32BitUUID } from "@/lib/service/generate32BitUUID";
 import toast from "react-hot-toast";
+import { Button } from "@nextui-org/react";
 
 const Vendor: React.FC = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -37,7 +38,7 @@ const Vendor: React.FC = () => {
       {/* <div>
                 <PageHeader title={'Vendors'} link={''}/>
             </div> */}
-      {/* <Popover_component
+      <Popover_component
         open={isOpen}
         set_open={setIsOpen}
         components={
@@ -48,8 +49,8 @@ const Vendor: React.FC = () => {
             onSubmit={onSubmit}
           />
         }
-      /> */}
-
+      />
+      <Button onClick={() => setIsOpen(true)}>set_open</Button>
       {/* <Vendor_from /> */}
       <Vendor_list set_open={setIsOpen} />
     </div>

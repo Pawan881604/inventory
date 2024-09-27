@@ -18,7 +18,9 @@ class VendorController {
   );
   all_vendors = AsyncHandler.handle(
     async (req: Request, res: Response, next: NextFunction) => {
-      const vendor = await this.vendorService.all_vendors(req.body, next);
+      const query= req.query;
+      console.log(req.query)
+      const vendor = await this.vendorService.all_vendors(query);
 
       if (vendor) {
         return res.status(201).json({

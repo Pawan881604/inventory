@@ -13,6 +13,7 @@ export interface IVendor extends Document {
   city: string;
   state: string;
   country: string;
+  status: string;
   isActive?: boolean; // Optional field
 }
 
@@ -79,6 +80,10 @@ const vendorSchema: Schema<IVendor> = new mongoose.Schema(
       trim: true,
       required: true, // You may want to require country
     },
+    status: {
+      type: String,
+      default: "active", // Active by default
+    },
     isActive: {
       type: Boolean,
       default: true, // Active by default
@@ -90,6 +95,9 @@ const vendorSchema: Schema<IVendor> = new mongoose.Schema(
 );
 
 // Create and export the model
-const VendorModel: Model<IVendor> = mongoose.model<IVendor>('Vendor', vendorSchema);
+const VendorModel: Model<IVendor> = mongoose.model<IVendor>(
+  "Vendor",
+  vendorSchema
+);
 
 export default VendorModel;
