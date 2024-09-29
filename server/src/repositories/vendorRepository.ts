@@ -54,16 +54,27 @@ class VendorRepository {
     const result = await apiFeatures.exec();
     return result.length;
   }
-  async find_by_vendor_id(id: string, data: any, next: NextFunction) {
+  async find_by_vendor_id_and_update(
+    id: string,
+    data: any,
+    next: NextFunction
+  ) {
     const vendor = await VendorModel.findById(id);
 
     if (!vendor) {
       return next(new ErrorHandler(`Vendor with ID ${id} not found`, 404));
     }
-    console.log(data)
     vendor.is_active = data.state;
     vendor.is_delete = data.hard_delete;
     await vendor.save();
+    return vendor;
+  }
+  async find_by_vendor_id(id: string, next: NextFunction) {
+    const vendor = await VendorModel.findById(id);
+
+    if (!vendor) {
+      return next(new ErrorHandler(`Vendor with ID ${id} not found`, 404));
+    }
     return vendor;
   }
 }

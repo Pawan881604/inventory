@@ -23,6 +23,7 @@ import toast from "react-hot-toast";
 
 interface list_props {
   set_open: (value: boolean) => void;
+  edit_handler:(value:any)=> void;
 }
 
 const columns: vendor_Column[] = [
@@ -46,7 +47,7 @@ const statusColorMap: Record<string, ChipProps["color"]> = {
   inactive: "danger",
 };
 
-const Vendor_list: React.FC<list_props> = ({ set_open }) => {
+const Vendor_list: React.FC<list_props> = ({ set_open,edit_handler }) => {
   const [filterValue, setFilterValue] = useState<string>("");
   const [page_status, set_page_status] = useState<string>("yes");
   const [deleted_status, set_deleted_status] = useState<string>("no");
@@ -94,7 +95,7 @@ const Vendor_list: React.FC<list_props> = ({ set_open }) => {
     rowsPerPage: rowsPerPage,
     page: page,
   });
-  
+
   const response: Get_VendorResponse | undefined = data as
     | Get_VendorResponse
     | undefined;
@@ -168,7 +169,7 @@ const Vendor_list: React.FC<list_props> = ({ set_open }) => {
                 <span className="text-sm text-default-400 cursor-pointer active:opacity-50">
                   {vendor && vendor.is_delete === "no" ? (
                     vendor.is_active === "yes" ? (
-                      <Edit size={20} />
+                      <Edit size={20}  onClick={()=>edit_handler(vendor._id)} />
                     ) : vendor.is_active === "no" ? (
                       <RotateCcw
                         onClick={() => restoreHandler(vendor._id, "yes", "no")}

@@ -34,13 +34,30 @@ class VendorController {
       }
     }
   );
+  get_vendor = AsyncHandler.handle(
+    async (req: Request, res: Response, next: NextFunction) => {
+      const { id } = req.params;
+
+      const vendor = await this.vendorService.find_by_vendor_id(id, next);
+      if (vendor) {
+        return res.status(201).json({
+          success: true,
+          vendor,
+        });
+      }
+    }
+  );
   removeVendor = AsyncHandler.handle(
     async (req: Request, res: Response, next: NextFunction) => {
       const id: string = req.params.id;
       const data: any = req.body;
       console.log(data);
 
-      const vendor = await this.vendorService.find_by_vendor_id(id, data, next);
+      const vendor = await this.vendorService.find_by_vendor_id_and_update(
+        id,
+        data,
+        next
+      );
       if (vendor) {
         return res.status(200).json({
           succes: true,

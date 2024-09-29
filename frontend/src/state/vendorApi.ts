@@ -1,4 +1,4 @@
-import { Vendor_Data, vendr_form } from "@/types/Vendor_type";
+import { Vendor_Data, vendr_form, vendr_list } from "@/types/Vendor_type";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 export interface Vendors {
@@ -30,6 +30,13 @@ export const vendorApi = createApi({
         };
       },
       invalidatesTags: [{ type: "Vendor", id: "LIST" }],
+    }),
+    getSingeVendor: build.mutation<vendr_list, string>({
+      query: (id: string) => ({
+        url: `/api/vendor/data/${id}`,
+        method: "GET",
+      }),
+      invalidatesTags: (result, error, id) => [{ type: "Vendor", id }], // Invalidate the specific vendor's data
     }),
     getAllVendors: build.query<
       Vendors[],
@@ -87,4 +94,5 @@ export const {
   useAddNew_vendorMutation,
   useGetAllVendorsQuery,
   useActionVendorMutation,
+  useGetSingeVendorMutation,
 } = vendorApi;
