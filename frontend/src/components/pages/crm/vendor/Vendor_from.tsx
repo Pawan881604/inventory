@@ -1,23 +1,27 @@
 "use client";
 import Input_field from "@/components/common/fields/Input_field";
 import Phone_number_field from "@/components/common/fields/Phone_number_field";
-import { vendr_form } from "@/types/Vendor_type";
+import { vendr_form, vendr_list } from "@/types/Vendor_type";
 import { vendor_schema } from "@/zod-schemas/vendor_zod_schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button, ModalFooter, ModalHeader } from "@nextui-org/react";
-import React from "react";
+import React, { useEffect, useMemo } from "react";
 import { useForm } from "react-hook-form";
 interface vender_form_props {
   open: boolean;
   set_open: (value: boolean) => void;
   onSubmit: (data: vendr_form) => void;
   isLoading: boolean;
+  vendor_data: vendr_list | never[];
+  edit: boolean;
 }
 const Vendor_from: React.FC<vender_form_props> = ({
   open,
   set_open,
   onSubmit,
   isLoading,
+  vendor_data,
+  edit,
 }) => {
   const {
     control,
@@ -30,11 +34,46 @@ const Vendor_from: React.FC<vender_form_props> = ({
       country: "India", // Set default country value
     },
   });
+  const memoizedVendorData = useMemo(() => {
+    if (!Array.isArray(vendor_data)) {
+      return {
+        name: vendor_data.vendor_name,
+        phone: vendor_data.phone,
+        email: vendor_data.email,
+        company: vendor_data.company_name,
+        gstin: vendor_data.gstin,
+        address_line_1: vendor_data.address_line_1,
+        address_line_2: vendor_data.address_line_2,
+        pin_code: vendor_data.pincode,
+        state: vendor_data.state,
+        city: vendor_data.city,
+        country: vendor_data.country,
+      };
+    }
+    return {} as Partial<vendr_form>; // Use Partial<vendr_form> to allow missing keys
+  }, [vendor_data]);
+
+  useEffect(() => {
+    if (edit) {
+      if (Object.keys(memoizedVendorData).length > 0) {
+        (Object.keys(memoizedVendorData) as (keyof vendr_form)[]).forEach(
+          (key) =>
+            setValue(key, memoizedVendorData[key] as vendr_form[typeof key])
+        );
+      }
+    } else {
+      (Object.keys(memoizedVendorData) as (keyof vendr_form)[]).forEach((key) =>
+        setValue(key, "")
+      );
+    }
+  }, [memoizedVendorData, setValue, edit]);
 
   return (
     <div>
       <div>
-        <ModalHeader className="flex flex-col gap-1">Vender From</ModalHeader>
+        <ModalHeader className="flex flex-col gap-1">
+          {edit ? "Update Vender From" : "Vender From"}
+        </ModalHeader>
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="flex  items-center justify-between p-2">
             <p className="text-lg">Basic Details</p>
@@ -90,14 +129,7 @@ const Vendor_from: React.FC<vender_form_props> = ({
                   label="GSTIN"
                 />
               </div>
-              <div className="w-[49%]">
-                <Input_field
-                  control={control}
-                  errors={errors}
-                  name="email"
-                  label="Email"
-                />
-              </div>
+
               <div className="w-full">
                 <p className="text-lg">Billing Address</p>
               </div>
@@ -160,6 +192,7 @@ const Vendor_from: React.FC<vender_form_props> = ({
               >
                 Close
               </Button>
+
               <Button
                 isLoading={isLoading}
                 className="bg-black text-white"

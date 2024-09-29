@@ -21,6 +21,14 @@ export const vendorApi = createApi({
       }),
       invalidatesTags: [{ type: "Vendor", id: "LIST" }],
     }),
+    update_vendor: build.mutation<Vendor_Data, vendr_form>({
+      query: (data) => ({
+        url: "/api/vendor/update",
+        method: "POST",
+        body: data,
+      }),
+      invalidatesTags: [{ type: "Vendor", id: "LIST" }],
+    }),
     actionVendor: build.mutation({
       query: (data) => {
         return {
@@ -36,7 +44,7 @@ export const vendorApi = createApi({
         url: `/api/vendor/data/${id}`,
         method: "GET",
       }),
-      invalidatesTags: (result, error, id) => [{ type: "Vendor", id }], // Invalidate the specific vendor's data
+      invalidatesTags: [{ type: "Vendor", id: "LIST" }],
     }),
     getAllVendors: build.query<
       Vendors[],
@@ -95,4 +103,5 @@ export const {
   useGetAllVendorsQuery,
   useActionVendorMutation,
   useGetSingeVendorMutation,
+  useUpdate_vendorMutation,
 } = vendorApi;

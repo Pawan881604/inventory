@@ -15,16 +15,16 @@ export interface vendr_form {
   linking_customer: string;
 }
 
-export interface vendr_list {
+export interface vendr_list  {
   _id: string;
   vendor_name: string;
   phone: string;
   email: string;
-  company: string;
+  company_name: string;
   gstin: string;
   address_line_1: string;
   address_line_2: string;
-  pin_code: string;
+  pincode: string;
   state: string;
   status:string;
   city: string;
@@ -46,6 +46,9 @@ export interface Get_VendorResponse {
   data_counter: number; // Add any other properties you expect
 }
 
+export interface Post_VendorResponse {
+  vendor: vendr_list; // Make sure this matches your expected type
+}
 export interface vendor_Column {
   name: string;
   uid: string;

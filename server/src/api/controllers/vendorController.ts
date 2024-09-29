@@ -16,10 +16,23 @@ class VendorController {
       }
     }
   );
+  update_details = AsyncHandler.handle(
+    async (req: Request, res: Response, next: NextFunction) => {
+      console.log("Incoming Request Data:", req.body);
+      const vendor = await this.vendorService.add_new_vendor(req.body, next);
+
+      // if (vendor) {
+        return res.status(201).json({
+          success: true,
+          // vendor,
+        });
+      // }
+    }
+  );
   all_vendors = AsyncHandler.handle(
     async (req: Request, res: Response, next: NextFunction) => {
       const query = req.query;
-      console.log(query);
+    
       const resultPerpage = Number(query.rowsPerPage);
 
       const vendor = await this.vendorService.all_vendors(query);
