@@ -1,14 +1,12 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import Vendor_list from "./Vendor_list";
-import PageHeader from "@/components/common/Page_header";
 import Vendor_from from "./Vendor_from";
 import Popover_component from "@/components/Popover_component/Popover_component";
 import { vendr_form } from "@/types/Vendor_type";
 import { useAddNew_vendorMutation } from "@/state/vendorApi";
 import { generate32BitUUID } from "@/lib/service/generate32BitUUID";
 import toast from "react-hot-toast";
-import { Button } from "@nextui-org/react";
 
 const Vendor: React.FC = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -17,7 +15,7 @@ const Vendor: React.FC = () => {
 
   const onSubmit = async (data: vendr_form) => {
     const updated_data = { ...data, uuid: generate32BitUUID() };
-    const response = await addNew_vendor(updated_data);
+    await addNew_vendor(updated_data);
   };
 
   useEffect(() => {
@@ -34,10 +32,7 @@ const Vendor: React.FC = () => {
   }, [error, isSuccess]);
   return (
     <div>
-      <div></div>
-      {/* <div>
-                <PageHeader title={'Vendors'} link={''}/>
-            </div> */}
+   
       <Popover_component
         open={isOpen}
         set_open={setIsOpen}
@@ -50,8 +45,7 @@ const Vendor: React.FC = () => {
           />
         }
       />
-      <Button onClick={() => setIsOpen(true)}>set_open</Button>
-      {/* <Vendor_from /> */}
+    
       <Vendor_list set_open={setIsOpen} />
     </div>
   );

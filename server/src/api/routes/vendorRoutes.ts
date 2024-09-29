@@ -8,6 +8,10 @@ const vendorRoutes = (vendorController: VendorController) => {
     "/all-vendors",
     vendorController.all_vendors.bind(vendorController)
   ); // Defining vendor route
+  router.post(
+    "/remove/:id",
+    vendorController.removeVendor.bind(vendorController)
+  );
   return router; // Return router so it can be used in app.ts
 };
 

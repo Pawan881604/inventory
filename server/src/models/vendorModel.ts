@@ -14,7 +14,8 @@ export interface IVendor extends Document {
   state: string;
   country: string;
   status: string;
-  isActive?: boolean; // Optional field
+  is_active?: string; // Optional field
+  is_delete?: string; // Optional field
 }
 
 const vendorSchema: Schema<IVendor> = new mongoose.Schema(
@@ -84,9 +85,13 @@ const vendorSchema: Schema<IVendor> = new mongoose.Schema(
       type: String,
       default: "active", // Active by default
     },
-    isActive: {
-      type: Boolean,
-      default: true, // Active by default
+    is_active: {
+      type: String,
+      default: "yes", // Active by default
+    },
+    is_delete: {
+      type: String,
+      default: "no", // Active by default
     },
   },
   {

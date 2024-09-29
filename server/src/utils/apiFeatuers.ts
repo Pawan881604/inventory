@@ -11,10 +11,7 @@ class ApiFeatures {
       const keyword = this.queryStr.keyword
         ? {
             $or: [
-              { phone_number: { $regex: this.queryStr.keyword, $options: "i" } },
-              { status: { $regex: this.queryStr.keyword, $options: "i" } },
-              { email: { $regex: this.queryStr.keyword, $options: "i" } },
-              { branch: { $regex: this.queryStr.keyword, $options: "i" } },
+              { vendor_name: { $regex: this.queryStr.keyword, $options: "i" } },
             ],
           }
         : {};
@@ -26,7 +23,7 @@ class ApiFeatures {
       const queryCopy = { ...this.queryStr };
   
       // Removing some fields for category
-      const removeField = ["keyword", "page", "limit"];
+      const removeField = ["keyword", "page", "limit","rowsPerPage"];
       removeField.forEach((key) => delete queryCopy[key]);
   
       if (queryCopy["user.role"]) {
