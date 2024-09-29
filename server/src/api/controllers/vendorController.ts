@@ -19,9 +19,9 @@ class VendorController {
   all_vendors = AsyncHandler.handle(
     async (req: Request, res: Response, next: NextFunction) => {
       const query = req.query;
-
-      const resultPerpage = Number(query.rowsPerPage);
       console.log(query);
+      const resultPerpage = Number(query.rowsPerPage);
+
       const vendor = await this.vendorService.all_vendors(query);
       const data_counter = await this.vendorService.data_counter(query);
       if (vendor) {
@@ -36,9 +36,11 @@ class VendorController {
   );
   removeVendor = AsyncHandler.handle(
     async (req: Request, res: Response, next: NextFunction) => {
-      const id:string = req.params.id;
+      const id: string = req.params.id;
+      const data: any = req.body;
+      console.log(data);
 
-      const vendor = await this.vendorService.find_by_vendor_id(id, next);
+      const vendor = await this.vendorService.find_by_vendor_id(id, data, next);
       if (vendor) {
         return res.status(200).json({
           succes: true,

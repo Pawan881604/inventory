@@ -30,6 +30,7 @@ export interface vendr_list {
   city: string;
   country: string;
   is_active:string;
+  is_delete:string;
   linking_customer: string;
   resultPerpage: number;
   data_counter: number;

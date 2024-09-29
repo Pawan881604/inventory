@@ -21,11 +21,12 @@ export const vendorApi = createApi({
       }),
       invalidatesTags: [{ type: "Vendor", id: "LIST" }],
     }),
-    removeVendor: build.mutation({
+    actionVendor: build.mutation({
       query: (data) => {
         return {
           url: `/api/vendor/remove/${data.id}`,
           method: "POST",
+          body: data,
         };
       },
       invalidatesTags: [{ type: "Vendor", id: "LIST" }],
@@ -33,6 +34,7 @@ export const vendorApi = createApi({
     getAllVendors: build.query<
       Vendors[],
       {
+        is_delete?: string;
         keyword?: string;
         status?: string;
         rowsPerPage?: number;
@@ -47,9 +49,13 @@ export const vendorApi = createApi({
         };
         // Add filters to the query parameters if they are present
         if (filters) {
-          if (filters.is_active) {
+          if (filters.is_active && filters.is_active !== "final") {
             params.is_active = filters.is_active;
           }
+          if (filters.is_delete) {
+            params.is_delete = filters.is_delete;
+          }
+
           if (filters.keyword) {
             params.keyword = filters.keyword;
           }
@@ -80,5 +86,5 @@ export const vendorApi = createApi({
 export const {
   useAddNew_vendorMutation,
   useGetAllVendorsQuery,
-  useRemoveVendorMutation,
+  useActionVendorMutation,
 } = vendorApi;

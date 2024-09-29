@@ -30,8 +30,8 @@ class VendorService {
   async data_counter(query:any) {
     return await this.vendorRepository.data_counter(query);
   }
-  async find_by_vendor_id(id:string,next:NextFunction) {
-    return await this.vendorRepository.find_by_vendor_id(id,next);
+  async find_by_vendor_id(id:string,data:any,next:NextFunction) {
+    return await this.vendorRepository.find_by_vendor_id(id,data,next);
   }
 }
 export default VendorService;
