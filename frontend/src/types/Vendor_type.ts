@@ -1,37 +1,37 @@
+export interface BaseAddress {
+  address_line_1: string;
+  address_line_2: string;
+  city: string;
+  state: string;
+  pin_code: number;
+  country: string;
+}
 export interface vendr_form {
   name: string;
   phone: string;
   email: string;
   company: string;
   gstin: string;
-  address_line_1: string;
-  address_line_2: string;
-  pin_code: string;
-  state: string;
-  city: string;
-  country: string;
+  shipping_address: BaseAddress; // Use the base address for shipping
+  billing_address: BaseAddress;
+  status: string;
   debit: string;
   credit: string;
-  linking_customer: string;
 }
 
-export interface vendr_list  {
+export interface vendr_list {
   _id: string;
-  vendor_name: string;
+  name: string;
+  audit_log: any;
   phone: string;
   email: string;
   company_name: string;
+  shipping_address: BaseAddress; // Use the base address for shipping
+  billing_address: BaseAddress;   // Use the base address for billing
   gstin: string;
-  address_line_1: string;
-  address_line_2: string;
-  pincode: string;
-  state: string;
-  status:string;
-  city: string;
-  country: string;
-  is_active:string;
-  is_delete:string;
-  linking_customer: string;
+  status: string;
+  is_active: string;
+  is_delete: string;
   resultPerpage: number;
   data_counter: number;
 }

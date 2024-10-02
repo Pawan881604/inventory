@@ -13,6 +13,11 @@ class UserController {
       res.status(201).json({ succes: true, user });
     }
   );
+  profile = AsyncHandler.handle(
+    async (req: Request, res: Response, next: NextFunction) => {
+      res.status(200).json({ succes: true });
+    }
+  );
 
   login = AsyncHandler.handle(
     async (req: Request, res: Response, next: NextFunction) => {

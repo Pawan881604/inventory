@@ -47,9 +47,15 @@ export const navItems: MenuListProps[] = [
         ],
       },
       {
+        title: "Customer",
+        label: "Customer",
+        icon: 'User',
+        href: paths.crm.customer,
+      },
+      {
         title: "Vendor",
         label: "Vendor",
-        icon: 'ShoppingCart',
+        icon: 'UserX',
         href: paths.crm.vendor,
       },
 

@@ -14,7 +14,6 @@ import { vendr_list as Vendor, vendor_Column } from "@/types/Vendor_type";
 import TableBottomContent from "./TableBottomContent";
 import TableTopContent from "./TableTopContent";
 
-const INITIAL_VISIBLE_COLUMNS = ["vendor_name", "phone","gstin","state", "status", "actions"];
 
 interface TableProps<T> {
   data: T[];
@@ -32,6 +31,7 @@ interface TableProps<T> {
   columns: any; // You may want to further type this based on your column definitions
   form_open: (value: boolean) => void;
   set_page_status: (value: string) => void;
+  visiable_columns: string[];
 }
 interface Identifiable {
   _id: string;
@@ -48,17 +48,18 @@ const ListTable = <T extends Identifiable>({
   setRowsPerPage,
   data_length,
   page,
-  setPage, columns,form_open,set_page_status
+  setPage, columns, form_open, set_page_status,
+  visiable_columns,
 }: TableProps<T>) => {
   const pages = Math.ceil(data_length / Number(resultPerpage));
-  const [visibleColumns, setVisibleColumns] = React.useState<Selection>(new Set(INITIAL_VISIBLE_COLUMNS));
+  const [visibleColumns, setVisibleColumns] = React.useState<Selection>(new Set(visiable_columns));
 
 
 
   const headerColumns = React.useMemo(() => {
     if (visibleColumns === "all") return columns;
 
-    return columns.filter((column:any) => Array.from(visibleColumns).includes(column.uid));
+    return columns.filter((column: any) => Array.from(visibleColumns).includes(column.uid));
   }, [visibleColumns]);
 
   return (

@@ -35,7 +35,7 @@ const Select_field = <T extends FieldValues>({
             label={label}
             variant="bordered"
             aria-label={`input ${label}`}
-            placeholder={`Select ${label}`}
+            placeholder={`${label}`}
             selectedKeys={new Set([field.value])} // Wrap field.value in a Set for single selection
             onSelectionChange={(keys) => {
               const selectedValue = Array.from(keys).join(""); // Convert Set to string

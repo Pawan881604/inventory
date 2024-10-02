@@ -20,25 +20,23 @@ import {
   vendor_Column,
 } from "@/types/Vendor_type";
 import toast from "react-hot-toast";
+import { TimeAgo } from "@/lib/service/time/timeAgo";
 
 interface list_props {
   set_open: (value: boolean) => void;
-  edit_handler:(value:any)=> void;
+  edit_handler: (value: any) => void;
 }
+const INITIAL_VISIBLE_COLUMNS = ["name", "phone", "gstin", "state", "updatedAt", "audit_log", "actions"];
 
 const columns: vendor_Column[] = [
-  { name: "Name", uid: "vendor_name" },
+  { name: "Vendor name", uid: "name" },
   { name: "Phone", uid: "phone" },
   { name: "Email", uid: "email" },
-  { name: "Company", uid: "company" },
+  { name: "Company", uid: "company_name" },
   { name: "Status", uid: "status" },
   { name: "GSTIN", uid: "gstin" },
-  { name: "Address Line 1", uid: "address_line_1" },
-  { name: "Address Line 2", uid: "address_line_2" },
-  { name: "Pincode", uid: "pin_code" },
-  { name: "State", uid: "state" },
-  { name: "City", uid: "city" },
-  { name: "Country", uid: "country" },
+  { name: "Last Update", uid: "updatedAt" },
+  { name: "Employ", uid: "audit_log" },
   { name: "Actions", uid: "actions" }, // Added actions column
 ];
 
@@ -47,7 +45,7 @@ const statusColorMap: Record<string, ChipProps["color"]> = {
   inactive: "danger",
 };
 
-const Vendor_list: React.FC<list_props> = ({ set_open,edit_handler }) => {
+const Vendor_list: React.FC<list_props> = ({ set_open, edit_handler }) => {
   const [filterValue, setFilterValue] = useState<string>("");
   const [page_status, set_page_status] = useState<string>("yes");
   const [deleted_status, set_deleted_status] = useState<string>("no");
@@ -56,7 +54,14 @@ const Vendor_list: React.FC<list_props> = ({ set_open,edit_handler }) => {
   const [statusFilter, setStatusFilter] = useState<string>("all");
   const [rowsPerPage, setRowsPerPage] = useState<number>(10);
   const [page, setPage] = useState<number>(1);
-
+  const { data, error, isLoading } = useGetAllVendorsQuery({
+    is_active: page_status,
+    is_delete: page_status && page_status === "final" ? "yes" : "no",
+    keyword: debouncedFilterValue,
+    status: statusFilter,
+    rowsPerPage: rowsPerPage,
+    page: page,
+  });
   const [
     actionVendor,
     {
@@ -76,25 +81,28 @@ const Vendor_list: React.FC<list_props> = ({ set_open,edit_handler }) => {
   }, [filterValue, handleDebouncedFilter]);
 
   useEffect(() => {
-    if (delete_error) {
-      const errorMessage =
-        (delete_error as { data?: { message?: string } }).data?.message ||
-        "An unexpected error occurred.";
+    if (delete_error || error) {
+      let errorMessage = "An unexpected error occurred."; // Default message
+
+      // Check if 'error' is defined and has the expected structure
+      if (delete_error && 'data' in delete_error) {
+        errorMessage = (delete_error as { data?: { message?: string } }).data?.message || errorMessage;
+      }
+
+      // Check if 'update_error' is defined and has the expected structure
+      if (error && 'data' in error) {
+        errorMessage = (error as { data?: { message?: string } }).data?.message || errorMessage;
+      }
+
       toast.error(errorMessage); // Show the error toast
+      return
     }
     if (delete_success) {
       toast.success("Vendor successfuly updated"); // Show the error toast
     }
-  }, [delete_error, delete_success, toast]);
+  }, [delete_error, delete_success, toast, error]);
   // Fetch vendors only when debouncedFilterValue has a valid value
-  const { data, error, isLoading } = useGetAllVendorsQuery({
-    is_active: page_status,
-    is_delete: page_status && page_status === "final" ? "yes" : "no",
-    keyword: debouncedFilterValue,
-    status: statusFilter,
-    rowsPerPage: rowsPerPage,
-    page: page,
-  });
+
 
   const response: Get_VendorResponse | undefined = data as
     | Get_VendorResponse
@@ -140,15 +148,14 @@ const Vendor_list: React.FC<list_props> = ({ set_open,edit_handler }) => {
       };
 
       switch (columnKey) {
-        case "vendor_name":
+        case "name":
           return (
             <User
               key={vendor._id}
               avatarProps={{ radius: "lg", src: "" }} // Replace with a valid image URL if available
-              description={vendor.vendor_name}
               name={cellValue}
             >
-              {vendor.vendor_name}
+              {vendor.name}
             </User>
           );
         case "status":
@@ -162,14 +169,22 @@ const Vendor_list: React.FC<list_props> = ({ set_open,edit_handler }) => {
               {cellValue}
             </Chip>
           );
+        case "updatedAt":
+          return (
+            <TimeAgo time={cellValue} />
+          );
+        case "audit_log":
+          return (
+            <p>{cellValue.name}</p>
+          );
         case "actions":
           return (
             <div className="relative flex justify-end gap-2">
-              <Tooltip content="Edit user">
+              <Tooltip content={vendor.is_active === "yes" ? "Edit vendor" : "Recover vendor"}>
                 <span className="text-sm text-default-400 cursor-pointer active:opacity-50">
                   {vendor && vendor.is_delete === "no" ? (
                     vendor.is_active === "yes" ? (
-                      <Edit size={20}  onClick={()=>edit_handler(vendor._id)} />
+                      <Edit size={20} onClick={() => edit_handler(vendor._id)} />
                     ) : vendor.is_active === "no" ? (
                       <RotateCcw
                         onClick={() => restoreHandler(vendor._id, "yes", "no")}
@@ -187,14 +202,15 @@ const Vendor_list: React.FC<list_props> = ({ set_open,edit_handler }) => {
                 </span>
               </Tooltip>
 
-              <Tooltip content="Edit user">
-                <span className="text-sm text-default-400 cursor-pointer active:opacity-50">
+              <Tooltip content={vendor.is_active === "yes" ? "Delete vendor" : "Erase vendor"}>
+                <span className="text-sm text-red-600 cursor-pointer active:opacity-50">
                   {
                     vendor && vendor.is_delete === "no" ? (
                       delete_loading ? (
                         <CircularProgress size="sm" aria-label="Loading..." />
                       ) : vendor.is_active === "yes" ? (
                         <Trash2
+                          className="text-red-600"
                           onClick={() => deleteHandler(vendor._id, "no", "no")}
                           size={20}
                         />
@@ -238,6 +254,7 @@ const Vendor_list: React.FC<list_props> = ({ set_open,edit_handler }) => {
         setFilterValue={setFilterValue}
         form_open={set_open}
         set_page_status={set_page_status}
+        visiable_columns={INITIAL_VISIBLE_COLUMNS}
         renderCell={renderCell}
       />
     </div>

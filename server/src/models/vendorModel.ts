@@ -1,18 +1,16 @@
-import mongoose, { Document, Model, Schema } from "mongoose";
+import mongoose, { Document, Model, Types, Schema } from "mongoose";
 
 export interface IVendor extends Document {
   vendor_id: string;
-  vendor_name: string;
+  name: string;
   phone: string;
   email: string;
   company_name: string;
   gstin: string;
-  address_line_1: string;
-  address_line_2?: string; // Make optional if not always provided
-  pincode: number;
-  city: string;
-  state: string;
+  billing_address: Types.ObjectId;
+  shipping_address: Types.ObjectId;
   country: string;
+  audit_log: Types.ObjectId;
   status: string;
   is_active?: string; // Optional field
   is_delete?: string; // Optional field
@@ -25,7 +23,7 @@ const vendorSchema: Schema<IVendor> = new mongoose.Schema(
       trim: true,
       required: true, // You may want to require vendor_id
     },
-    vendor_name: {
+    name: {
       type: String,
       trim: true,
       required: true, // Consider making vendor_name required
@@ -50,40 +48,21 @@ const vendorSchema: Schema<IVendor> = new mongoose.Schema(
       trim: true,
       default: null,
     },
-    address_line_1: {
-      type: String,
-      trim: true,
-      required: true, // You may want to require address_line_1
+    billing_address: {
+      type: Schema.Types.ObjectId,
+      ref: "Address",
     },
-    address_line_2: {
-      type: String,
-      trim: true,
-      default: null,
-    },
-    pincode: {
-      type: Number,
-      required: true, // You may want to require pincode
-      min: 100000, // Minimum 6-digit number
-      max: 999999, // Maximum 6-digit number
-    },
-    city: {
-      type: String,
-      trim: true,
-      required: true, // You may want to require city
-    },
-    state: {
-      type: String,
-      trim: true,
-      required: true, // You may want to require state
-    },
-    country: {
-      type: String,
-      trim: true,
-      required: true, // You may want to require country
+    shipping_address: {
+      type: Schema.Types.ObjectId,
+      ref: "Address",
     },
     status: {
       type: String,
       default: "active", // Active by default
+    },
+    audit_log: {
+      type: Schema.Types.ObjectId,
+      ref: "User",
     },
     is_active: {
       type: String,

@@ -1,21 +1,37 @@
+const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 import { Vendor_Data, vendr_form, vendr_list } from "@/types/Vendor_type";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-
+import Cookies from "universal-cookie";
 export interface Vendors {
   name: string;
   phone: string;
   email: string;
-  // Add other fields as needed
 }
+
+const getTokenFromCookies = () => {
+  const cookies = new Cookies();
+  const token = cookies.get("auth_token");
+  return token; // Replace 'token' with your cookie name
+};
 
 export const vendorApi = createApi({
   reducerPath: "vendorApi",
-  baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:7000/" }),
+  baseQuery: fetchBaseQuery({
+    baseUrl: apiUrl,
+    prepareHeaders: (headers) => {
+      const token = getTokenFromCookies(); // Get token from cookies
+      if (token) {
+        headers.set("Authorization", `Bearer ${token}`); // Set the Authorization header
+      }
+      return headers;
+    },
+  }),
+
   tagTypes: ["Vendor"],
   endpoints: (build) => ({
     addNew_vendor: build.mutation<Vendor_Data, vendr_form>({
       query: (data) => ({
-        url: "/api/vendor/add",
+        url: "/vendor/add",
         method: "POST",
         body: data,
       }),
@@ -23,7 +39,7 @@ export const vendorApi = createApi({
     }),
     update_vendor: build.mutation<Vendor_Data, vendr_form>({
       query: (data) => ({
-        url: "/api/vendor/update",
+        url: "/vendor/update",
         method: "POST",
         body: data,
       }),
@@ -32,7 +48,7 @@ export const vendorApi = createApi({
     actionVendor: build.mutation({
       query: (data) => {
         return {
-          url: `/api/vendor/remove/${data.id}`,
+          url: `/vendor/remove/${data.id}`,
           method: "POST",
           body: data,
         };
@@ -41,7 +57,7 @@ export const vendorApi = createApi({
     }),
     getSingeVendor: build.mutation<vendr_list, string>({
       query: (id: string) => ({
-        url: `/api/vendor/data/${id}`,
+        url: `/vendor/data/${id}`,
         method: "GET",
       }),
       invalidatesTags: [{ type: "Vendor", id: "LIST" }],
@@ -86,7 +102,7 @@ export const vendorApi = createApi({
         }
 
         return {
-          url: "/api/vendor/all-vendors",
+          url: "/vendor/all-vendors",
           params, // Use the dynamically constructed params
           method: "GET",
         };

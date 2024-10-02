@@ -13,4 +13,10 @@ export interface forgot_password {
 }
 export interface User_Data {
   token: string;
+  email?:string;
+  name?:string;
+  user_id?:string;
+  number?:string;
+  role?:string;
+  isActive?:string;
 }

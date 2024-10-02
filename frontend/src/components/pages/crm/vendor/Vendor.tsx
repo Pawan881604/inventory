@@ -1,4 +1,4 @@
-"use client";
+"use client"
 import React, { useState, useEffect, useMemo, useCallback } from "react";
 import Vendor_list from "./Vendor_list";
 import Vendor_from from "./Vendor_from";
@@ -19,14 +19,13 @@ import toast from "react-hot-toast";
 const Vendor: React.FC = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [edit, setEdit] = useState<boolean>(false);
+  const [operationSuccess, setOperationSuccess] = useState<boolean>(false); // New state for operation success
 
   const [addNew_vendor, { error, isSuccess, isLoading }] =
     useAddNew_vendorMutation();
-  const [update_vendor] = useUpdate_vendorMutation();
-
+  const [update_vendor, { error: update_error, isSuccess: update_success, isLoading: update_loading }] = useUpdate_vendorMutation();
   const [getSingeVendor, { data }] = useGetSingeVendorMutation();
 
-  // Memoize vendor data to avoid recalculating on every render
   const response: Post_VendorResponse | undefined = data as
     | Post_VendorResponse
     | undefined;
@@ -36,7 +35,6 @@ const Vendor: React.FC = () => {
     return vendor;
   }, [response]);
 
-  // useCallback to prevent re-creating the function on each render
   const onSubmit = useCallback(
     async (data: vendr_form) => {
       if (edit) {
@@ -44,22 +42,19 @@ const Vendor: React.FC = () => {
           console.error("Vendor data is invalid or empty");
           return;
         }
-        console.log('Updating vendor:', vendor?._id);  // Log the vendor ID
+        console.log('Updating vendor:', vendor?._id);
         const updated_data = { ...data, id: vendor?._id };
-  
-        // Log the updated data to check the payload
-        console.log('Updated Data:', updated_data);
-  
-        // Make the update API call
+
         try {
           await update_vendor(updated_data);
-          console.log("Vendor updated successfully.");
+          setOperationSuccess(true); // Set success state for update
         } catch (error) {
           console.error("Error updating vendor:", error);
         }
       } else {
         const updated_data = { ...data, uuid: generate32BitUUID() };
         await addNew_vendor(updated_data);
+        setOperationSuccess(true); // Set success state for creation
       }
     },
     [addNew_vendor, update_vendor, edit, vendor]
@@ -73,23 +68,46 @@ const Vendor: React.FC = () => {
     },
     [setEdit, getSingeVendor]
   );
-
   // Handle success and error messages
   useEffect(() => {
-    if (error) {
-      const errorMessage =
-        (error as { data?: { message?: string } }).data?.message ||
-        "An unexpected error occurred.";
+    // Handle error messages
+    if (error || update_error) {
+      let errorMessage = "An unexpected error occurred."; // Default message
+  
+      // Check if 'error' is defined and has the expected structure
+      if (error && 'data' in error) {
+        errorMessage = (error as { data?: { message?: string } }).data?.message || errorMessage;
+      }
+  
+      // Check if 'update_error' is defined and has the expected structure
+      if (update_error && 'data' in update_error) {
+        errorMessage = (update_error as { data?: { message?: string } }).data?.message || errorMessage;
+      }
+  
       toast.error(errorMessage);
+      setOperationSuccess(false); // Reset success state on error
+      return; // Exit early if there's an error
     }
-    if (isSuccess) {
-      toast.success("Vendor added successfully");
+
+    // Handle success messages
+    if (isSuccess && operationSuccess) {
       setIsOpen(false);
+      setEdit(false);
+      toast.success("Vendor added successfully");
+      setOperationSuccess(false); // Reset success state after handling success
+    } else if (update_success && operationSuccess) {
+      setIsOpen(false);
+      setEdit(false);
+      toast.success("Vendor updated successfully");
+      setOperationSuccess(false); // Reset success state after handling success
     }
+
+    // Reset edit state if the popover is closed
     if (!isOpen) {
       setEdit(false);
     }
-  }, [error, isSuccess, isOpen, setEdit]);
+  }, [error, isSuccess, isOpen, setEdit, operationSuccess, update_error, update_success]);
+
 
   return (
     <div>
@@ -99,7 +117,7 @@ const Vendor: React.FC = () => {
           set_open={setIsOpen}
           components={
             <Vendor_from
-              isLoading={isLoading}
+              isLoading={isLoading || update_loading}
               edit={edit}
               open={isOpen}
               set_open={setIsOpen}

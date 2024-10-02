@@ -1,12 +1,20 @@
 import { NextFunction, Request, Response } from "express";
 import AsyncHandler from "../../middlewares/AsyncHandler";
 import VendorService from "../../services/vendorService";
+import ErrorHandler from "../../utils/ErrorHandler";
+import AuditLogger from "../../repositories/AuditLoggerRepository";
 
 class VendorController {
-  constructor(private vendorService: VendorService) {}
+  constructor(private vendorService: VendorService) {
+  }
   add_new = AsyncHandler.handle(
     async (req: Request, res: Response, next: NextFunction) => {
-      const vendor = await this.vendorService.add_new_vendor(req.body, next);
+      // console.log(req.body)
+      const user: string = (req as any).user._id;
+      if (!user) {
+        return next(new ErrorHandler("User not authenticated", 401));
+      }
+      const vendor = await this.vendorService.add_new_vendor(req.body,user, next);
 
       if (vendor) {
         return res.status(201).json({
@@ -18,21 +26,20 @@ class VendorController {
   );
   update_details = AsyncHandler.handle(
     async (req: Request, res: Response, next: NextFunction) => {
-      console.log("Incoming Request Data:", req.body);
-      const vendor = await this.vendorService.add_new_vendor(req.body, next);
+      const user: string = (req as any).user._id;
 
-      // if (vendor) {
+      const vendor = await this.vendorService.update_details(req.body,user, next);
+      if (vendor) {
         return res.status(201).json({
           success: true,
-          // vendor,
         });
-      // }
+      }
     }
   );
   all_vendors = AsyncHandler.handle(
     async (req: Request, res: Response, next: NextFunction) => {
       const query = req.query;
-    
+
       const resultPerpage = Number(query.rowsPerPage);
 
       const vendor = await this.vendorService.all_vendors(query);
