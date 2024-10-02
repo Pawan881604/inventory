@@ -5,8 +5,9 @@ interface Paths {
       purchase_orders: string;
       debit_notes: string;
     };
-    customer: string;
+    product_service: string;
     vendor: string;
+    customer: string;
   };
 }
 
@@ -17,6 +18,7 @@ export const paths: Paths = {
       purchase_orders: "/crm/list/purchase-order",
       debit_notes: "/crm/list/debit-notes",
     },
+    product_service: "/crm/product",
     customer: "/crm/customer",
     vendor: "/crm/vendor",
   },

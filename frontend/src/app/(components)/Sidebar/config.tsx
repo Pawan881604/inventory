@@ -47,6 +47,12 @@ export const navItems: MenuListProps[] = [
         ],
       },
       {
+        title: "Product & Service",
+        label: "Product & Service",
+        icon: 'ScanText',
+        href: paths.crm.product_service,
+      },
+      {
         title: "Customer",
         label: "Customer",
         icon: 'User',
