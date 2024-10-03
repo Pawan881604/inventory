@@ -77,7 +77,7 @@ const Purchase = () => {
                             <Drag_input_field onDrop={handleDrop} />
                         </div>
                         <div>
-                            <Image_card itemData={itemData} onDelete={handleDelete} />
+                            {/* <Image_card itemData={itemData} onDelete={handleDelete} /> */}
                         </div>
                     </div>
                 </div>
