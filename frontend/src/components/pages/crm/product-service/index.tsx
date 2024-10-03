@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import Page_header from "../../common/Page_header";
 import { Button } from "@nextui-org/react";
-import Product_form from "./product/Product_form";
+// import Product_form from "./product/Product_form";
 import Popover_component from "@/components/Popover_component/Popover_component";
 import { Tabs, Tab, Card, CardBody } from "@nextui-org/react";
 import { Layers3, ShoppingCart } from "lucide-react";
@@ -30,7 +30,7 @@ const Product_servicee = () => {
             <Card>
               <CardBody>
                 <Button onClick={() => setIsOpen(true)}>Add new</Button>
-                {isOpen && (
+                {/* {isOpen && (
                   <Popover_component
                     open={isOpen}
                     set_open={setIsOpen}
@@ -45,7 +45,7 @@ const Product_servicee = () => {
                       />
                     }
                   />
-                )}
+                )} */}
               </CardBody>
             </Card>
           </Tab>
