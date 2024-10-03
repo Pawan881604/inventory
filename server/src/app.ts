@@ -23,9 +23,18 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(
   cors({
-    origin: ["http://localhost:3000","https://inventory-7773.vercel.app/"], // Allow only your frontend to access the API
+    origin: ["http://localhost:3000", "https://inventory-7773.vercel.app/"], // Allow only your frontend to access the API
     methods: ["GET", "POST", "PUT", "DELETE"], // Specify allowed methods
-    credentials: true, // Allow credentials (if needed)
+    exposedHeaders: "Set-Cookie",
+    allowedHeaders: [
+      "Access-Control-Allow-Origin",
+      "Content-Type",
+      "Authorization",
+      "cookies",
+    ],
+    credentials: true, // Allow sending cookies and other credentials
+    optionsSuccessStatus: 200,
+    preflightContinue: false,
   })
 );
 
