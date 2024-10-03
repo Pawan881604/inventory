@@ -23,7 +23,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(
   cors({
-    origin: "http://localhost:3000", // Allow only your frontend to access the API
+    origin: ["http://localhost:3000","https://inventory-7773.vercel.app/"], // Allow only your frontend to access the API
     methods: ["GET", "POST", "PUT", "DELETE"], // Specify allowed methods
     credentials: true, // Allow credentials (if needed)
   })
