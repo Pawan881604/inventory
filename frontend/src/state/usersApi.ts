@@ -20,6 +20,7 @@ export const usersApi = createApi({
       }
       return headers;
     },
+    credentials: "include",
   }),
   tagTypes: ["Users"],
   endpoints: (build) => ({
@@ -28,6 +29,7 @@ export const usersApi = createApi({
         url: "/auth/login",
         method: "POST",
         body: user,
+        credentials: "include", 
       }),
     }),
     profile: build.mutation<User_Data, Login>({
@@ -35,6 +37,7 @@ export const usersApi = createApi({
         url: "/auth/profile",
         method: "POST",
         body: data,
+        credentials: "include", 
       }),
     }),
     sign_up_user: build.mutation<User_Data, Sign_up>({
@@ -42,6 +45,7 @@ export const usersApi = createApi({
         url: "/auth/register",
         method: "POST",
         body: user,
+        credentials: "include", 
       }),
     }),
   }),
