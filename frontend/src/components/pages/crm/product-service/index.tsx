@@ -6,6 +6,7 @@ import Product_form from "./product/Product_form";
 import Popover_component from "@/components/Popover_component/Popover_component";
 import { Tabs, Tab, Card, CardBody } from "@nextui-org/react";
 import { Layers3, ShoppingCart } from "lucide-react";
+import Categotie_form from "./categories/Categotie_form";
 const Product_servicee = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
@@ -58,10 +59,23 @@ const Product_servicee = () => {
           >
             <Card>
               <CardBody>
-                Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure
-                dolor in reprehenderit in voluptate velit esse cillum dolore eu
-                fugiat nulla pariatur.
+                <Button onClick={() => setIsOpen(true)}>Add new</Button>
+                {isOpen && (
+                  <Popover_component
+                    open={isOpen}
+                    set_open={setIsOpen}
+                    components={
+                      <Categotie_form
+                        // isLoading={false}
+                        // edit={edit}
+                        // open={isOpen}
+                        set_open={setIsOpen}
+                        // vendor_data={vendor}
+                        onsubmit={onSubmit}
+                      />
+                    }
+                  />
+                )}
               </CardBody>
             </Card>
           </Tab>

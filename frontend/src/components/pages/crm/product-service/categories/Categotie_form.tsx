@@ -114,7 +114,10 @@ const Primary_units = [
   { value: "bars", label: "BARS BARS" },
   { value: "bor", label: "BOR BORA" },
 ];
-const Product_form: React.FC<vender_form_props> = ({ set_open, onsubmit }) => {
+const Categotie_form: React.FC<vender_form_props> = ({
+  set_open,
+  onsubmit,
+}) => {
   const {
     control,
     handleSubmit,
@@ -172,76 +175,12 @@ const Product_form: React.FC<vender_form_props> = ({ set_open, onsubmit }) => {
                   label="Item Name"
                 />
               </div>
-              <div className="w-[49%]">
-                <Input_field
-                  control={control}
-                  errors={errors}
-                  name="selling_price"
-                  label="Selling Price"
-                />
-              </div>
-              <div className="w-[49%]">
-                <Secondary_select_Field
-                  control={control}
-                  errors={errors}
-                  name="gst"
-                  label="Tax %"
-                  options={gst}
-                />
-              </div>
-              <div className="w-[49%]">
-                <Secondary_Autocomplete_field
-                  control={control}
-                  errors={errors}
-                  name="primary_unit"
-                  label_name="Primary Unit"
-                  options={Primary_units}
-                />
-              </div>
             </div>
           </div>
           <div className="w-full">
             <p className="text-lg py-2">Additional Information OPTIONAL</p>
           </div>
           <div className="flex flex-wrap gap-2">
-            <div className="w-[49%]">
-              <Input_field
-                control={control}
-                errors={errors}
-                name="hsn"
-                label="HSN/ SAC"
-              />
-            </div>
-            <div className="w-[49%]">
-              <Input_field
-                control={control}
-                errors={errors}
-                name="purchase_price"
-                label="Purchase Price"
-              />
-            </div>
-            <div className="w-[49%]">
-              <div className="flex">
-                <Input_field
-                  control={control}
-                  errors={errors}
-                  name="purchase_price"
-                  label="Purchase Price"
-                />
-              </div>
-              <div>
-                <Button>Auto Generate</Button>
-              </div>
-            </div>
-            <div className="w-[49%]">
-              <Secondary_Autocomplete_field
-                control={control}
-                errors={errors}
-                name="category"
-                label_name="Category"
-                options={Primary_units}
-              />
-            </div>
             <div className="w-full">
               <p className="text-lg py-2">Product Image</p>
               <div>
@@ -285,4 +224,4 @@ const Product_form: React.FC<vender_form_props> = ({ set_open, onsubmit }) => {
   );
 };
 
-export default Product_form;
+export default Categotie_form;

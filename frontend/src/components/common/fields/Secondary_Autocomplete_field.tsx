@@ -17,7 +17,7 @@ interface Autocomplete_field<T extends FieldValues> {
   options: { value: string; label: string; description?: string }[];
 }
 
-const Autocomplete_field = <T extends FieldValues>({
+const Secondary_Autocomplete_field = <T extends FieldValues>({
   control,
   errors,
   name,
@@ -67,22 +67,14 @@ const Autocomplete_field = <T extends FieldValues>({
             variant="bordered"
           >
             {options.map((item) => (
-              <AutocompleteItem key={item.value} textValue={item.value}>
+              <AutocompleteItem key={item.value} textValue={item.label}>
                 <div className="flex justify-between items-center">
                   <div className="flex gap-2 items-center">
-                    <Avatar
-                      alt={item.value}
-                      className="flex-shrink-0"
-                      size="sm"
-                      src={item.value}
-                    />
                     <div className="flex flex-col">
                       <span className="text-small dark:text-dark_color">
                         {item.label}
                       </span>
-                      <span className="text-tiny text-default-400 dark:text-dark_color">
-                        {item.description}
-                      </span>
+                    
                     </div>
                   </div>
                 </div>
@@ -101,4 +93,4 @@ const Autocomplete_field = <T extends FieldValues>({
   );
 };
 
-export default Autocomplete_field;
+export default Secondary_Autocomplete_field;
