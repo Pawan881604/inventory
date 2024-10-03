@@ -20,37 +20,37 @@ export async function middleware(req: NextRequest) {
       return NextResponse.redirect(new URL("/auth/sign-in", req.url));
     }
 
-    // Log the token for debugging
-    console.log("Verifying token:", token.value);
+    // // Log the token for debugging
+    // console.log("Verifying token:", token.value);
 
-    try {
-      const res = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/auth/profile`,
-        {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${token.value}`, // Ensure this is correct
-            "Content-Type": "application/json",
-          },
-        }
-      );
+    // try {
+    //   const res = await fetch(
+    //     `${process.env.NEXT_PUBLIC_API_URL}/auth/profile`,
+    //     {
+    //       method: "GET",
+    //       headers: {
+    //         Authorization: `Bearer ${token.value}`, // Ensure this is correct
+    //         "Content-Type": "application/json",
+    //       },
+    //     }
+    //   );
 
-      console.log("API response status:", res.status); // Log API response status
+    //   console.log("API response status:", res.status); // Log API response status
 
-      if (!res.ok) {
-        console.error("Failed to verify token:", res.statusText);
-        return NextResponse.redirect(new URL("/auth/sign-in", req.url));
-      }
+    //   if (!res.ok) {
+    //     console.error("Failed to verify token:", res.statusText);
+    //     return NextResponse.redirect(new URL("/auth/sign-in", req.url));
+    //   }
 
-      // const data = await res.json();
-      // if (!data.success) {
-      //   console.log("Invalid token, redirecting to sign-in");
-      //   return NextResponse.redirect(new URL("/auth/sign-in", req.url));
-      // }
-    } catch (error) {
-      console.error("Error verifying token:", error);
-      return NextResponse.redirect(new URL("/auth/sign-in", req.url));
-    }
+    //   // const data = await res.json();
+    //   // if (!data.success) {
+    //   //   console.log("Invalid token, redirecting to sign-in");
+    //   //   return NextResponse.redirect(new URL("/auth/sign-in", req.url));
+    //   // }
+    // } catch (error) {
+    //   console.error("Error verifying token:", error);
+    //   return NextResponse.redirect(new URL("/auth/sign-in", req.url));
+    // }
   }
 
   // Check if the user is trying to access authentication routes

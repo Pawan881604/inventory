@@ -27,6 +27,7 @@ import { usersApi } from "@/state/usersApi";
 import { vendorApi } from "@/state/vendorApi";
 import userSlice from "@/state/store/userSlice";
 import { customerApi } from "@/state/customerApi";
+import { categorieApi } from "@/state/categoriesApi";
 
 /* REDUX PERSISTENCE */
 const createNoopStorage = () => {
@@ -60,6 +61,7 @@ const rootReducer = combineReducers({
   [usersApi.reducerPath]: usersApi.reducer,
   [vendorApi.reducerPath]: vendorApi.reducer,
   [customerApi.reducerPath]: customerApi.reducer,
+  [categorieApi.reducerPath]: categorieApi.reducer,
 });
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
@@ -72,7 +74,8 @@ export const makeStore = () => {
         serializableCheck: {
           ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
         },
-      }).concat(api.middleware).concat(usersApi.middleware).concat(vendorApi.middleware).concat(customerApi.middleware),
+      }).concat(api.middleware).concat(usersApi.middleware).concat(vendorApi.middleware).concat(customerApi.middleware)
+      .concat(categorieApi.middleware)
   });
 };
 

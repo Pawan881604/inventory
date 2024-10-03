@@ -8,7 +8,7 @@ export const customerApi = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: apiUrl,
     prepareHeaders: (headers) => {
-      const token = cookiesManager.gat("auth_token"); // Get token from cookies
+      const token = cookiesManager.get("auth_token"); // Get token from cookies
       if (token) {
         headers.set("Authorization", `Bearer ${token}`); // Set the Authorization header
       }

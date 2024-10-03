@@ -14,6 +14,8 @@ import VendorController from "./api/controllers/vendorController";
 import vendorRoutes from "./api/routes/vendorRoutes";
 import CustomerController from "./api/controllers/customerController";
 import customerRoutes from "./api/routes/customerRoutes";
+import CategorieController from "./api/controllers/categorieController";
+import categorieRoutes from "./api/routes/categorieRoutes";
 // Middleware to parse JSON bodies
 app.use(express.json());
 // Middleware to parse URL-encoded bodies (form submissions)
@@ -36,11 +38,13 @@ const services = servicesLoader(repositories);
 const userController = new UserController(services.userService);
 const vendorController = new VendorController(services.vendorService);
 const customerController = new CustomerController(services.customerService);
+const categorieController = new CategorieController(services.categorieService);
 
 // Set up routes
 app.use("/api/auth", userRoutes(userController));
 app.use("/api/vendor", vendorRoutes(vendorController));
 app.use("/api/customer", customerRoutes(customerController));
+app.use("/api/categorie", categorieRoutes(categorieController));
 
 app.use(errorMiddleware);
 

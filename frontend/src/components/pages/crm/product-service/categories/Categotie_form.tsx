@@ -4,130 +4,52 @@ import Input_field from "@/components/common/fields/Input_field";
 import Secondary_Autocomplete_field from "@/components/common/fields/Secondary_Autocomplete_field";
 import Secondary_select_Field from "@/components/common/fields/Secondary_select_Field";
 import Select_field from "@/components/common/fields/Select_field";
+import Text_area_field from "@/components/common/fields/Text_area_field";
 import Drag_input_field from "@/components/image_compress/Drag_input_field";
 import Image_card from "@/components/image_compress/Image_card";
+import { status_arr } from "@/components/pages/common/Data";
+import { categorie_form } from "@/types/categorie_type";
+import { category_schema } from "@/zod-schemas/categorie_zod_schema";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { Button, ModalFooter, ModalHeader } from "@nextui-org/react";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
+import toast from "react-hot-toast";
 
 interface vender_form_props {
   set_open: (value: boolean) => void;
   onsubmit: (data: any) => void;
+  files: any;
+  setFiles: any;
 }
-const status = [
-  { label: "Active", value: "active" },
-  { label: "Inactive", value: "inactive" },
-];
-const gst = [
-  {
-    value: 0,
-    label_1: 0,
-    label_2: "(0% CGST & 0% SGST & 0% IGST)",
-  },
-  {
-    value: 0.1,
-    label_1: 0.1,
-    label_2: "(0.05% CGST & 0.05% SGST & 0.1% IGST)",
-  },
-  {
-    value: 0.25,
-    label_1: 0.25,
-    label_2: "(0.125% CGST & 0.125% SGST & 0.25% IGST)",
-  },
-  {
-    value: 1,
-    label_1: 1,
-    label_2: "(0.5% CGST & 0.5% SGST & 1% IGST)",
-  },
-  {
-    value: 1.5,
-    label_1: 1.5,
-    label_2: "(0.75% CGST & 0.75% SGST & 1.5% IGST)",
-  },
-  {
-    value: 3,
-    label_1: 3,
-    label_2: "(1.5% CGST & 1.5% SGST & 3% IGST)",
-  },
-  {
-    value: 5,
-    label_1: 5,
-    label_2: "(2.5% CGST & 2.5% SGST & 5% IGST)",
-  },
-  {
-    value: 6,
-    label_1: 6,
-    label_2: "(3% CGST & 3% SGST & 6% IGST)",
-  },
-  {
-    value: 7.5,
-    label_1: 7.5,
-    label_2: "(3.75% CGST & 3.75% SGST & 7.5% IGST)",
-  },
-  {
-    value: 12,
-    label_1: 12,
-    label_2: "(6% CGST & 6% SGST & 12% IGST)",
-  },
 
-  {
-    value: 18,
-    label_1: 18,
-    label_2: "(9% CGST & 9% SGST & 18% IGST)",
-  },
-  {
-    value: 28,
-    label_1: 28,
-    label_2: "(14% CGST & 14% SGST & 28% IGST)",
-  },
-];
-const Primary_units = [
-  { value: "oth", label: "OTH OTHERS" },
-  { value: "pcs", label: "PCS PIECES" },
-  { value: "nos", label: "NOS NUMBERS" },
-  { value: "kgs", label: "KGS KILOGRAMS" },
-  { value: "unt", label: "UNT UNITS" },
-  { value: "box", label: "BOX BOX" },
-  { value: "ltr", label: "LTR LITER" },
-  { value: "pac", label: "PAC PACKS" },
-  { value: "each", label: "EACH EACH" },
-  { value: "mtr", label: "MTR METER" },
-  { value: "set", label: "SET SETS" },
-  { value: "sqf", label: "SQF SQUARE FEET" },
-  { value: "poch", label: "POCH POUCH" },
-  { value: "btl", label: "BTL BOTTLES" },
-  { value: "bag", label: "BAG BAGES" },
-  { value: "case", label: "CASE CASE" },
-  { value: "lad", label: "LAD LADI" },
-  { value: "jar", label: "JAR JARS" },
-  { value: "pet", label: "PET PETI" },
-  { value: "ft", label: "FT FEET" },
-  { value: "gsm", label: "GSM GRAMS" },
-  { value: "tbs", label: "TBS TABLETS" },
-  { value: "strp", label: "STRP STRIPS" },
-  { value: "rol", label: "ROL ROLLS" },
-  { value: "coil", label: "COIL COIL" },
-  { value: "doz", label: "DOZ DOZEN" },
-  { value: "qtl", label: "QTL QUINTAL" },
-  { value: "prs", label: "PRS PAIRS" },
-  { value: "none", label: "NONE NONE" },
-  { value: "bars", label: "BARS BARS" },
-  { value: "bor", label: "BOR BORA" },
-];
 const Categotie_form: React.FC<vender_form_props> = ({
   set_open,
   onsubmit,
+  files, setFiles
 }) => {
+  const [itemData, setItemData] = useState<{ img: string; name: string }[]>([]);
+
   const {
     control,
     handleSubmit,
     setValue,
     formState: { errors },
-  } = useForm();
-  const [files, setFiles] = useState<File[]>([]);
-  const [itemData, setItemData] = useState<{ img: string; name: string }[]>([]);
+  } = useForm<categorie_form>(
+
+    {
+      resolver: zodResolver(category_schema),
+      defaultValues: {
+        status: "active"
+      }
+    }
+  );
 
   const handleDrop = (acceptedFiles: File[]) => {
+    if (acceptedFiles.length > 1) {
+      toast.error("Image allowed only 1");
+      return;
+    }
     const imageData = acceptedFiles.map((file) => ({
       img: URL.createObjectURL(file),
       name: file.name,
@@ -137,8 +59,8 @@ const Categotie_form: React.FC<vender_form_props> = ({
   };
 
   const handleDelete = (index: number) => {
-    const newImages = files.filter((_, i) => i !== index);
-    const imageData = newImages.map((file) => ({
+    const newImages = files.filter((_:any, i:number) => i !== index);
+    const imageData = newImages.map((file:any) => ({
       img: URL.createObjectURL(file),
       name: file.name,
     }));
@@ -161,7 +83,7 @@ const Categotie_form: React.FC<vender_form_props> = ({
                 errors={errors}
                 name="status"
                 label="select status"
-                options={status}
+                options={status_arr}
               />
             </div>
           </div>
@@ -172,29 +94,35 @@ const Categotie_form: React.FC<vender_form_props> = ({
                   control={control}
                   errors={errors}
                   name="name"
-                  label="Item Name"
+                  label="Categorie Name"
+                />
+              </div>
+              <div className="w-full">
+                <Text_area_field
+                  control={control}
+                  errors={errors}
+                  name="description"
+                  label="Description"
                 />
               </div>
             </div>
           </div>
-          <div className="w-full">
-            <p className="text-lg py-2">Additional Information OPTIONAL</p>
-          </div>
-          <div className="flex flex-wrap gap-2">
+
+          <div className="flex flex-wrap gap-2 w-full">
             <div className="w-full">
-              <p className="text-lg py-2">Product Image</p>
+              <p className="text-lg py-2">Categorie Image</p>
               <div>
-                <div className=" w-full p-4 lg:w-3/12 lg:p-2">
+                <div className="w-60 p-4 lg:p-2">
                   <div>
                     <Drag_input_field onDrop={handleDrop} />
-                    <p>
-                      Upto 5 images. Product images must be PNG or JPEG,
-                      recommended 1024 px by 1024 px or 1:1 aspect ratio.
-                    </p>
                   </div>
-                  <div>
-                    <Image_card itemData={itemData} onDelete={handleDelete} />
-                  </div>
+                </div>
+                <div className='flex w-full flex-wrap  gap-2'>
+                  {itemData.map((item, index) => (
+                    <div key={index} className='w-[50%] sm:w-"50%" md:w-[40%] lg:w-[40%]'>
+                      <Image_card item={item} index={index} onDelete={handleDelete} />
+                    </div>
+                  ))}
                 </div>
               </div>
             </div>

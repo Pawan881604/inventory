@@ -9,7 +9,7 @@ class CookiesManager {
     const maxAge = days * 24 * 60 * 60;
     return this.cookies.set(name, value, { path: "/", maxAge });
   }
-  gat(name: string) {
+  get(name: string) {
     return this.cookies.get(name);
   }
   remove(name: string) {
