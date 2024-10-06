@@ -2,7 +2,7 @@ import app from "./app";
 import cluster from "cluster";
 import os from "os";
 import dotent from "dotenv";
-import db_connection from "./loaders/config";
+import { db_connection } from "./loaders/config";
 dotent.config();
 db_connection();
 const numCPUs = os.cpus().length;

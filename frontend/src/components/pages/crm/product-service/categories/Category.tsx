@@ -1,89 +1,160 @@
-"use client"
-import React, { useCallback, useEffect, useState } from 'react'
+"use client";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import Popover_component from "@/components/Popover_component/Popover_component";
-import Categotie_form from './Categotie_form';
-import { Button } from '@nextui-org/react';
-import { useAddNewCategorieMutation } from '@/state/categoriesApi';
-import { categorie_form } from '@/types/categorie_type';
-import toast from 'react-hot-toast';
-import { generate32BitUUID } from '@/lib/service/generate32BitUUID';
+import Categotie_form from "./Categotie_form";
+import {
+  useAddNewCategorieMutation,
+  useGetSingleMutation,
+  useUpdateMutation,
+} from "@/state/categoriesApi";
+import {
+  categorie_form,
+  categorie_list,
+  Post_CategorieResponse,
+} from "@/types/categorie_type";
+import toast from "react-hot-toast";
+import { generate32BitUUID } from "@/lib/service/generate32BitUUID";
+import Categorie_list from "./Categorie_list";
 
 const Category = () => {
-    const [isOpen, setIsOpen] = useState<boolean>(false);
-    const [files, setFiles] = useState<File[]>([]);
-    const [addNewCategorie, { error, isLoading, isSuccess }] = useAddNewCategorieMutation();
-    const onSubmit = useCallback(
-        async (data: categorie_form) => {
-         console.log(files)
-            const updated_data = { ...data, uuid: generate32BitUUID(), images: files };
-            console.log(updated_data)
-            await addNewCategorie(updated_data)
-        },
-        [addNewCategorie],
-    )
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [edit, setEdit] = useState<boolean>(false);
+  const [files, setFiles] = useState<File[]>([]);
+  const [operationSuccess, setOperationSuccess] = useState<boolean>(false); // New state for operation success
+  const [addNewCategorie, { error, isLoading, isSuccess }] =
+    useAddNewCategorieMutation();
+  const [getSingle, { data }] = useGetSingleMutation();
 
-    useEffect(() => {
-        // Handle error messages
-        if (error) {
-            let errorMessage = "An unexpected error occurred."; // Default message
+  const [
+    update,
+    {
+      error: update_error,
+      isSuccess: update_success,
+      isLoading: update_loading,
+    },
+  ] = useUpdateMutation();
 
-            // Check if 'error' is defined and has the expected structure
-            if (error && 'data' in error) {
-                errorMessage = (error as { data?: { message?: string } }).data?.message || errorMessage;
-            }
+  const response: Post_CategorieResponse | undefined = data as
+    | Post_CategorieResponse
+    | undefined;
 
-            //   // Check if 'update_error' is defined and has the expected structure
-            //   if (update_error && 'data' in update_error) {
-            //     errorMessage = (update_error as { data?: { message?: string } }).data?.message || errorMessage;
-            //   }
+  const categorie: categorie_list | never[] = useMemo(() => {
+    const customer: categorie_list | never[] = response?.categorie || [];
+    return customer;
+  }, [response]);
 
-            toast.error(errorMessage);
-            //   setOperationSuccess(false); // Reset success state on error
-            return; // Exit early if there's an error
+  const onSubmit = useCallback(
+    async (data: categorie_form) => {
+      if (edit) {
+        if (Array.isArray(categorie) || !categorie?._id) {
+          console.error("Customer data is invalid or empty");
+          return;
         }
+        const image_url = categorie.images_id.map((item: any) => item._id);
 
-        // Handle success messages
-        if (isSuccess) {
-            //   setIsOpen(false);
-            //   setEdit(false);
-            toast.success("Customer added successfully");
-            //   setOperationSuccess(false); // Reset success state after handling success
+        const images = files.length > 0 ? files : image_url;
+        const updated_data = { ...data, id: categorie?._id, images };
+        try {
+          await update(updated_data);
+          setOperationSuccess(true); // Set success state for update
+        } catch (error) {
+          console.error("Error updating vendor:", error);
         }
-        // else if (update_success && operationSuccess) {
-        //   setIsOpen(false);
-        //   setEdit(false);
-        //   toast.success("Customer updated successfully");
-        //   setOperationSuccess(false); // Reset success state after handling success
-        // }
+      } else {
+        const updated_data = {
+          ...data,
+          uuid: generate32BitUUID(),
+          images: files,
+        };
+        await addNewCategorie(updated_data);
+        setOperationSuccess(true); // Set success state for creation
+      }
+    },
+    [addNewCategorie, update, edit, categorie, files]
+  );
 
-        // Reset edit state if the popover is closed
-        // if (!isOpen) {
-        //   setEdit(false);
-        // }
-    }, [error, isSuccess, isOpen]);
-    return (
-        <div>
-            <Button onClick={() => setIsOpen(true)}>Add new</Button>
-            {isOpen && (
-                <Popover_component
-                    open={isOpen}
-                    set_open={setIsOpen}
-                    components={
-                        <Categotie_form
-                            files={files}
-                            setFiles={setFiles}
-                            // isLoading={false}
-                            // edit={edit}
-                            // open={isOpen}
-                            set_open={setIsOpen}
-                            // vendor_data={vendor}
-                            onsubmit={onSubmit}
-                        />
-                    }
-                />
-            )}
-        </div>
-    )
-}
+  const edit_handler = useCallback(
+    async (value: string) => {
+      setIsOpen(true);
+      await getSingle(value);
+      setEdit(true);
+    },
+    [setEdit, getSingle]
+  );
 
-export default Category
+  useEffect(() => {
+    // Handle error messages
+    if (error || update_error) {
+      let errorMessage = "An unexpected error occurred."; // Default message
+
+      // Check if 'error' is defined and has the expected structure
+      if (error && "data" in error) {
+        errorMessage =
+          (error as { data?: { message?: string } }).data?.message ||
+          errorMessage;
+      }
+
+      // Check if 'update_error' is defined and has the expected structure
+      if (update_error && "data" in update_error) {
+        errorMessage =
+          (update_error as { data?: { message?: string } }).data?.message ||
+          errorMessage;
+      }
+
+      toast.error(errorMessage);
+      setOperationSuccess(false); // Reset success state on error
+      return; // Exit early if there's an error
+    }
+
+    // Handle success messages
+    if (isSuccess && operationSuccess) {
+      setIsOpen(false);
+      setEdit(false);
+      toast.success("Customer added successfully");
+      setOperationSuccess(false); // Reset success state after handling success
+    } else if (update_success && operationSuccess) {
+      setIsOpen(false);
+      setEdit(false);
+      toast.success("Customer updated successfully");
+      setOperationSuccess(false); // Reset success state after handling success
+    }
+
+    // Reset edit state if the popover is closed
+    if (!isOpen) {
+      setEdit(false);
+    }
+  }, [
+    error,
+    isSuccess,
+    isOpen,
+    setEdit,
+    operationSuccess,
+    update_error,
+    update_success,
+  ]);
+
+  return (
+    <div>
+      {isOpen && (
+        <Popover_component
+          open={isOpen}
+          set_open={setIsOpen}
+          components={
+            <Categotie_form
+              files={files}
+              setFiles={setFiles}
+              isLoading={isLoading || update_loading}
+              edit={edit}
+              set_open={setIsOpen}
+              data={categorie}
+              onsubmit={onSubmit}
+            />
+          }
+        />
+      )}
+      <Categorie_list set_open={setIsOpen} edit_handler={edit_handler} />
+    </div>
+  );
+};
+
+export default Category;
