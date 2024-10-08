@@ -28,6 +28,7 @@ import { vendorApi } from "@/state/vendorApi";
 import userSlice from "@/state/store/userSlice";
 import { customerApi } from "@/state/customerApi";
 import { categorieApi } from "@/state/categoriesApi";
+import { productApi } from "@/state/productApi";
 
 /* REDUX PERSISTENCE */
 const createNoopStorage = () => {
@@ -52,16 +53,17 @@ const storage =
 const persistConfig = {
   key: "root",
   storage,
-  whitelist: ["global","user"],
+  whitelist: ["global", "user"],
 };
 const rootReducer = combineReducers({
   global: globalReducer,
-  user:userSlice,
+  user: userSlice,
   [api.reducerPath]: api.reducer,
   [usersApi.reducerPath]: usersApi.reducer,
   [vendorApi.reducerPath]: vendorApi.reducer,
   [customerApi.reducerPath]: customerApi.reducer,
   [categorieApi.reducerPath]: categorieApi.reducer,
+  [productApi.reducerPath]: productApi.reducer,
 });
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
@@ -71,11 +73,13 @@ export const makeStore = () => {
     reducer: persistedReducer,
     middleware: (getDefaultMiddleware) =>
       getDefaultMiddleware({
-        serializableCheck: {
-          ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
-        },
+        immutableCheck: false, // Disable ImmutableStateInvariantMiddleware
+        serializableCheck: false, // Optionally disable serializableCheck if it's also causing performance issues
+        // serializableCheck: {
+        //   ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+        // },
       }).concat(api.middleware).concat(usersApi.middleware).concat(vendorApi.middleware).concat(customerApi.middleware)
-      .concat(categorieApi.middleware)
+        .concat(categorieApi.middleware).concat(productApi.middleware)
   });
 };
 
