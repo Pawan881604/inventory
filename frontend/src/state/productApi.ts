@@ -52,8 +52,7 @@ export const productApi = createApi({
             // Assuming 'images' is an array of files, append each file separately
             value.forEach((file: any) => formData.append("images", file));
           } else {
-            // For all other fields, just append key-value pairs
-            formData.append(key, value);
+            formData.append(key, value === undefined ? "" : value);
           }
         }
         return {
