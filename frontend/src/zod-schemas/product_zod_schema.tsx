@@ -20,7 +20,6 @@ export const productTypeFormSchema = z.object({
     .optional(),
   hsn: z
     .string()
-    .min(1, { message: "HSN is required and cannot be empty" })
     .optional(),
   purchase_price: z
     .number({ invalid_type_error: "Purchase price must be a number" })
@@ -39,30 +38,29 @@ export const productTypeFormSchema = z.object({
     .optional(),
   barcode: z
     .string()
-    .min(1, { message: "Barcode is required and cannot be empty" })
     .optional(),
   weight: z
     .number({ invalid_type_error: "Weight must be a number" })
-    .refine((val) => val > 0, {
-      message: "Weight must be greater than zero",
-    })
+    // .refine((val) => val > 0, {
+    //   message: "Weight must be greater than zero",
+    // })
     .optional(),
   depth: z
     .number({ invalid_type_error: "Depth must be a number" })
-    .refine((val) => val > 0, {
-      message: "Depth must be greater than zero",
-    })
+    // .refine((val) => val > 0, {
+    //   message: "Depth must be greater than zero",
+    // })
     .optional(),
   width: z
     .number({ invalid_type_error: "Width must be a number" })
-    .refine((val) => val > 0, {
-      message: "Width must be greater than zero",
-    })
+    // .refine((val) => val > 0, {
+    //   message: "Width must be greater than zero",
+    // })
     .optional(),
   height: z
     .number({ invalid_type_error: "Height must be a number" })
-    .refine((val) => val > 0, {
-      message: "Height must be greater than zero",
-    })
+    // .refine((val) => val > 0, {
+    //   message: "Height must be greater than zero",
+    // })
     .optional(),
 });

@@ -97,7 +97,7 @@ class ProductRepository {
       if (!updated_custome_data) {
         return next(new ErrorHandler("Product not found", 404));
       }
-      return updated_custome_data;
+      return updated_custome_data
     } catch (error: any) {
       return next(new ErrorHandler(error, 404));
     }

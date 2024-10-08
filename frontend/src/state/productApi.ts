@@ -21,14 +21,16 @@ export const productApi = createApi({
   endpoints: (builder) => ({
     addNewProduct: builder.mutation<any, product_type_form>({
       query: (data) => {
+        console.log(data);
         const formData = new FormData();
         for (let [key, value] of Object.entries(data)) {
           if (key === "images" && Array.isArray(value)) {
             // Assuming 'images' is an array of files, append each file separately
             value.forEach((file: any) => formData.append("images", file));
           } else {
+            formData.append(key, value === undefined ? "" : value);
+
             // For all other fields, just append key-value pairs
-            formData.append(key, value);
           }
         }
 
@@ -42,6 +44,7 @@ export const productApi = createApi({
     }),
     update: builder.mutation<any, product_type_form>({
       query: (data) => {
+        console.log(data);
         const formData = new FormData();
         for (let [key, value] of Object.entries(data)) {
           if (key === "images" && Array.isArray(value)) {
