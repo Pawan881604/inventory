@@ -14,13 +14,8 @@ export const productTypeFormSchema = z.object({
     .string()
     .min(1, { message: "Primary unit is required and cannot be empty" }),
   tax: z.string().min(1, { message: "Tax is required and cannot be empty" }),
-  sku: z
-    .string()
-    .min(1, { message: "SKU is required and cannot be empty" })
-    .optional(),
-  hsn: z
-    .string()
-    .optional(),
+  sku: z.string().optional(),
+  hsn: z.string().optional(),
   purchase_price: z
     .number({ invalid_type_error: "Purchase price must be a number" })
     .refine((val) => val > 0, {
@@ -36,9 +31,7 @@ export const productTypeFormSchema = z.object({
       message: "Total quantity must be a positive integer",
     })
     .optional(),
-  barcode: z
-    .string()
-    .optional(),
+  barcode: z.string().optional(),
   weight: z
     .number({ invalid_type_error: "Weight must be a number" })
     // .refine((val) => val > 0, {
