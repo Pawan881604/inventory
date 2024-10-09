@@ -11,6 +11,11 @@ export const order_status_arr = [
   { label: "Refunded", value: "refunded" },
   { label: "Draft", value: "Draft" },
 ];
+export const dispatch_mod_arr = [
+  { label: "Glow road", value: "Glow road" },
+  { label: "meesho", value: "meesho" },
+  { label: "flipkart", value: "flipkart" },
+];
 export const Payment_mode_arr = [
   { label: "COD", value: "cod" },
   { label: "Phonepe", value: "phonepe" },

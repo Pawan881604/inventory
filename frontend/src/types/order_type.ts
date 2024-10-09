@@ -3,16 +3,27 @@ export interface BaseAddress {
   address_line_2: string;
   city: string;
   state: string;
-  pin_code: number;
+  pin_code: string;
   country: string;
 }
 
 export interface order_type_form {
-  order_date?: string;
-  order_status?: string;
-  customer?: number;
-  billing_address?: BaseAddress;
-  shipping_address?: BaseAddress;
-  payment_mode?:string;
-  shipping_mode?:string;
+  order_date: string;
+  order_status: string;
+  customer: string;
+  dispatch_mod: string;
+  invoice_no: string;
+  shipping_address: BaseAddress;
+  payment_mode: string;
+  status: string;
+  name: string;
+  company: string;
+  email: string;
+  phone: string;
+  gstin: string;
+}
+
+export interface order_product_type_form {
+  product: string;
+  quantity: string;
 }
