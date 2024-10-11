@@ -23,6 +23,12 @@ export interface order_type_form {
   gstin: string;
 }
 
+export interface other_sevice {
+  shipping_charges?: string;
+  discount?: string;
+  other_charge?: string;
+}
+
 export interface order_product_type_form {
   product: string;
   quantity: string;
