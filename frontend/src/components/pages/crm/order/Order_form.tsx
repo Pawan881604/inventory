@@ -18,6 +18,7 @@ import debounce from "lodash.debounce";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { order_type_form_schema } from "@/zod-schemas/order_zod_schema";
 import { Form_sidebar } from "./Form_sidebar";
+import { useAddNewOrderMutation } from "@/state/orderApi";
 
 export const Order_form = () => {
   const [invoice_files, set_invoice_Files] = useState<File[]>([]);
@@ -28,7 +29,7 @@ export const Order_form = () => {
   const [services, set_services] = useState<any>();
   const [debouncedFilterValue, setDebouncedFilterValue] =
     useState<string>(filterValue);
-
+  const [addNewOrder] = useAddNewOrderMutation()
   const {
     control,
     handleSubmit,
@@ -89,7 +90,7 @@ export const Order_form = () => {
     }
   }, [customerValue, customer_data, setValue]);
 
-  const onSubmit = (data: any) => {
+  const onSubmit = async(data: any) => {
     const updated_data = {
       ...data,
       product: product_list,
@@ -98,7 +99,7 @@ export const Order_form = () => {
       doket: doket_files,
       image: Image_files,
     };
-    console.log("Form Submitted:", updated_data);
+    await addNewOrder(updated_data)
   };
 
   return (
