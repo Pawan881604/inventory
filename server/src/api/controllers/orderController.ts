@@ -18,6 +18,7 @@ class OrderController {
         user,
         next
       );
+      console.log(result)
       if (result) {
         return res.status(201).json({
           success: true,

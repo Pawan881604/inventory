@@ -9,7 +9,7 @@ import {
   dispatch_mod_arr,
   order_status_arr,
   Payment_mode_arr,
-} from "../../common/Data";
+} from "../../../common/Data";
 import Select_field from "@/components/common/fields/Select_field";
 import { order_type_form } from "@/types/order_type";
 import Order_product_form from "./Order_product_form";
@@ -19,8 +19,12 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { order_type_form_schema } from "@/zod-schemas/order_zod_schema";
 import { Form_sidebar } from "./Form_sidebar";
 import { useAddNewOrderMutation } from "@/state/orderApi";
+import { useUpdateMutation } from "@/state/categoriesApi";
+import toast from "react-hot-toast";
+import { useRouter } from "next/navigation";
 
 export const Order_form = () => {
+  const router = useRouter();
   const [invoice_files, set_invoice_Files] = useState<File[]>([]);
   const [doket_files, set_doket_Files] = useState<File[]>([]);
   const [Image_files, set_Image_Files] = useState<File[]>([]);
@@ -29,7 +33,17 @@ export const Order_form = () => {
   const [services, set_services] = useState<any>();
   const [debouncedFilterValue, setDebouncedFilterValue] =
     useState<string>(filterValue);
-  const [addNewOrder] = useAddNewOrderMutation()
+  const [addNewOrder, { isLoading, isSuccess, error }] =
+    useAddNewOrderMutation();
+
+  const [
+    update,
+    {
+      error: update_error,
+      isSuccess: update_success,
+      isLoading: update_loading,
+    },
+  ] = useUpdateMutation();
   const {
     control,
     handleSubmit,
@@ -90,7 +104,7 @@ export const Order_form = () => {
     }
   }, [customerValue, customer_data, setValue]);
 
-  const onSubmit = async(data: any) => {
+  const onSubmit = async (data: any) => {
     const updated_data = {
       ...data,
       product: product_list,
@@ -99,13 +113,54 @@ export const Order_form = () => {
       doket: doket_files,
       image: Image_files,
     };
-    await addNewOrder(updated_data)
+    await addNewOrder(updated_data);
   };
+
+  useEffect(() => {
+    // Handle error messages
+    if (error || update_error) {
+      let errorMessage = "An unexpected error occurred."; // Default message
+
+      // Check if 'error' is defined and has the expected structure
+      if (error && "data" in error) {
+        errorMessage =
+          (error as { data?: { message?: string } }).data?.message ||
+          errorMessage;
+      }
+
+      // Check if 'update_error' is defined and has the expected structure
+      if (update_error && "data" in update_error) {
+        errorMessage =
+          (update_error as { data?: { message?: string } }).data?.message ||
+          errorMessage;
+      }
+
+      toast.error(errorMessage);
+      // setOperationSuccess(false); // Reset success state on error
+      return; // Exit early if there's an error
+    }
+
+    // Handle success messages
+    if (isSuccess) {
+      toast.success("Order added successfully");
+      router.push('/crm/orders')
+    } else if (update_success) {
+      toast.success("Order updated successfully");
+    }
+  }, [error, isSuccess, update_error, update_success,router]);
 
   return (
     <>
       <div className="flex gap-2">
         <div className="w-[70%]">
+          <div className="mt-2">
+            <Order_product_form
+              product_list={product_list}
+              set_services={set_services}
+              services={services}
+              set_Poduct_list={set_Poduct_list}
+            />
+          </div>
           <div>
             <Card>
               <CardBody>
@@ -270,7 +325,7 @@ export const Order_form = () => {
                     </Button>
 
                     <Button
-                      // isLoading={isLoading}
+                      isLoading={isLoading}
                       className="bg-black text-white"
                       type="submit"
                     >
@@ -281,14 +336,6 @@ export const Order_form = () => {
                 </form>
               </CardBody>
             </Card>
-            <div className="mt-2">
-              <Order_product_form
-                product_list={product_list}
-                set_services={set_services}
-                services={services}
-                set_Poduct_list={set_Poduct_list}
-              />
-            </div>
           </div>
         </div>
         <div className="w-[30%]">

@@ -16,10 +16,18 @@ class OrderRepository {
     next: NextFunction
   ) {
     const rendom_id = generateRandomId();
-    const service_data = JSON.parse(data.services);
-    // Utility function to convert to number safely
-    const toNumber = (value: any) => (isNaN(Number(value)) ? 0 : Number(value));
-  
+    
+    // Check if data.services is defined and a valid JSON string
+    let service_data:any = {};
+    if (data.services && data.services !== 'undefined') {
+      try {
+        service_data = JSON.parse(data.services);
+      } catch (error) {
+        return next(new ErrorHandler("Invalid services JSON format", 400));
+      }
+    }
+    
+
     // Extract image ids into merged object
     const merged = image_data.reduce((acc: any, { fieldname, _id }: any) => {
       if (["image", "doket", "invoice"].includes(fieldname)) {
@@ -29,9 +37,7 @@ class OrderRepository {
     }, {});
 
     const shipping_data = { ...data.shipping_address, audit_log: user_id };
-    const [shipping_a] = await Promise.all([
-      AddressModel.create(shipping_data),
-    ]);
+    const [shipping_a] = await Promise.all([AddressModel.create(shipping_data)]);
 
     // Build updated_data object
     const updated_data = {
@@ -43,11 +49,11 @@ class OrderRepository {
       invoice_no: data.invoice_no,
       payment_mode: data.payment_mode,
       name: data.name,
-      shipping_charges: service_data.shipping_charges,
-      discount: service_data.discount,
-      other_charge: service_data.other_charge,
+      shipping_charges: service_data.shipping_charges || 0,
+      discount: service_data.discount || 0,
+      other_charge: service_data.other_charge || 0,
       order_details: order_details._id,
-      shipping_address:shipping_a._id,
+      shipping_address: shipping_a._id,
       company: data.company,
       email: data.email,
       phone: data.phone,
@@ -55,14 +61,14 @@ class OrderRepository {
       audit_log: user_id,
       ...merged, // Spread merged image fields
     };
-  
+
     // Validate and apply only if IDs are valid
     ["invoice_id", "doket_id", "image_id"].forEach((field) => {
       if (merged[field] && !mongoose.Types.ObjectId.isValid(merged[field])) {
         delete updated_data[field]; // Remove invalid IDs
       }
     });
-  
+
     try {
       // Update product quantities in the Product model
       const productUpdates = order_details.product_details.map(
@@ -74,14 +80,15 @@ class OrderRepository {
           );
         }
       );
-  
+
       // Await all updates
       await Promise.all(productUpdates);
-  
+
       // Save the order
       const newOrder = new Order_model(updated_data);
       return await newOrder.save();
     } catch (error: any) {
+      console.log(error);
       return next(new ErrorHandler(error, 404));
     }
   }
