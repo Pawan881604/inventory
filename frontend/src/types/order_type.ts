@@ -8,7 +8,21 @@ export interface BaseAddress {
 }
 
 export interface order_type_form {
-  order_date: string;
+  order_status: string;
+  customer: string;
+  dispatch_mod: string;
+  invoice_no: string;
+  shipping_address: BaseAddress;
+  payment_mode: string;
+  status: string;
+  name: string;
+  company?: string;
+  email: string;
+  phone: string;
+  gstin: string;
+}
+
+export interface order_type_list {
   order_status: string;
   customer: string;
   dispatch_mod: string;
@@ -33,3 +47,8 @@ export interface order_product_type_form {
   product: string;
   quantity: string;
 }
+
+export interface Post_Response {
+  order: any; // Make sure this matches your expected type
+}
+

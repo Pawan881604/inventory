@@ -118,17 +118,17 @@ class OrderService {
   //   // await FileManager.deleteFiles(files);
   //   return await this.productRepository.update(data, image_data, user_id,next);
   // }
-  // async all(query: any) {
-  //   return await this.productRepository.all(query);
-  // }
-  // async data_counter(query: any) {
-  //   return await this.productRepository.data_counter(query);
-  // }
+  async all(query: any) {
+    return await this.orderRepository.all(query);
+  }
+  async data_counter(query: any) {
+    return await this.orderRepository.data_counter(query);
+  }
   // async find_by_id_and_update(id: string, data: any, next: NextFunction) {
   //   return await this.productRepository.find_by_id_and_update(id, data, next);
   // }
-  // async find_by_id(id: string, next: NextFunction) {
-  //   return await this.productRepository.find_by_id(id, next);
-  // }
+  async find_by_id(id: string, next: NextFunction) {
+    return await this.orderRepository.find_by_id(id, next);
+  }
 }
 export default OrderService;

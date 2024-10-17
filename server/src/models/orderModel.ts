@@ -2,6 +2,7 @@ import mongoose, { Document, Types, Model, Schema } from "mongoose";
 
 export interface IOrder extends Document {
   order_id: string;
+  order_no: number;
   name?: string;
   dispatch_mod?: string;
   email?: string;
@@ -16,7 +17,7 @@ export interface IOrder extends Document {
   shipping_charges?: Number;
   discount?: Number;
   other_charge?: Number;
-  products_details?: Types.ObjectId;
+  order_details?: Types.ObjectId;
   customer?: Types.ObjectId;
   shipping_address: Types.ObjectId;
   image_id: Types.ObjectId;
@@ -29,6 +30,9 @@ export interface IOrder extends Document {
 
 const orderSchema: Schema<IOrder> = new mongoose.Schema(
   {
+    order_no: {
+      type: Number,
+    },
     order_id: {
       type: String,
       trim: true,
@@ -90,15 +94,15 @@ const orderSchema: Schema<IOrder> = new mongoose.Schema(
     },
     customer: {
       type: Schema.Types.ObjectId,
-      ref: "Images",
+      ref: "Customer",
     },
     shipping_address: {
       type: Schema.Types.ObjectId,
-      ref: "Images",
+      ref: "Address",
     },
-    products_details: {
+    order_details: {
       type: Schema.Types.ObjectId,
-      ref: "Images",
+      ref: "Orders_details",
     },
     image_id: [
       {

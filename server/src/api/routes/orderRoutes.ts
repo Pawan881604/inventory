@@ -24,18 +24,18 @@ const orderRoutes = (orderController: OrderController) => {
   // authorizeRoles("admin", "employee"),
   //   productController.update.bind(productController)
   // );
-  // router.get(
-  //   "/all-products",
-  //   isAuthenticatedUser,
-  // authorizeRoles("admin", "employee"),
-  //   productController.all.bind(productController)
-  // );
-  // router.get(
-  //   "/data/:id",
-  //   isAuthenticatedUser,
-  // authorizeRoles("admin", "employee"),
-  //   productController.get_single_data.bind(productController)
-  // );
+  router.get(
+    "/all-orders",
+    isAuthenticatedUser,
+    authorizeRoles("admin", "employee"),
+    orderController.all.bind(orderController)
+  );
+  router.get(
+    "/data/:id",
+    isAuthenticatedUser,
+    authorizeRoles("admin", "employee"),
+    orderController.get_single_data.bind(orderController)
+  );
   // router.post(
   //   "/remove/:id",
   //   isAuthenticatedUser,
