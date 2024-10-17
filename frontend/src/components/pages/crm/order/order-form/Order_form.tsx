@@ -25,8 +25,8 @@ import { useRouter } from "next/navigation";
 import Server_image_card from "@/components/image_compress/Server_image_card";
 
 interface order_form_props {
-  data_Loading: boolean;
-  data: any;
+  data_Loading?: boolean;
+  data?: any;
 }
 export const Order_form: React.FC<order_form_props> = ({
   data_Loading,
