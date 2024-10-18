@@ -160,7 +160,7 @@ const ProductForm: React.FC<popover> = ({ isOpen, onClose, list, set_Poduct_list
     is_delete: "no",
     keyword: debouncedFilterValue,
     status: "active",
-    rowsPerPage: 10,
+    rowsPerPage: 10000,
     page: 1,
   });
   const [getSingle, { isLoading }] = useGetSingleMutation();
