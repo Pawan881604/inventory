@@ -25,7 +25,6 @@ class OrderRepository {
         return next(new ErrorHandler("Invalid services JSON format", 400));
       }
     }
-
     // Extract image ids into merged object
     const merged = image_data.reduce((acc: any, { fieldname, _id }: any) => {
       if (["image", "doket", "invoice"].includes(fieldname)) {
@@ -88,6 +87,7 @@ class OrderRepository {
 
       // Save the order
       const newOrder = new Order_model(updated_data);
+
       return await newOrder.save();
     } catch (error: any) {
       console.log(error);
