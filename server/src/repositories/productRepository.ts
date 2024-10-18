@@ -21,7 +21,7 @@ class ProductRepository {
 
     const updated_data: any = {
       prod_id: `prod_${data.uuid}_${rendom_id}`,
-      name: data.name,
+      name: data.name.toLowerCase(),
       status: data.status,
       selling_price: toNumber(data.selling_price),
       tax: data.tax,
@@ -64,7 +64,7 @@ class ProductRepository {
         : [];
 
     const updated_data: any = {
-      name: data.name,
+      name: data.name.toLowerCase(),
       status: data.status,
       selling_price: toNumber(data.selling_price),
       tax: data.tax,
