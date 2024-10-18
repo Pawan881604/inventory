@@ -59,7 +59,7 @@ const Product_list: React.FC<list_props> = ({ set_open, edit_handler }) => {
   const [debouncedFilterValue, setDebouncedFilterValue] =
     useState<string>(filterValue);
   const [statusFilter, setStatusFilter] = useState<string>("all");
-  const [rowsPerPage, setRowsPerPage] = useState<number>(10);
+  const [rowsPerPage, setRowsPerPage] = useState<number>(25);
   const [page, setPage] = useState<number>(1);
 
   //-------------use states for apis
