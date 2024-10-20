@@ -146,7 +146,6 @@ class OrderRepository {
     const updated_data = {
       order_no: order_number + 1,
       order_id: `ord_${data.uuid}_${rendom_id}`,
-      order_date: new Date(),
       order_status: data.order_status,
       customer: data.customer,
       dispatch_mod: data.dispatch_mod,
