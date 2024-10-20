@@ -1,4 +1,4 @@
-export const show_per_Page = 25; 
+export const show_per_Page = 10000; 
 export const status_arr = [
   { label: "Active", value: "active" },
   { label: "Inactive", value: "inactive" },
