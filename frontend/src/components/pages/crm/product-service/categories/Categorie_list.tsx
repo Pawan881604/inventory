@@ -50,7 +50,7 @@ const Categorie_list: React.FC<Customer_list_props> = ({
   const [debouncedFilterValue, setDebouncedFilterValue] =
     useState<string>(filterValue);
   const [statusFilter, setStatusFilter] = useState<string>("all");
-  const [rowsPerPage, setRowsPerPage] = useState<number>(25);
+  const [rowsPerPage, setRowsPerPage] = useState<number>(10);
   const [page, setPage] = useState<number>(1);
 
   //-------------use states for apis

@@ -44,7 +44,7 @@ const Customer_list: React.FC<Customer_list_props> = ({ set_open, edit_handler }
   const [debouncedFilterValue, setDebouncedFilterValue] =
     useState<string>(filterValue);
   const [statusFilter, setStatusFilter] = useState<string>("all");
-  const [rowsPerPage, setRowsPerPage] = useState<number>(25);
+  const [rowsPerPage, setRowsPerPage] = useState<number>(10);
   const [page, setPage] = useState<number>(1);
 
 

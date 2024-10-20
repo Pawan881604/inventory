@@ -21,6 +21,7 @@ import { useAddNewOrderMutation, useUpdateMutation } from "@/state/orderApi";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import { generate32BitUUID } from "@/lib/service/generate32BitUUID";
+import Text_area_field from "@/components/common/fields/Text_area_field";
 
 interface order_form_props {
   edit?: boolean;
@@ -94,26 +95,6 @@ export const Order_form: React.FC<order_form_props> = ({
     );
   }, [customer_data]);
 
-  useEffect(() => {
-    if (customerValue && customer_data?.customer) {
-      const selectedCustomer = customer_data.customer.find(
-        (customer: any) => customer._id === customerValue
-      );
-
-      if (selectedCustomer) {
-        setValue("name", selectedCustomer.name || "");
-        setValue("company", selectedCustomer.company || "");
-        setValue("email", selectedCustomer.email || "");
-        setValue("phone", `+91${selectedCustomer.phone}` || "");
-        setValue("gstin", selectedCustomer.gstin || "");
-        setValue("shipping_address", {
-          ...selectedCustomer.shipping_address,
-        });
-      }
-    }
-  }, [customerValue, customer_data, setValue]);
-
-
 
   const onSubmit = useCallback(
     async (form_data: any) => {
@@ -130,6 +111,7 @@ export const Order_form: React.FC<order_form_props> = ({
         const invoice = invoice_files.length > 0 ? invoice_files : invoice_url;
         const updated_data = {
           ...form_data,
+          id: data?._id,
           product: product_list,
           services: services,
           invoice: invoice,
@@ -156,7 +138,7 @@ export const Order_form: React.FC<order_form_props> = ({
         setOperationSuccess(true);
       }
     },
-    [addNewOrder, update, data, invoice_files, edit, doket_files, Image_files]
+    [addNewOrder, update, data, invoice_files,product_list,services, edit, doket_files, Image_files]
   );
 
 
@@ -197,6 +179,7 @@ export const Order_form: React.FC<order_form_props> = ({
     } else if (update_success && operationSuccess) {
       toast.success("Order updated successfully");
       setOperationSuccess(false);
+      router.push('/crm/orders')
     }
   }, [error, isSuccess, update_error, update_success, router, operationSuccess, setOperationSuccess]);
 
@@ -214,6 +197,7 @@ export const Order_form: React.FC<order_form_props> = ({
         company: data.company,
         email: data.email,
         phone: data.phone,
+        notes: data.notes,
         gstin: data.gstin,
         shipping_address: {
           address_line_1: data.shipping_address?.address_line_1 || "",
@@ -280,7 +264,33 @@ export const Order_form: React.FC<order_form_props> = ({
         (key) => setValue(key, "")
       );
     }
-  }, [memoizedVendorData, setValue, data, set_Poduct_list]);
+  }, [memoizedVendorData, setValue, data, set_Poduct_list, customerValue, customer_data, setValue]);
+
+
+
+  useEffect(() => {
+    if (!edit) {
+      if (!customerValue || !customer_data?.customer) return;
+      const selectedCustomer = customer_data.customer.find(
+        (customer: { _id: string }) => customer._id === customerValue
+      );
+
+
+      if (selectedCustomer) {
+        setValue("name", selectedCustomer.name || "");
+        setValue("company", selectedCustomer.company || "");
+        setValue("email", selectedCustomer.email || "");
+        setValue("phone", `+91${selectedCustomer.phone}` || "");
+        setValue("gstin", selectedCustomer.gstin || "");
+        setValue("shipping_address", {
+          ...selectedCustomer.shipping_address,
+        });
+
+      }
+    }
+  }, [customerValue, customer_data, setValue, edit]);
+
+
 
   return (
 
@@ -345,6 +355,14 @@ export const Order_form: React.FC<order_form_props> = ({
                           errors={errors}
                           name="invoice_no"
                           label="Invoice no"
+                        />
+                      </div>
+                      <div>
+                        <Text_area_field
+                          control={control}
+                          errors={errors}
+                          name="notes"
+                          label="Notes"
                         />
                       </div>
                     </div>
