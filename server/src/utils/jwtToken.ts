@@ -11,7 +11,7 @@ const sendToken = async (user: IUser, statusCode: number, res: Response) => {
       Date.now() + Number(process.env.COOKIE_EXPIRE) * 24 * 60 * 60 * 1000
     ),
     path: "/",
-    secure: true, // accessible through HTTP
+    secure: false, // accessible through HTTP
     httpOnly: true, // only server can access the cookie
     sameSite: "none", // enforcement type
     partitioned: false, 
