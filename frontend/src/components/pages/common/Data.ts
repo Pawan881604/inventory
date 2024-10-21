@@ -21,6 +21,7 @@ export const dispatch_mod_arr = [
   { label: "Glow road", value: "Glow road" },
   { label: "Meesho", value: "Meesho" },
   { label: "Flipkart", value: "Flipkart" },
+  { label: "Delhivery", value: "Delhivery" },
   { label: "Amazon", value: "Amazon" },
   { label: "Ecom Express", value: "Ecom Express" },
   { label: "Ekart Logistics", value: "Ekart Logistics" },
