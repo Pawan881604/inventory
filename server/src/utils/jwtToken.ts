@@ -16,7 +16,9 @@ const sendToken = async (user: IUser, statusCode: number, res: Response) => {
     sameSite: "none", // enforcement type
     partitioned: false, 
   };
-  res.status(statusCode).cookie("token", token, option).json({
+  res.status(statusCode)
+  // .cookie("token", token, option)
+  .json({
     success: true,
     token,
     user,
