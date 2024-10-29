@@ -13,7 +13,8 @@ const SlugPage: FC<SlugPageProps> = ({ params }) => {
   const { slug } = params; // Extract slug from params
 
   return (
-    <Update_order id={slug}/>
+    // <Update_order id={slug}/>
+    <p>update</p>
   );
 };
 
