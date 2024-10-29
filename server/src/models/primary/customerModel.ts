@@ -1,5 +1,5 @@
 import mongoose, { Document, Model, Types, Schema } from "mongoose";
-
+import { primaryConnection } from "../../loaders/config";
 export interface ICustomer extends Document {
   customer_id: string;
   name: string;
@@ -79,7 +79,7 @@ const customerSchema: Schema<ICustomer> = new mongoose.Schema(
 );
 
 // Create and export the model
-const CustomerModel: Model<ICustomer> = mongoose.model<ICustomer>(
+const CustomerModel: Model<ICustomer> = primaryConnection.model<ICustomer>(
   "Customer",
   customerSchema
 );

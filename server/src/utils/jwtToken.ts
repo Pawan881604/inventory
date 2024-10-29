@@ -1,5 +1,5 @@
 import { Response } from "express";
-import { IUser } from "../models/userModel";
+import { IUser } from "../models/primary/userModel";
 
 // -----------create token and save in  cookies
 const sendToken = async (user: IUser, statusCode: number, res: Response) => {

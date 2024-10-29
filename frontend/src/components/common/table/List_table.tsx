@@ -10,7 +10,7 @@ import {
   TableHeader,
   TableRow,
 } from "@nextui-org/react";
-import { vendr_list as Vendor, vendor_Column } from "@/types/Vendor_type";
+import { vendor_Column } from "@/types/Vendor_type";
 import TableBottomContent from "./TableBottomContent";
 import TableTopContent from "./TableTopContent";
 
@@ -91,7 +91,7 @@ const ListTable = <T extends Identifiable>({
         {(column: vendor_Column) => (
           <TableColumn
             key={column.uid}
-            align={column.uid === "actions" ? "center" : "start"}
+            align={column.uid === "actions" || "isActive" ? "center" : "start"}
           >
             {column.name}
           </TableColumn>

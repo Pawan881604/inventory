@@ -1,6 +1,8 @@
-import User from "../models/userModel";
+import { NextFunction } from "express";
+import User from "../models/primary/userModel";
 import ApiFeatures from "../utils/apiFeatuers";
 import { generateRandomId } from "../utils/generateRandomId";
+import ErrorHandler from "../utils/ErrorHandler";
 
 class UserRepository {
   async createUser(userData: any) {
@@ -62,6 +64,32 @@ class UserRepository {
 
   async deleteUser(id: string) {
     return await User.findByIdAndDelete(id);
+  }
+  async status_update(id: string, next: NextFunction) {
+    try {
+      const existuser = await User.findById(id);
+      if (!existuser) {
+        return next(new ErrorHandler("user not fount", 404));
+      }
+      const updated_data = {
+        isActive: !existuser.isActive,
+      };
+      const updated_custome_data = await User.findByIdAndUpdate(
+        id,
+        updated_data,
+        {
+          new: true,
+          runValidators: true,
+          useFindAndModify: false,
+        }
+      );
+      if (!updated_custome_data) {
+        return next(new ErrorHandler("User not found", 404));
+      }
+      return updated_custome_data;
+    } catch (error: any) {
+      return next(new ErrorHandler(error, 404));
+    }
   }
 }
 

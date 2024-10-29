@@ -1,5 +1,5 @@
 import mongoose, { Document, Model, Types, Schema } from "mongoose";
-
+import { primaryConnection } from "../../loaders/config";
 export interface IVendor extends Document {
   vendor_id: string;
   name: string;
@@ -79,7 +79,7 @@ const vendorSchema: Schema<IVendor> = new mongoose.Schema(
 );
 
 // Create and export the model
-const VendorModel: Model<IVendor> = mongoose.model<IVendor>(
+const VendorModel: Model<IVendor> = primaryConnection.model<IVendor>(
   "Vendor",
   vendorSchema
 );

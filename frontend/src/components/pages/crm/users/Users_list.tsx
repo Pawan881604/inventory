@@ -1,15 +1,12 @@
 import List_table from "@/components/common/table/List_table";
 import debounce from "lodash.debounce";
-import React, { useEffect, useMemo, useState } from "react";
-import { CircularProgress, Tooltip } from "@nextui-org/react";
-import { Trash2, Edit, RotateCcw, Eraser } from "lucide-react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
+import { CircularProgress, Switch, Tooltip } from "@nextui-org/react";
 import toast from "react-hot-toast";
 import { TimeAgo } from "@/lib/service/time/timeAgo";
-import Server_image_card from "@/components/image_compress/Server_image_card";
-import { useActionMutation, useGetAllQuery } from "@/state/expenseApi";
+import { useActionMutation } from "@/state/expenseApi";
 import { Expences_List_Props, Get_Response } from "@/types/expense_type";
-import { formatCurrency } from "@/lib/service/currencyUtils";
-import { useAllQuery } from "@/state/usersApi";
+import { useAllQuery, useStatus_actionMutation } from "@/state/usersApi";
 import { columns, INITIAL_VISIBLE_COLUMNS } from "@/types/auth_type";
 
 interface Customer_list_props {
@@ -21,6 +18,7 @@ const Users_list: React.FC<Customer_list_props> = ({
     set_open,
     edit_handler,
 }) => {
+
     const [filterValue, setFilterValue] = useState<string>("");
     const [page_status, set_page_status] = useState<string>("yes");
     const [debouncedFilterValue, setDebouncedFilterValue] =
@@ -39,13 +37,13 @@ const Users_list: React.FC<Customer_list_props> = ({
         page: page,
     });
     const [
-        action,
+        status_action,
         {
-            error: delete_error,
-            isLoading: delete_loading,
-            isSuccess: delete_success,
+            error: status_update__error,
+            isLoading: status_update_loading,
+            isSuccess: status_update_success,
         },
-    ] = useActionMutation();
+    ] = useStatus_actionMutation();
     // Debounce the filter value to avoid excessive API calls
     const handleDebouncedFilter = useMemo(
         () => debounce((value) => setDebouncedFilterValue(value), 300),
@@ -57,13 +55,13 @@ const Users_list: React.FC<Customer_list_props> = ({
     }, [filterValue, handleDebouncedFilter]);
 
     useEffect(() => {
-        if (delete_error || error) {
+        if (status_update__error || error) {
             let errorMessage = "An unexpected error occurred."; // Default message
 
             // Check if 'error' is defined and has the expected structure
-            if (delete_error && "data" in delete_error) {
+            if (status_update__error && "data" in status_update__error) {
                 errorMessage =
-                    (delete_error as { data?: { message?: string } }).data?.message ||
+                    (status_update__error as { data?: { message?: string } }).data?.message ||
                     errorMessage;
             }
 
@@ -77,11 +75,16 @@ const Users_list: React.FC<Customer_list_props> = ({
             toast.error(errorMessage); // Show the error toast
             return;
         }
-        if (delete_success) {
+        if (status_update_success) {
             toast.success("Expence successfuly updated"); // Show the error toast
         }
-    }, [delete_error, delete_success, toast, error]);
+    }, [status_update__error, status_update_success, toast, error]);
     // Fetch vendors only when debouncedFilterValue has a valid value
+
+
+    const handleSwitchChange = useCallback(async (id: string) => {
+        await status_action({ id }).unwrap()
+    }, [status_action]);
 
     const response: Get_Response | undefined = data as
         | Get_Response
@@ -98,111 +101,41 @@ const Users_list: React.FC<Customer_list_props> = ({
         (result: Expences_List_Props, columnKey: React.Key) => {
             const cellValue = result[columnKey as keyof Expences_List_Props];
 
-            const deleteHandler = async (
-                id: string,
-                state: string,
-                hard_delete?: string
-            ) => {
-                await action({ id, state, hard_delete });
-            };
-            const restoreHandler = async (
-                id: string,
-                state: string,
-                hard_delete?: string
-            ) => {
-                await action({ id, state, hard_delete });
-            };
-            const hard_deleteHandler = async (
-                id: string,
-                state: string,
-                hard_delete?: string
-            ) => {
-                await action({ id, state, hard_delete });
-            };
-            const hard_restoreHandler = async (
-                id: string,
-                state: string,
-                hard_delete?: string
-            ) => {
-                await action({ id, state, hard_delete });
-            };
+
 
             switch (columnKey) {
                 case "name":
                     return <p> {result.name}</p>;
-                    case "isActive":
-                        return <p>{cellValue}</p>;
+
                 case "updatedAt":
                     return <TimeAgo time={cellValue} />;
-            
-                case "actions":
+
+                case "isActive":
                     return (
                         <div className="relative flex justify-end gap-2">
-                            <Tooltip
-                                content={
-                                    result.is_active === "yes"
-                                        ? "Edit Expenses"
-                                        : "Recover Expenses"
-                                }
-                            >
-                                <span className="text-sm text-default-400 cursor-pointer active:opacity-50">
-                                    {result && result.is_delete === "no" ? (
-                                        result.is_active === "yes" ? (
-                                            <Edit
-                                                size={20}
-                                                onClick={() => edit_handler(result._id)}
-                                            />
-                                        ) : result.is_active === "no" ? (
-                                            <RotateCcw
-                                                onClick={() =>
-                                                    restoreHandler(result._id, "yes", "no")
-                                                }
-                                                size={20}
-                                            />
-                                        ) : null /* Handle if no other case applies */
-                                    ) : (
-                                        <RotateCcw
-                                            onClick={() =>
-                                                hard_restoreHandler(result._id, "no", "no")
-                                            }
-                                            size={20}
-                                        />
-                                    )}
-                                </span>
-                            </Tooltip>
 
-                            <Tooltip
-                                content={
-                                    result.is_active === "yes"
-                                        ? "Delete epense"
-                                        : "Erase expense"
-                                }
-                            >
-                                <span className="text-sm text-red-600 cursor-pointer active:opacity-50">
-                                    {
-                                        result && result.is_delete === "no" ? (
-                                            delete_loading ? (
-                                                <CircularProgress size="sm" aria-label="Loading..." />
-                                            ) : result.is_active === "yes" ? (
-                                                <Trash2
-                                                    className="text-red-600"
-                                                    onClick={() =>
-                                                        deleteHandler(result._id, "no", "no")
-                                                    }
-                                                    size={20}
-                                                />
-                                            ) : (
-                                                <Eraser
-                                                    onClick={() =>
-                                                        hard_deleteHandler(result._id, "no", "yes")
-                                                    }
-                                                    size={20}
-                                                />
-                                            )
-                                        ) : null /* Handle if result.is_delete is "no" */
+                            {status_update_loading ?
+                                <CircularProgress  />
+                                :
+                                <Tooltip
+                                    content={
+                                        cellValue
+                                            ? "User Inactive"
+                                            : "User Active"
                                     }
-                                </span>
-                            </Tooltip>
+                                >
+
+                                    <Switch
+                                        checked={cellValue}
+                                        isSelected={cellValue}
+                                        onChange={() => handleSwitchChange(result._id)}
+                                        size="sm"
+                                    >
+                                        {cellValue ? "Active" : "Inactive"}
+                                    </Switch>
+                                </Tooltip>
+                            }
+
                         </div>
                     );
                 default:

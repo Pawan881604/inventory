@@ -1,9 +1,12 @@
 export const calculateNetAmount = (
   quantity: number,
   unitPrice: number,
-  discount: number
+  discount?: number
 ): number => {
-  return quantity * unitPrice - discount;
+  if (discount !== undefined && discount > 0) {
+    return quantity * unitPrice - discount;
+  }
+  return quantity * unitPrice;
 };
 
 export const calculateTotalIncludingGST = (
@@ -20,18 +23,23 @@ export const calculateTotalIncludingGST = (
 export const calculateTotal_amount = (
   qnty: number,
   unitPrice: number,
-  discount: number
+  discount: number = 0, // Set a default value of 0 for discount
+  gst: number = 0 // Set a default value of 0 for gst
 ): number => {
   const qnty_: number = Number(qnty);
   const dis = Number(discount);
   const price = Number(unitPrice);
   const mult_amount = price * qnty_;
-  const total = mult_amount - dis;
-  const gstAmount = (total * 12) / 100;
+  let total = mult_amount;
+  if (dis > 0) {
+    total = mult_amount - dis;
+  }
+  const gstAmount = (total * gst) / 100; // Use gst instead of hardcoded 12
   const total_amount: number = total + gstAmount;
 
   return parseFloat(total_amount.toFixed(2));
 };
+
 export const calculate_GST_amount = (
   total_amount: number,
   gst: number

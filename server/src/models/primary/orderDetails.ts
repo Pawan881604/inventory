@@ -1,5 +1,5 @@
 import mongoose, { Document, Types, Model, Schema } from "mongoose";
-
+import { primaryConnection } from "../../loaders/config";
 export interface IOrderDetails extends Document {
   product_details: {
     type: Schema.Types.Mixed;
@@ -30,7 +30,7 @@ const orderDetailsSchema: Schema<IOrderDetails> = new mongoose.Schema(
   }
 );
 
-const Order_details_model: Model<IOrderDetails> = mongoose.model<IOrderDetails>(
+const Order_details_model: Model<IOrderDetails> = primaryConnection.model<IOrderDetails>(
   "Orders_details",
   orderDetailsSchema
 );

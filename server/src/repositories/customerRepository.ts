@@ -1,6 +1,6 @@
 import { NextFunction } from "express";
-import AddressModel from "../models/addressModel";
-import CustomerModel from "../models/customerModel";
+import AddressModel from "../models/primary/addressModel";
+import CustomerModel from "../models/primary/customerModel";
 import ApiFeatures from "../utils/apiFeatuers";
 import ErrorHandler from "../utils/ErrorHandler";
 import { generateRandomId } from "../utils/generateRandomId";

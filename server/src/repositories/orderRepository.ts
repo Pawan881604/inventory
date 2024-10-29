@@ -1,11 +1,11 @@
 import { generateRandomId } from "../utils/generateRandomId";
-import Product_model from "../models/productModel";
+import Product_model from "../models/primary/productModel";
 import ApiFeatures from "../utils/apiFeatuers";
 import ErrorHandler from "../utils/ErrorHandler";
 import { NextFunction } from "express";
 import mongoose from "mongoose";
-import Order_model from "../models/orderModel";
-import AddressModel from "../models/addressModel";
+import Order_model from "../models/primary/orderModel";
+import AddressModel from "../models/primary/addressModel";
 
 class OrderRepository {
   async create(

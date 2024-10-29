@@ -15,6 +15,10 @@ interface Paths {
       list: string;
       form: string;
     };
+    purchase: {
+      list: string;
+      form: string;
+    };
   };
   dashboard: {
     products: string;
@@ -34,6 +38,10 @@ export const paths: Paths = {
     order: {
       list: "/crm/orders",
       form: "/crm/orders/form",
+    },
+    purchase: {
+      list: "/crm/purchase",
+      form: "/crm/purchase/form",
     },
     product_service: "/crm/product",
     crm: "/crm",

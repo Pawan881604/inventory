@@ -175,7 +175,7 @@ const Vendor_list: React.FC<list_props> = ({ set_open, edit_handler }) => {
           );
         case "audit_log":
           return (
-            <p>{cellValue.name}</p>
+            <p>{cellValue?.name}</p>
           );
         case "actions":
           return (

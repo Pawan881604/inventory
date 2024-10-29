@@ -1,4 +1,4 @@
-import AuditLog, { IAuditLog } from "../models/auditLogModel"; // Adjust the path as necessary
+import AuditLog, { IAuditLog } from "../models/primary/auditLogModel"; // Adjust the path as necessary
 import { Types } from "mongoose";
 
 class AuditLogger {

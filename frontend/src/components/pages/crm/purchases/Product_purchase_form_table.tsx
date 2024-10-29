@@ -39,6 +39,7 @@ const Product_purchase_form_table: React.FC<
 > = ({ product_list, set_product_list, additional_number_data, set_additional_data }) => {
 
   const renderCell = (row: any, columnKey: string) => {
+
     const handleInputChange = (
       value: any,
       row: purchase_product_list_props,
@@ -72,19 +73,18 @@ const Product_purchase_form_table: React.FC<
       set_product_list(updatedProductListWithNetAmount);
     };
     const cellValue = row[columnKey as keyof typeof row];
-
+    const discount: number = row?.discount;
+    const quantity: number = row?.quantity;
     switch (columnKey) {
       case "product_name":
         return (
           <div className="min-h-[52px]">
-            <User description={cellValue as string} name={cellValue as string}>
-              {cellValue as string}
-            </User>
+            {row?.product?.name}
           </div>
         );
       case "quantity":
         return (
-          <div className="min-h-[52px]">
+          <div className="min-h-[52px] w-[70px]">
             <Input_normal
               type="number"
               label=""
@@ -94,26 +94,20 @@ const Product_purchase_form_table: React.FC<
           </div>
         );
       case "unit_price":
-        const discount_unit: number = row.discount;
-        const quantity_unit: number = row.quantity;
+
         return (
           <div className="min-h-[52px]">
-            <Input_normal
-              type="number"
-              label=""
-              value={cellValue}
-              get_value={(value) => handleInputChange(value, row, "unit_price")}
-            />
-            {Number(discount_unit) > 0 ? (
+            {row?.product?.purchase_price}
+            {Number(discount) > 0 ? (
               <div className="text-xxs flex gap-[2px]">
                 <span>after disc.</span>
                 <span>
 
                   {formatCurrency(
                     calculate_total_amount_after_discont(
-                      cellValue,
-                      quantity_unit,
-                      discount_unit
+                      row?.product?.purchase_price,
+                      quantity,
+                      discount
                     )
                   )}
                 </span>
@@ -122,24 +116,13 @@ const Product_purchase_form_table: React.FC<
           </div>
         );
       case "price_width_text":
-        const discount: number = row.discount;
-        const quantity: number = row.quantity;
-
         return (
           <div className="min-h-[52px]">
-            <Input_normal
-              type="number"
-              value={cellValue}
-              label=""
-              get_value={(value) =>
-                handleInputChange(value, row, "price_width_text")
-              }
-            />
+            {calculateTotalIncludingGST(row?.product?.purchase_price, row?.product?.tax)}
             {Number(discount) > 0 ? (
               <div className="text-xxs flex gap-[2px]">
                 <span>after disc.</span>
                 <span>
-                  {" "}
                   {formatCurrency(
                     calculate_total_amount_after_discont(
                       cellValue,
@@ -154,7 +137,7 @@ const Product_purchase_form_table: React.FC<
         );
       case "discount":
         return (
-          <div className="min-h-[52px]">
+          <div className="min-h-[52px] w-[70px]">
             <Input_normal
               type="number"
               label=""
@@ -166,15 +149,15 @@ const Product_purchase_form_table: React.FC<
       case "net_amount":
         return (
           <div className="min-h-[52px]">
-            {cellValue}
+            {formatCurrency(calculateNetAmount(quantity, row?.product?.purchase_price, discount))}
             <div className="text-xxs flex gap-[2px]">
-              <span>{formatCurrency(calculate_GST_amount(cellValue, 12))}</span>
-              <span>(12%)</span>
+              <span>{formatCurrency(calculateNetAmount(quantity, row?.product?.purchase_price, discount))}</span>
+              <span>({row?.product?.tax}%)</span>
             </div>
           </div>
         );
       case "total":
-        return <div className="min-h-[52px]">{cellValue}</div>;
+        return <div className="min-h-[52px]">{calculateTotal_amount(quantity, row?.product?.purchase_price, discount, row?.product?.tax)}</div>;
       case "actions":
         return (
           <div className="min-h-[52px]">
@@ -202,21 +185,21 @@ const Product_purchase_form_table: React.FC<
           [field]: value
         };
         // Calculate updated values
-        const updated_new_data: additional_props[] = newData.map((item,i) => {
+        const updated_new_data: additional_props[] = newData.map((item, i) => {
           const taxNumber = item.tax ? convertTaxToNumber(item.tax, '%') : 0;
           let withTax = item.withTax ?? 0;
-          let withoutTax = item.withoutTax ;
+          let withoutTax = item.withoutTax;
           if (withTax > 0 && taxNumber > 0) {
             withTax = calculate_without_GST_amount(withTax, taxNumber);
             withoutTax = withTax
           }
           const labels = ["Shipping Charges", "Packaging Charges"];
-          const label = labels[i] || `Charge ${i + 1}`; 
+          const label = labels[i] || `Charge ${i + 1}`;
           return {
             ...item,
-            label: label, 
-            withoutTax: withoutTax??0,
-            withTax: item.withTax??0,
+            label: label,
+            withoutTax: withoutTax ?? 0,
+            withTax: item.withTax ?? 0,
           };
         });
 
@@ -240,6 +223,7 @@ const Product_purchase_form_table: React.FC<
       { label: "18%", value: "18%", description: "The largest land animal" },
       { label: "24%", value: "24%", description: "The largest land animal" },
     ];
+   
     return (
       <div style={{ padding: "10px 0", borderTop: "1px solid #ddd" }}>
         <div className="items-center flex justify-between">
@@ -275,40 +259,42 @@ const Product_purchase_form_table: React.FC<
           </div>
           {/* body */}
           <div>
-            {aditional_data.map((item, i) => (
+            {aditional_data.map((item, i) => {
 
-              <div key={i} className="items-center flex">
-                <div className="w-52">{item}</div>
-                <div className="w-20">
-                  <div className="min-h-[52px]">
-                    <Select_normal label={""} options={category_gst}
-                      get_value={(value) => handleInputChange(value, i, 'tax')}
+              return (
+                <div key={i} className="items-center flex">
+                  <div className="w-52">{item}</div>
+                  <div className="w-20">
+                    <div className="min-h-[52px]">
+                      <Select_normal label={""} options={category_gst}
+                        get_value={(value) => handleInputChange(value, i, 'tax')}
 
-                    />
+                      />
+                    </div>
+                  </div>
+                  <div className="w-20">
+                    <div className="min-h-[52px]">
+                      <Input_normal
+                        type="number"
+                        label=""
+                        value={additional_number_data[i]?.withoutTax ?? 0}
+                        get_value={(value) => handleInputChange(value, i, 'withoutTax')}
+                      />
+                    </div>
+                  </div>
+                  <div className="w-20">
+                    <div className="min-h-[52px]">
+                      <Input_normal
+                        type="number"
+                        label=""
+                        value={additional_number_data[i]?.withTax ?? 0}
+                        get_value={(value) => handleInputChange(value, i, 'withTax')}
+                      />
+                    </div>
                   </div>
                 </div>
-                <div className="w-20">
-                  <div className="min-h-[52px]">
-                    <Input_normal
-                      type="number"
-                      label=""
-                      value={additional_number_data[i]?.withoutTax ?? 0}
-                      get_value={(value) => handleInputChange(value, i, 'withoutTax')}
-                    />
-                  </div>
-                </div>
-                <div className="w-20">
-                  <div className="min-h-[52px]">
-                    <Input_normal
-                      type="number"
-                      label=""
-                      value={additional_number_data[i]?.withTax ?? 0}
-                      get_value={(value) => handleInputChange(value, i, 'withTax')}
-                    />
-                  </div>
-                </div>
-              </div>
-            ))}
+              )
+            })}
 
           </div>
         </div>

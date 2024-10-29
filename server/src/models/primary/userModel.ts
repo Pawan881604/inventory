@@ -1,6 +1,7 @@
 import mongoose, { Document, Model, Schema, Types } from "mongoose";
 import bcrypt from "bcrypt";
 import jwt, { JwtPayload, SignOptions } from "jsonwebtoken";
+import { primaryConnection } from "../../loaders/config";
 
 export interface IUser extends Document {
   user_id: string;
@@ -121,5 +122,5 @@ userSchema.methods.getJWT_token = async function (): Promise<string> {
 
   return token;
 };
-const User: Model<IUser> = mongoose.model<IUser>("User", userSchema);
+const User: Model<IUser> = primaryConnection.model<IUser>("User", userSchema);
 export default User;

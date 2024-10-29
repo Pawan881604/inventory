@@ -4,9 +4,8 @@ export const columns: any[] = [
   { name: "Email", uid: "email" },
   { name: "Number", uid: "number" },
   { name: "Role:", uid: "role" },
-  { name: "Status", uid: "isActive" },
   { name: "Join at", uid: "updatedAt" },
-  { name: "Actions", uid: "actions" }, // Added actions column
+  { name: "Status", uid: "isActive" },
 ];
 export const INITIAL_VISIBLE_COLUMNS = [
   "user_id",
@@ -14,9 +13,8 @@ export const INITIAL_VISIBLE_COLUMNS = [
   "email",
   "number",
   "role",
-  "isActive",
   "updatedAt",
-  "actions",
+  "isActive",
 ];
 export interface Login {
   email: string;

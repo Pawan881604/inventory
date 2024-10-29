@@ -1,8 +1,8 @@
 import { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
-import User from "../models/userModel";
+import User from "../models/primary/userModel";
 import ErrorHandler from "../utils/ErrorHandler";
-import { IUser } from "../models/userModel"; // Adjust this if necessary
+import { IUser } from "../models/primary/userModel"; // Adjust this if necessary
 
 interface CustomRequest extends Request {
   user?: IUser; // Use the IUser interface to match the user model

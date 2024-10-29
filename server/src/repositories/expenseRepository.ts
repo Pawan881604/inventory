@@ -2,20 +2,23 @@ import { NextFunction } from "express";
 import { generateRandomId } from "../utils/generateRandomId";
 import ApiFeatures from "../utils/apiFeatuers";
 import ErrorHandler from "../utils/ErrorHandler";
-import Expenses_model from "../models/expenseModel";
+import Expenses_model from "../models/primary/expenseModel";
 
 const toNumber = (value: any) => (isNaN(Number(value)) ? 0 : Number(value));
 class ExpenseRepository {
   async create(data: any, image_data: any, user_id: string) {
     const rendom_id = generateRandomId();
-    const { name, description, uuid, categorie, payment_mode, notes, amount } =
+    const { name, description, uuid,payment_type, categorie, payment_mode, notes, amount } =
       data;
-    const image_ids = image_data.map((item: any) => item._id);
+      const image_ids =
+      Array.isArray(image_data) && image_data.length > 0
+        ? image_data.map((item: any) => item._id)
+        : [];
     const updated_data = {
       expense_id: `Expence${uuid}_${rendom_id}`,
       name,
       description,
-      categorie,
+      categorie,payment_type,
       payment_mode,
       notes,
       amount: toNumber(amount),
@@ -30,6 +33,7 @@ class ExpenseRepository {
       name,
       description,
       categorie,
+      payment_type,
       payment_mode,
       notes,
       amount,
@@ -44,7 +48,7 @@ class ExpenseRepository {
       name,
       description,
       categorie,
-      payment_mode,
+      payment_mode,payment_type,
       notes,
       amount: toNumber(amount),
       images_id: image_ids.length > 0 ? image_ids : images,

@@ -100,7 +100,7 @@ const TableTopContent: React.FC<props> = ({
           />
 
           <Dropdown>
-            <DropdownTrigger className="hidden sm:flex">
+            <DropdownTrigger className="flex">
               <Button
                 endContent={<ChevronDownIcon className="text-small" />}
                 variant="flat"
@@ -135,7 +135,7 @@ const TableTopContent: React.FC<props> = ({
       <div className="flex justify-between items-center">
         <div className="flex items-center gap-4">
           <span className="text-default-400 text-small">
-            Total {data_length} Vendors
+            Total {data_length}
           </span>
 
           <Button

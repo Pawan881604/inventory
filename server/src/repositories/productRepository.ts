@@ -1,5 +1,5 @@
 import { generateRandomId } from "../utils/generateRandomId";
-import Product_model from "../models/productModel";
+import Product_model from "../models/primary/productModel";
 import ApiFeatures from "../utils/apiFeatuers";
 import ErrorHandler from "../utils/ErrorHandler";
 import { NextFunction } from "express";

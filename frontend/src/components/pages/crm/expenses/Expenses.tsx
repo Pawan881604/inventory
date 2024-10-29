@@ -104,14 +104,14 @@ const Expenses = () => {
 
         // Handle success messages
         if (isSuccess && operationSuccess) {
-            // setIsOpen(false);
-            // setEdit(false);
-            toast.success("Customer added successfully");
-            // setOperationSuccess(false); // Reset success state after handling success
+            setIsOpen(false);
+            setEdit(false);
+            toast.success("Expence added successfully");
+            setOperationSuccess(false); // Reset success state after handling success
         } else if (update_success && operationSuccess) {
             setIsOpen(false);
             setEdit(false);
-            toast.success("Customer updated successfully");
+            toast.success("Expence updated successfully");
             setOperationSuccess(false); // Reset success state after handling success
         }
 

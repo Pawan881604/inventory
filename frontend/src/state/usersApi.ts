@@ -35,9 +35,19 @@ export const usersApi = createApi({
     profile: build.mutation<User_Data, Login>({
       query: (data) => ({
         url: "/auth/profile",
-        method: "POST",
+        method: "POST", 
         body: data,
       }),
+    }),
+    status_action: build.mutation<void, any>({
+      query: (data) => {
+        return {
+          url: `/auth/action-status/${data.id}`,
+          method: "POST",
+          body:''
+        };
+      },
+      invalidatesTags: [{ type: "Users", id: "LIST" }],
     }),
     sign_up_user: build.mutation<User_Data, Sign_up>({
       query: (user) => ({
@@ -99,4 +109,5 @@ export const {
   useSign_up_userMutation,
   useLogoutMutation,
   useAllQuery,
+  useStatus_actionMutation,
 } = usersApi;

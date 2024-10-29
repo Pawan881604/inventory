@@ -54,6 +54,10 @@ export const Payment_mode_arr = [
   { label: "g-pay", value: "G-pay" },
   { label: "other", value: "Other" },
 ];
+export const Payment_type_arr = [
+  { label: "Persnoal", value: "persnoal" },
+  { label: "Company", value: "company" },
+];
 export const Payment_status_arr = [
   { label: "Paid", value: "paid" },
   { label: "Unpaid", value: "unpaid" },

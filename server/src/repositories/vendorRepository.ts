@@ -1,9 +1,9 @@
 import { NextFunction } from "express";
-import VendorModel from "../models/vendorModel";
+import VendorModel from "../models/primary/vendorModel";
 import ApiFeatures from "../utils/apiFeatuers";
 import { generateRandomId } from "../utils/generateRandomId";
 import ErrorHandler from "../utils/ErrorHandler";
-import AddressModel from "../models/addressModel";
+import AddressModel from "../models/primary/addressModel";
 
 class VendorRepository {
   async createVendor(data: any, user_id: any) {

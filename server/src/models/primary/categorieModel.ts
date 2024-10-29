@@ -1,13 +1,9 @@
 import mongoose, { Document, Types, Model, Schema } from "mongoose";
-
-export interface Iexpense extends Document {
-  expense_id: string;
+import { primaryConnection } from "../../loaders/config";
+export interface Icategory extends Document {
+  cat_id: string;
   name: string;
   description: string;
-  categorie: string;
-  payment_mode: string;
-  notes: string;
-  amount: number;
   images_id: Types.ObjectId;
   status: string;
   audit_log: Types.ObjectId;
@@ -15,9 +11,9 @@ export interface Iexpense extends Document {
   is_delete?: string; // Optional field
 }
 
-const expenseSchema: Schema<Iexpense> = new mongoose.Schema(
+const categorieSchema: Schema<Icategory> = new mongoose.Schema(
   {
-    expense_id: {
+    cat_id: {
       type: String,
       trim: true,
       default: null,
@@ -31,25 +27,6 @@ const expenseSchema: Schema<Iexpense> = new mongoose.Schema(
       type: String,
       trim: true,
       default: null,
-    },
-    categorie: {
-      type: String,
-      trim: true,
-      default: null,
-    },
-    payment_mode: {
-      type: String,
-      trim: true,
-      default: null,
-    },
-    notes: {
-      type: String,
-      trim: true,
-      default: null,
-    },
-    amount: {
-      type: Number,
-      default: 0,
     },
     images_id: [
       {
@@ -79,8 +56,8 @@ const expenseSchema: Schema<Iexpense> = new mongoose.Schema(
   }
 );
 
-const Expenses_model: Model<Iexpense> = mongoose.model<Iexpense>(
-  "Expenses",
-  expenseSchema
+const Categorie_model: Model<Icategory> = primaryConnection.model<Icategory>(
+  "Categorie",
+  categorieSchema
 );
-export default Expenses_model;
+export default Categorie_model;

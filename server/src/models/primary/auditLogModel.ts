@@ -1,5 +1,5 @@
 import mongoose, { Document, Schema, Types } from 'mongoose';
-
+import { primaryConnection } from "../../loaders/config";
 export interface IAuditLog extends Document {
   userId: Types.ObjectId; // Ensure it's of type ObjectId
   updateLogs: {
@@ -18,5 +18,5 @@ const auditLogSchema = new Schema<IAuditLog>({
   }]
 });
 
-const AuditLog = mongoose.model<IAuditLog>('AuditLog', auditLogSchema);
+const AuditLog = primaryConnection.model<IAuditLog>('AuditLog', auditLogSchema);
 export default AuditLog;

@@ -1,18 +1,30 @@
 const admin = require("firebase-admin");
-const serviceAccount= "../serviceAccountKey.json"
+const serviceAccount = "../serviceAccountKey.json";
 import mongoose from "mongoose";
-export const db_connection = async () => {
-  const url: string | undefined = process.env.DB; // Get the MongoDB URL from environment variables
-  if (!url) {
-    throw new Error("MongoDB URL (DB) is not defined in environment variables");
-  }
-  try {
-    await mongoose.connect(url);
-    console.log("MongoDB connected successfully");
-  } catch (err) {
-    console.log("Something went wrong in DB connection", err);
-  }
-};
+
+export const primaryConnection = mongoose.createConnection(
+  process.env.PRIMARY_CONN_STR!
+);
+primaryConnection.on("connected", () => {
+  console.log("PRIMARY DB connected");
+});
+
+primaryConnection.on("error", (err: any) => {
+  console.error("Error connecting to PRIMARY DB:", err);
+});
+
+export const secondaryConnection = mongoose.createConnection(
+  process.env.SECONDARY_CONN_STR!
+);
+
+secondaryConnection.on("connected", () => {
+  console.log("SECONDARY DB connected");
+});
+
+secondaryConnection.on("error", (err: any) => {
+  console.error("Error connecting to SECONDARY DB:", err);
+});
+
 
 export const initFirebase = async () => {
   if (!admin.apps.length) {

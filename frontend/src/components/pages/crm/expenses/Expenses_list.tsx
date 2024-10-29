@@ -148,7 +148,7 @@ const Expenses_list: React.FC<Customer_list_props> = ({
         case "updatedAt":
           return <TimeAgo time={cellValue} />;
         case "audit_log":
-          return <p>{cellValue.name}</p>;
+          return <p>{cellValue?.name}</p>;
         case "actions":
           return (
             <div className="relative flex justify-end gap-2">

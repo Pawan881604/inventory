@@ -1,3 +1,20 @@
+export interface purchase_type_form_props {
+  vendor?: string;
+  purchase_date?: string;
+  due_date?: string;
+  supplier_invoice_date?: string;
+  supplier_invoice_serial_no?: string;
+  reference?: string;
+  product_name?: string;
+  quantity?: number;
+  unit_price?: number;
+  price_with_tax?: number;
+  net_amount?: number;
+  total?: number;
+  shipping_charges?: number;
+  packaging_charges?: number;
+}
+
 export interface purchase_type_props {
   vendor?: string;
   purchase_date?: string;
@@ -9,7 +26,6 @@ export interface purchase_type_props {
   product_name?: string;
   unit_price?: number;
   price_with_tax?: number;
-
   net_amount?: number;
   total?: number;
   shipping_charges?: number;
@@ -18,7 +34,7 @@ export interface purchase_type_props {
 
 export interface purchase_product_list_props {
   key?: string;
-  product_name?: string;
+  product?: any[];
   quantity?: number;
   unit_price?: number;
   price_width_text?: number;

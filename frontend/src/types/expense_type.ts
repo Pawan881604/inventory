@@ -4,6 +4,7 @@ export const columns: any[] = [
   { name: "Notes", uid: "notes" },
   { name: "Description", uid: "description" },
   { name: "Categorie:", uid: "categorie" },
+  { name: "Payment type:", uid: "payment_type" },
   { name: "Pay mode", uid: "payment_mode" },
   { name: "Last Update", uid: "updatedAt" },
   { name: "Employ", uid: "audit_log" },
@@ -15,6 +16,7 @@ export const INITIAL_VISIBLE_COLUMNS = [
   "amount",
   "notes",
   "categorie",
+  "payment_type",
   "payment_mode",
   "image",
   "Status",
@@ -31,6 +33,7 @@ export interface expenses_form {
     description: string;
     categorie: string;
     payment_mode: string;
+    payment_type: string;
     notes: string;
     amount: number;
     images?: any;
@@ -43,6 +46,7 @@ export interface expenses_form {
     description: string;
     categorie: string;
     payment_mode: string;
+    payment_type: string;
     notes: string;
     amount: number;
     images?: any;

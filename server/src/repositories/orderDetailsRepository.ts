@@ -1,7 +1,7 @@
 import { NextFunction } from "express";
 import { generateRandomId } from "../utils/generateRandomId";
 import ErrorHandler from "../utils/ErrorHandler";
-import Order_details_model from "../models/orderDetails";
+import Order_details_model from "../models/primary/orderDetails";
 import mongoose from "mongoose";
 
 class OrderDetailsRepository {

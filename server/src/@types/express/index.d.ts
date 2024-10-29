@@ -1,5 +1,5 @@
 // src/types/express/index.d.ts
-import { IUser } from "../../models/userModel";
+import { IUser } from "../../models/primary/userModel";
 
 declare global {
   namespace Express {

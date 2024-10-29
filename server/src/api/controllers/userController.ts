@@ -35,7 +35,6 @@ class UserController {
 
   login = AsyncHandler.handle(
     async (req: Request, res: Response, next: NextFunction) => {
-      console.log(req.body);
       const { email, password } = req.body;
       const user = await this.userService.authenticateUser(
         email,
@@ -56,7 +55,6 @@ class UserController {
 
     const result = await this.userService.getAllUsers(query);
     const data_counter = await this.userService.data_counter(query);
-    console.log(result)
     if (result) {
       return res.status(201).json({
         success: true,
@@ -81,6 +79,20 @@ class UserController {
     await this.userService.deleteUser(req.params.id);
     res.status(204).send();
   });
+  status_update = AsyncHandler.handle(
+    async (req: Request, res: Response, next: NextFunction) => {
+      const { id } = req.params;
+      if (!id) {
+        return next(new ErrorHandler("id not found", 404));
+      }
+      const result = await this.userService.status_update(id, next);
+      if (result) {
+        return res.status(201).json({
+          success: true,
+        });
+      }
+    }
+  );
 }
 
 export default UserController;

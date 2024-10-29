@@ -4,7 +4,7 @@ import Select_field from "@/components/common/fields/Select_field";
 import Text_area_field from "@/components/common/fields/Text_area_field";
 import Drag_input_field from "@/components/image_compress/Drag_input_field";
 import Image_card from "@/components/image_compress/Image_card";
-import { expance_categorie, Payment_mode_arr, status_arr } from "@/components/pages/common/Data";
+import { expance_categorie, Payment_mode_arr, Payment_type_arr, status_arr } from "@/components/pages/common/Data";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button, ModalFooter, ModalHeader } from "@nextui-org/react";
 import React, { useEffect, useMemo, useState } from "react";
@@ -76,6 +76,7 @@ const Expenses_form: React.FC<vender_form_props> = ({
                 description: data.description,
                 categorie: data.categorie,
                 payment_mode: data.payment_mode,
+                payment_type: data.payment_type,
                 notes: data.notes,
                 amount: data.amount,
                 images: {
@@ -174,6 +175,15 @@ const Expenses_form: React.FC<vender_form_props> = ({
                                     name="payment_mode"
                                     label="Payment mode"
                                     options={Payment_mode_arr}
+                                />
+                            </div>
+                            <div className="w-[48%] lg:w-[32%]">
+                                <Select_field
+                                    control={control}
+                                    errors={errors}
+                                    name="payment_type"
+                                    label="Payment type"
+                                    options={Payment_type_arr}
                                 />
                             </div>
 

@@ -13,9 +13,7 @@ const Purchase = () => {
     const [notes_terms, setNotesTerms] = useState<Notes_terms[]>([
     ]);
     const [itemData, setItemData] = useState<{ img: string; name: string }[]>([]);
-    const [product_list, set_product_list] = useState<
-        purchase_product_list_props[]
-    >([]);
+    const [product_list, set_product_list] = useState<any>([]);
     const [additional_number_data, set_additional_data] = useState<additional_props[]>([])
     const accordion = [{ key: "Notes", label: "Notes" }, { key: "Terms", label: "Terms & Conditions" }]
 

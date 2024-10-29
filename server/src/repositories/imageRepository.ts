@@ -1,5 +1,5 @@
 import { NextFunction } from "express";
-import ImageModel from "../models/imageModel";
+import ImageModel from "../models/primary/imageModel";
 
 class ImageRepository {
   async createImage(

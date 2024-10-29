@@ -13,18 +13,37 @@ const Total_cal: React.FC<TotalCalProps> = ({
   product_list,
   additional_number_data,
 }) => {
-    // conat [aditional_charge] = useState([])
-  const data = product_list.reduce(
-    (acc: any, { net_amount = 0, total = 0, discount = 0 }) => {
-      return {
-        Taxable_Amount: acc.Taxable_Amount + net_amount, // Accumulate net_amount
-        total_tax: acc.total_tax + (total - net_amount), // Calculate and accumulate tax
-        total: acc.total + total, // Accumulate total
-        total_discount: acc.total_discount + discount, // Accumulate discount
-      };
-    },
-    { Taxable_Amount: 0, total_tax: 0, total: 0, total_discount: 0 }
-  ); // Initial values
+  // conat [aditional_charge] = useState([])
+  const { taxableAmount,
+    totalTax,
+    totalAmount, } = product_list?.reduce(
+      (acc: any, item: any) => {
+        console.log(item)
+        const purchasePrice = item.product.purchase_price;
+        const quantity = item.quantity;
+        const taxRate = parseFloat(item.product.tax);
+
+        // Taxable Amount
+        const taxableAmount = purchasePrice * quantity;
+        // Total Tax
+        const totalTax = (taxableAmount * taxRate) / 100;
+        // Total Amount
+        const totalAmount = taxableAmount + totalTax;
+
+        // Summing up values
+        acc.taxableAmount += taxableAmount;
+        acc.totalTax += totalTax;
+        acc.totalAmount += totalAmount;
+
+        return acc;
+      },
+      {
+        taxableAmount: 0,
+        totalTax: 0,
+        totalAmount: 0,
+      }
+    );
+
 
   return (
     <>
@@ -55,14 +74,11 @@ const Total_cal: React.FC<TotalCalProps> = ({
           <p className="py-2">Total Discount</p>
         </div>
         <div className="w-36">
-          <p className="py-2">
-            {/* {formatCurrency(data.Taxable_Amount + (additional_data.withoutTax > (withTax || 0) ? additional_data.withoutTax : (withTax || 0)))} */}
-          </p>
-          <p className="py-2">{formatCurrency(data.total_tax)}</p>
-          <p className="py-2">{formatCurrency(data.total_tax)}</p>
+          <p className="py-2">{formatCurrency(taxableAmount)}</p>
+          <p className="py-2">{formatCurrency(totalTax)}</p>
           <p className="py-2">
             {formatCurrency(
-              isNaN(data.total_discount) ? 0 : data.total_discount
+              totalAmount
             )}
           </p>
         </div>

@@ -1,5 +1,5 @@
 import mongoose, { Document, Model, Types, Schema } from "mongoose";
-
+import { primaryConnection } from "../../loaders/config";
 // Define the Iimages interface to match the image data structure
 export interface IImages extends Document {
   originalname: string;
@@ -80,7 +80,7 @@ const imageSchema: Schema<IImages> = new mongoose.Schema(
 );
 
 // Create and export the Image model
-const ImageModel: Model<IImages> = mongoose.model<IImages>(
+const ImageModel: Model<IImages> = primaryConnection.model<IImages>(
   "Images",
   imageSchema
 );

@@ -1,5 +1,5 @@
 import mongoose, { Document, Types, Model, Schema } from "mongoose";
-
+import { primaryConnection } from "../../loaders/config";
 export interface IOrder extends Document {
   order_id: string;
   order_no: number;
@@ -155,7 +155,7 @@ const orderSchema: Schema<IOrder> = new mongoose.Schema(
   }
 );
 
-const Order_model: Model<IOrder> = mongoose.model<IOrder>(
+const Order_model: Model<IOrder> = primaryConnection.model<IOrder>(
   "Orders",
   orderSchema
 );

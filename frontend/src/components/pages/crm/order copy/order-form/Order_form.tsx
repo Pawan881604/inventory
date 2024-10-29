@@ -3,6 +3,7 @@ import React, { useCallback, useEffect, useMemo, useState } from "react";
 import Input_field from "@/components/common/fields/Input_field";
 import { Button, Card, CardBody } from "@nextui-org/react";
 import { useForm } from "react-hook-form";
+import DatePicker_field from "@/components/common/fields/DatePicker_field";
 import Secondary_Autocomplete_field from "@/components/common/fields/Secondary_Autocomplete_field";
 import {
   dispatch_mod_arr,
@@ -139,14 +140,8 @@ export const Order_form: React.FC<order_form_props> = ({
         setOperationSuccess(true);
       }
     },
-    [addNewOrder, update, data, invoice_files,product_list,services, edit, doket_files, Image_files]
+    [addNewOrder, update, data, invoice_files, product_list, services, edit, doket_files, Image_files]
   );
-
-
-
-
-
-
 
   useEffect(() => {
     // Handle error messages
@@ -297,6 +292,7 @@ export const Order_form: React.FC<order_form_props> = ({
   return (
 
     <div className="flex gap-2">
+      
       <div className="w-[70%]">
         <div className="mt-2">
           <Order_product_form
@@ -313,6 +309,61 @@ export const Order_form: React.FC<order_form_props> = ({
 
                 <div className="bg-white">
                   <div className="flex flex-wrap gap-2">
+                    <div className="grid grid-cols-4 gap-4">
+                      <div className="col-span-4 md:col-span-3">
+                        <Secondary_Autocomplete_field
+                          control={control}
+                          errors={errors}
+                          name="customer"
+                          label_name="Customer"
+                          options={filter_customer_data}
+                          setFilterValue={setFilterValue}
+                        />
+                      </div>
+                    </div>
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-2 py-4">
+                      <div>
+                        <DatePicker_field
+                          control={control}
+                          errors={errors}
+                          name="purchase_date"
+                          label="Purchase Date"
+                        />
+                      </div>
+                      <div>
+                        <DatePicker_field
+                          control={control}
+                          errors={errors}
+                          name="due_date"
+                          label="Due Date"
+                        />
+                      </div>
+                      <div>
+                        <DatePicker_field
+                          control={control}
+                          errors={errors}
+                          name="supplier_invoice_date"
+                          label="Supplier invoice Date"
+                        />
+                      </div>
+                      <div>
+                        <Input_field
+                          control={control}
+                          errors={errors}
+                          name="supplier_invoice_serial_no"
+                          label="Supplier invoice serial no"
+                        />
+                      </div>
+                      <div>
+                        <Input_field
+                          control={control}
+                          errors={errors}
+                          name="reference"
+                          label="Reference"
+                        />
+                      </div>
+                    </div>
+
                     <div className="w-[48.5%]">
                       <div className="w-full my-[6px]">
                         <Select_field

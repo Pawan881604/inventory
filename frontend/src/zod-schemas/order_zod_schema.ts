@@ -18,7 +18,7 @@ export const order_type_form_schema = z.object({
   payment_mode: z.string().nonempty("Payment mode is required"),
   status: z.string().optional(),
   name: z.string().nonempty("Name is required"),
-  Company: z.string().nonempty("Company is required").optional().nullable(),
+  company: z.string().nonempty("Company is required").optional().nullable(),
   email: z.string().email("Invalid email format").optional().nullable(),
   phone: z.string().nonempty("Phone is required"),
   gstin: z.string().optional().nullable(),

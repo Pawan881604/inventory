@@ -1,5 +1,5 @@
 import { NextFunction } from "express";
-import Categorie_model from "../models/categorieModel";
+import Categorie_model from "../models/primary/categorieModel";
 import { generateRandomId } from "../utils/generateRandomId";
 import ApiFeatures from "../utils/apiFeatuers";
 import ErrorHandler from "../utils/ErrorHandler";

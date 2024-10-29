@@ -1,5 +1,5 @@
 import mongoose, { Document, Types, Model, Schema } from "mongoose";
-
+import { primaryConnection } from "../../loaders/config";
 export interface Iproduct extends Document {
   prod_id: string;
   name?: string;
@@ -122,7 +122,7 @@ const productschema: Schema<Iproduct> = new mongoose.Schema(
   }
 );
 
-const Product_model: Model<Iproduct> = mongoose.model<Iproduct>(
+const Product_model: Model<Iproduct> = primaryConnection.model<Iproduct>(
   "Products",
   productschema
 );

@@ -85,6 +85,27 @@ export const navItems: MenuListProps[] = [
           },
 
         ],
+      },
+      {
+        title: "Puschas",
+        label: "Puschas",
+        icon: 'ShoppingCart',
+        href: '',
+        page_data: [
+          {
+            key: "list",
+            title: "List",
+            href: paths.crm.purchase.list,
+            icon: "ShoppingCart",
+          },
+          {
+            key: "form",
+            title: "Form",
+            href: paths.crm.purchase.form,
+            icon: "ShoppingBag",
+          },
+
+        ],
       }, {
         title: "Expense",
         label: "expense",

@@ -1,4 +1,5 @@
 import mongoose, { Document, Model, Types, Schema } from "mongoose";
+import { primaryConnection } from "../../loaders/config";
 
 export interface IAddress extends Document {
   address_line_1: string;
@@ -48,7 +49,7 @@ const addressSchema: Schema<IAddress> = new mongoose.Schema(
   }
 );
 
-const AddressModel: Model<IAddress> = mongoose.model<IAddress>(
+const AddressModel: Model<IAddress> = primaryConnection.model<IAddress>(
   "Address",
   addressSchema
 );

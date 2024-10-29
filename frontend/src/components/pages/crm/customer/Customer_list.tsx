@@ -171,7 +171,7 @@ const Customer_list: React.FC<Customer_list_props> = ({ set_open, edit_handler }
           );
         case "audit_log":
           return (
-            <p>{cellValue.name}</p>
+            <p>{cellValue?.name}</p>
           );
         case "actions":
           return (
