@@ -5,7 +5,7 @@ import ErrorHandler from "../../utils/ErrorHandler";
 class CategorieController {
   constructor(private categorieService: CategorieService) {}
   add_new_customer = AsyncHandler.handle(
-    async (req: Request, res: Response, next: NextFunction) => {
+    async (req: Request, res: Response, next: NextFunction) => {  
       const user: string = (req as any).user._id;
       const files = req.files;
       if (!user) {
