@@ -1,8 +1,11 @@
-import Purchase from "@/components/pages/crm/purchases/Purchase";
+// import Purchase from "@/components/pages/crm/purchases/Purchase";
 import React from "react";
 
 const page = () => {
-  return <Purchase />
+  return (
+  // <Purchase />
+  <p>ashkkasdf</p>
+)
 };
 
 export default page;
