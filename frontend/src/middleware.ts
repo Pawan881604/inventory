@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
 // List of routes that are protected
-const protectedRoutes = ["/dashboard", "/crm"];
+const protectedRoutes = ["/dashboard", "/crm","/streaming"];
 const authRoutes = ["/auth"];
 
 // Middleware function
@@ -29,5 +29,5 @@ export async function middleware(req: NextRequest) {
 
 // Config to define which routes to run the middleware on
 export const config = {
-  matcher: ["/dashboard/:path*", "/auth/:path*", "/crm/:path*"], // Include auth routes for matching
+  matcher: ["/dashboard/:path*", "/auth/:path*", "/crm/:path*","/streaming/:path*"], // Include auth routes for matching
 };

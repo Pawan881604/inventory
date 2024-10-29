@@ -79,9 +79,9 @@ export const makeStore = () => {
       getDefaultMiddleware({
         immutableCheck: false, // Disable ImmutableStateInvariantMiddleware
         // serializableCheck: false, // Optionally disable serializableCheck if it's also causing performance issues
-        // serializableCheck: {
-        //   ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
-        // },
+        serializableCheck: {
+          ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+        },
       })
         .concat(api.middleware)
         .concat(usersApi.middleware)
