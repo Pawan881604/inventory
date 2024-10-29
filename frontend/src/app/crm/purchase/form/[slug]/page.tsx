@@ -1,6 +1,6 @@
 // pages/orders/form/[slug]/page.tsx
 
-import Update_order from "@/components/pages/crm/order/update/Update_order";
+// import Update_order from "@/components/pages/crm/order/update/Update_order";
 import { FC } from "react";
 
 interface SlugPageProps {
