@@ -143,4 +143,27 @@ export const navItems: MenuListProps[] = [
       },
     ],
   },
+  {
+    key: "streaming",
+    pages: [
+      {
+        title: "Upload video",
+        label: "Upload video",
+        icon: 'Layout',
+        href: paths.streaming.uploadVideo,
+      },
+      {
+        title: "Inventory",
+        label: "Inventory",
+        icon: 'Layout',
+        href: paths.dashboard.inventory,
+      },
+      {
+        title: "Users",
+        label: "Users",
+        icon: 'CircleUser',
+        href: paths.dashboard.users,
+      },
+    ],
+  },
 ];

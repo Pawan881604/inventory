@@ -24,7 +24,11 @@ interface Paths {
     products: string;
     users: string;
     inventory: string;
-
+  };
+  streaming: {
+    uploadVideo: string;
+    users: string;
+    inventory: string;
   };
 }
 
@@ -54,5 +58,10 @@ export const paths: Paths = {
     products: "/products",
     users: "/users",
     inventory: "/inventory",
+  },
+  streaming: {
+    uploadVideo: "/streaming/upload-video",
+    users: "/streaming/users",
+    inventory: "/streaming/inventory",
   },
 };
