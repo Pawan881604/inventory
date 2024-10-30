@@ -2,7 +2,6 @@
 import { Accordion, AccordionItem } from "@nextui-org/react";
 import Textarea_normal from "../fields/Textarea_normal";
 import { useCallback, useState } from "react";
-import { Notes_terms } from "@/types/Purchase_type";
 
 interface AccordionItemData {
   key: string;
@@ -11,8 +10,8 @@ interface AccordionItemData {
 
 interface AccordionItemProps {
   data: AccordionItemData[];
-  value: Notes_terms[]; // Change this to the appropriate type
-  set_value: React.Dispatch<React.SetStateAction<Notes_terms[]>>;
+  value: any[]; // Change this to the appropriate type
+  set_value: React.Dispatch<React.SetStateAction<any[]>>;
 }
 
 export default function Accordion_tab({ data, value, set_value }: AccordionItemProps) {
