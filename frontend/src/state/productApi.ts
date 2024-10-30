@@ -1,6 +1,5 @@
 import cookiesManager from "@/lib/service/cookies-axis/Cookies";
 import { product_type_form } from "@/types/Product_types";
-import { purchase_product_list_props } from "@/types/Purchase_type";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react"; // Ensure /react is imported
 
 const apiUrl = process.env.NEXT_PUBLIC_API_URL;
@@ -73,7 +72,7 @@ export const productApi = createApi({
       },
       invalidatesTags: [{ type: "Products", id: "LIST" }],
     }),
-    getSingle: builder.mutation<purchase_product_list_props, string>({
+    getSingle: builder.mutation<any, string>({
       query: (id: string) => ({
         url: `/product/data/${id}`,
         method: "GET",
