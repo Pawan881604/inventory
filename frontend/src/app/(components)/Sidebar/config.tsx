@@ -20,33 +20,6 @@ export const navItems: MenuListProps[] = [
   {
     key: "crm",
     pages: [
-
-      {
-        title: "Purchases",
-        label: "Purchases",
-        icon: 'ShoppingCart',
-        href: '',
-        page_data: [
-          {
-            key: "purchase",
-            title: "Purchase",
-            href: paths.crm.purchases.purchases,
-            icon: "ShoppingCart",
-          },
-          {
-            key: "purchase_orders",
-            title: "Purchase orders",
-            href: paths.crm.purchases.purchase_orders,
-            icon: "ShoppingBag",
-          },
-          {
-            key: "debit_notes",
-            title: "Debit notes",
-            href: paths.crm.purchases.debit_notes,
-            icon: "NotebookText",
-          },
-        ],
-      },
       {
         title: "Product & Service",
         label: "Product & Service",
@@ -87,21 +60,21 @@ export const navItems: MenuListProps[] = [
         ],
       },
       {
-        title: "Puschas",
-        label: "Puschas",
+        title: "Puschases",
+        label: "Puschases",
         icon: 'ShoppingCart',
         href: '',
         page_data: [
           {
             key: "list",
             title: "List",
-            href: paths.crm.purchase.list,
+            href: paths.crm.purchases.list,
             icon: "ShoppingCart",
           },
           {
             key: "form",
             title: "Form",
-            href: paths.crm.purchase.form,
+            href: paths.crm.purchases.form,
             icon: "ShoppingBag",
           },
 

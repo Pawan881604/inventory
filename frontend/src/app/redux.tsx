@@ -31,6 +31,7 @@ import { categorieApi } from "@/state/categoriesApi";
 import { productApi } from "@/state/productApi";
 import { orderApi } from "@/state/orderApi";
 import { expencesApi } from "@/state/expenseApi";
+import { purchaseApi } from "@/state/purchaseApi";
 
 /* REDUX PERSISTENCE */
 const createNoopStorage = () => {
@@ -68,6 +69,7 @@ const rootReducer = combineReducers({
   [productApi.reducerPath]: productApi.reducer,
   [orderApi.reducerPath]: orderApi.reducer,
   [expencesApi.reducerPath]: expencesApi.reducer,
+  [purchaseApi.reducerPath]: purchaseApi.reducer,
 });
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
@@ -90,6 +92,7 @@ export const makeStore = () => {
         .concat(categorieApi.middleware)
         .concat(productApi.middleware)
         .concat(orderApi.middleware)
+        .concat(purchaseApi.middleware)
         .concat(expencesApi.middleware),
   });
 };

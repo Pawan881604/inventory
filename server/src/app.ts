@@ -22,6 +22,8 @@ import OrderController from "./api/controllers/orderController";
 import orderRoutes from "./api/routes/orderRoutes";
 import ExpenseController from "./api/controllers/expenseController";
 import expenseRoutes from "./api/routes/expenseRoutes";
+import purchaseRoutes from "./api/routes/purchaseRoutes";
+import PurchasesController from "./api/controllers/purchasesController";
 // Middleware to parse JSON bodies
 app.use(express.json());
 // Middleware to parse URL-encoded bodies (form submissions)
@@ -57,6 +59,7 @@ const categorieController = new CategorieController(services.categorieService);
 const productController = new ProductController(services.productService);
 const orderController = new OrderController(services.orderService);
 const expenseController = new ExpenseController(services.expenseService);
+const purchasesController = new PurchasesController(services.purchaseService);
 
 // Set up routes
 app.use("/api/auth", userRoutes(userController));
@@ -66,6 +69,7 @@ app.use("/api/categorie", categorieRoutes(categorieController));
 app.use("/api/product", productRoutes(productController));
 app.use("/api/order", orderRoutes(orderController));
 app.use("/api/expense", expenseRoutes(expenseController));
+app.use("/api/purchase", purchaseRoutes(purchasesController));
 
 app.use(errorMiddleware);
 

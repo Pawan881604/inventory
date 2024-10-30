@@ -1,10 +1,5 @@
 interface Paths {
   crm: {
-    purchases: {
-      purchases: string;
-      purchase_orders: string;
-      debit_notes: string;
-    };
     product_service: string;
     crm: string;
     vendor: string;
@@ -15,7 +10,7 @@ interface Paths {
       list: string;
       form: string;
     };
-    purchase: {
+    purchases: {
       list: string;
       form: string;
     };
@@ -34,16 +29,11 @@ interface Paths {
 
 export const paths: Paths = {
   crm: {
-    purchases: {
-      purchases: "/crm/list/purchase",
-      purchase_orders: "/crm/list/purchase-order",
-      debit_notes: "/crm/list/debit-notes",
-    },
     order: {
       list: "/crm/orders",
       form: "/crm/orders/form",
     },
-    purchase: {
+    purchases: {
       list: "/crm/purchase",
       form: "/crm/purchase/form",
     },
