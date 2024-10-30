@@ -1,13 +1,9 @@
 import { convertTaxToNumber } from "@/lib/service/convertTaxToNumber";
 import { formatCurrency } from "@/lib/service/currencyUtils";
-import {
-  additional_props,
-  purchase_product_list_props,
-} from "@/types/Purchase_type";
 import React, { useState } from "react";
 interface TotalCalProps {
-  product_list: purchase_product_list_props[];
-  additional_number_data: additional_props[];
+  product_list: any[];
+  additional_number_data: any[];
 }
 const Total_cal: React.FC<TotalCalProps> = ({
   product_list,
