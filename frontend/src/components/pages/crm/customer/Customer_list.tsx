@@ -11,16 +11,33 @@ import {
 import { Trash2, Edit, RotateCcw, Eraser } from "lucide-react";
 import toast from "react-hot-toast";
 import { TimeAgo } from "@/lib/service/time/timeAgo";
-import { useActionCustomerMutation, useGetAllcustomerQuery } from "@/state/customerApi";
-import { Column, customer_list, Get_CustomerResponse } from "@/types/Customer_type";
+import {
+  useActionCustomerMutation,
+  useGetAllcustomerQuery,
+} from "@/state/customerApi";
+import {
+  Column,
+  customer_list,
+  Get_CustomerResponse,
+} from "@/types/Customer_type";
 
 interface Customer_list_props {
   set_open: (value: boolean) => void;
   edit_handler: (value: any) => void;
 }
-const INITIAL_VISIBLE_COLUMNS = ["name", "phone", "gstin", "state", "updatedAt", "audit_log", "actions"];
+const INITIAL_VISIBLE_COLUMNS = [
+  "_no",
+  "name",
+  "phone",
+  "gstin",
+  "state",
+  "updatedAt",
+  "audit_log",
+  "actions",
+];
 
 const columns: Column[] = [
+  { name: "_id", uid: "_no" },
   { name: "Name", uid: "name" },
   { name: "Phone", uid: "phone" },
   { name: "Email", uid: "email" },
@@ -37,7 +54,10 @@ const statusColorMap: Record<string, ChipProps["color"]> = {
   inactive: "danger",
 };
 
-const Customer_list: React.FC<Customer_list_props> = ({ set_open, edit_handler }) => {
+const Customer_list: React.FC<Customer_list_props> = ({
+  set_open,
+  edit_handler,
+}) => {
   const [filterValue, setFilterValue] = useState<string>("");
   const [page_status, set_page_status] = useState<string>("yes");
   const [deleted_status, set_deleted_status] = useState<string>("no");
@@ -47,8 +67,7 @@ const Customer_list: React.FC<Customer_list_props> = ({ set_open, edit_handler }
   const [rowsPerPage, setRowsPerPage] = useState<number>(10);
   const [page, setPage] = useState<number>(1);
 
-
-  //-------------use states for apis 
+  //-------------use states for apis
   const { data, error, isLoading } = useGetAllcustomerQuery({
     is_active: page_status,
     is_delete: page_status && page_status === "final" ? "yes" : "no",
@@ -81,24 +100,27 @@ const Customer_list: React.FC<Customer_list_props> = ({ set_open, edit_handler }
       let errorMessage = "An unexpected error occurred."; // Default message
 
       // Check if 'error' is defined and has the expected structure
-      if (delete_error && 'data' in delete_error) {
-        errorMessage = (delete_error as { data?: { message?: string } }).data?.message || errorMessage;
+      if (delete_error && "data" in delete_error) {
+        errorMessage =
+          (delete_error as { data?: { message?: string } }).data?.message ||
+          errorMessage;
       }
 
       // Check if 'update_error' is defined and has the expected structure
-      if (error && 'data' in error) {
-        errorMessage = (error as { data?: { message?: string } }).data?.message || errorMessage;
+      if (error && "data" in error) {
+        errorMessage =
+          (error as { data?: { message?: string } }).data?.message ||
+          errorMessage;
       }
 
       toast.error(errorMessage); // Show the error toast
-      return
+      return;
     }
     if (delete_success) {
       toast.success("Vendor successfuly updated"); // Show the error toast
     }
   }, [delete_error, delete_success, toast, error]);
   // Fetch vendors only when debouncedFilterValue has a valid value
-
 
   const response: Get_CustomerResponse | undefined = data as
     | Get_CustomerResponse
@@ -144,6 +166,8 @@ const Customer_list: React.FC<Customer_list_props> = ({ set_open, edit_handler }
       };
 
       switch (columnKey) {
+        case "_no":
+          return <>{customer?._no}</>;
         case "vendor_name":
           return (
             <User
@@ -166,24 +190,31 @@ const Customer_list: React.FC<Customer_list_props> = ({ set_open, edit_handler }
             </Chip>
           );
         case "updatedAt":
-          return (
-            <TimeAgo time={cellValue} />
-          );
+          return <TimeAgo time={cellValue} />;
         case "audit_log":
-          return (
-            <p>{cellValue?.name}</p>
-          );
+          return <p>{cellValue?.name}</p>;
         case "actions":
           return (
             <div className="relative flex justify-end gap-2">
-              <Tooltip content={customer.is_active === "yes" ? "Edit customer" : "Recover customer"}>
+              <Tooltip
+                content={
+                  customer.is_active === "yes"
+                    ? "Edit customer"
+                    : "Recover customer"
+                }
+              >
                 <span className="text-sm text-default-400 cursor-pointer active:opacity-50">
                   {customer && customer.is_delete === "no" ? (
                     customer.is_active === "yes" ? (
-                      <Edit size={20} onClick={() => edit_handler(customer._id)} />
+                      <Edit
+                        size={20}
+                        onClick={() => edit_handler(customer._id)}
+                      />
                     ) : customer.is_active === "no" ? (
                       <RotateCcw
-                        onClick={() => restoreHandler(customer._id, "yes", "no")}
+                        onClick={() =>
+                          restoreHandler(customer._id, "yes", "no")
+                        }
                         size={20}
                       />
                     ) : null /* Handle if no other case applies */
@@ -198,7 +229,13 @@ const Customer_list: React.FC<Customer_list_props> = ({ set_open, edit_handler }
                 </span>
               </Tooltip>
 
-              <Tooltip content={customer.is_active === "yes" ? "Delete customer" : "Erase customer"}>
+              <Tooltip
+                content={
+                  customer.is_active === "yes"
+                    ? "Delete customer"
+                    : "Erase customer"
+                }
+              >
                 <span className="text-sm text-red-600 cursor-pointer active:opacity-50">
                   {
                     customer && customer.is_delete === "no" ? (
@@ -207,7 +244,9 @@ const Customer_list: React.FC<Customer_list_props> = ({ set_open, edit_handler }
                       ) : customer.is_active === "yes" ? (
                         <Trash2
                           className="text-red-600"
-                          onClick={() => deleteHandler(customer._id, "no", "no")}
+                          onClick={() =>
+                            deleteHandler(customer._id, "no", "no")
+                          }
                           size={20}
                         />
                       ) : (

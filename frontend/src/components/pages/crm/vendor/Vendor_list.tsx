@@ -26,9 +26,10 @@ interface list_props {
   set_open: (value: boolean) => void;
   edit_handler: (value: any) => void;
 }
-const INITIAL_VISIBLE_COLUMNS = ["name", "phone", "gstin", "state", "updatedAt", "audit_log", "actions"];
+const INITIAL_VISIBLE_COLUMNS = ["_no","name", "phone", "gstin", "state", "updatedAt", "audit_log", "actions"];
 
 const columns: vendor_Column[] = [
+  { name: "_id", uid: "_no" },
   { name: "Vendor name", uid: "name" },
   { name: "Phone", uid: "phone" },
   { name: "Email", uid: "email" },
@@ -148,6 +149,10 @@ const Vendor_list: React.FC<list_props> = ({ set_open, edit_handler }) => {
       };
 
       switch (columnKey) {
+        case "_no":
+          return (
+         <p>{vendor?._no}</p>
+          );
         case "name":
           return (
             <User
@@ -155,7 +160,7 @@ const Vendor_list: React.FC<list_props> = ({ set_open, edit_handler }) => {
               avatarProps={{ radius: "lg", src: "" }} // Replace with a valid image URL if available
               name={cellValue}
             >
-              {vendor.name}
+              {vendor?.name}
             </User>
           );
         case "status":

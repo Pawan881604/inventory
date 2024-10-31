@@ -15,6 +15,7 @@ interface list_props {
   edit_handler: (value: any) => void;
 }
 const INITIAL_VISIBLE_COLUMNS = [
+  "_no",
   "name",
   "selling_price",
   "tax",
@@ -27,6 +28,7 @@ const INITIAL_VISIBLE_COLUMNS = [
 ];
 
 const columns: any[] = [
+  { name: "_id", uid: "_no" },
   { name: "Name", uid: "name" },
   { name: "Selling price", uid: "selling_price" },
   { name: "Purchase price", uid: "purchase_price" },
@@ -158,8 +160,10 @@ const Product_list: React.FC<list_props> = ({ set_open, edit_handler }) => {
       };
 
       switch (columnKey) {
-        case "name":
-          return <p> {cellValue}</p>;
+        case "_no":
+          return <p> {product?._no}</p>;
+          case "name":
+            return <p> {cellValue}</p>;
         case "selling_price":
           return <p> {formatCurrency(cellValue)}</p>;
         case "purchase_price":

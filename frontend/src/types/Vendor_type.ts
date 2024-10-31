@@ -20,6 +20,7 @@ export interface vendr_form {
 }
 
 export interface vendr_list {
+  _no: number;
   _id: string;
   name: string;
   audit_log: any;

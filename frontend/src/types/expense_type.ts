@@ -1,4 +1,5 @@
 export const columns: any[] = [
+  { name: "No", uid: "_no" },
   { name: "Name", uid: "name" },
   { name: "Amount", uid: "amount" },
   { name: "Notes", uid: "notes" },
@@ -11,6 +12,7 @@ export const columns: any[] = [
   { name: "Actions", uid: "actions" }, // Added actions column
 ];
 export const INITIAL_VISIBLE_COLUMNS = [
+  "_no",
   "name",
   "description",
   "amount",
@@ -41,6 +43,7 @@ export interface expenses_form {
     id?: string;
   }
   export interface Expences_List_Props {
+    _no: number;
     _id: string;
     name: string;
     description: string;

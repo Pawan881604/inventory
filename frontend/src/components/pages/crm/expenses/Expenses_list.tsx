@@ -126,8 +126,10 @@ const Expenses_list: React.FC<Customer_list_props> = ({
       };
 
       switch (columnKey) {
-        case "name":
-          return <p> {result.name}</p>;
+        case "_no":
+          return <p> {result?._no}</p>;
+          case "name":
+            return <p> {result.name}</p>;
         case "image":
           return (
             <div className='w-[50%] sm:w-"50%" md:w-[40%] lg:w-[40%]'>

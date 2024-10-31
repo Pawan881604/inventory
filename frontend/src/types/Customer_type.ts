@@ -20,6 +20,7 @@ export interface customer_form {
 }
 
 export interface customer_list {
+  _no: number;
   _id: string;
   name: string;
   audit_log: any;

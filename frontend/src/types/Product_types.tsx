@@ -24,6 +24,7 @@ export interface image_details {
 
 
 export interface product_type_list {
+  _no: number;
   _id: string;
   name?: string;
   status: string;

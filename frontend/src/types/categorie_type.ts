@@ -11,6 +11,7 @@ export interface image_details {
   originalname: string;
 }
 export interface categorie_list {
+  _no: number;
   _id: string;
   name: string;
   audit_log: any;

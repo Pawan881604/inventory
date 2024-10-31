@@ -17,6 +17,7 @@ interface Customer_list_props {
   edit_handler: (value: any) => void;
 }
 const INITIAL_VISIBLE_COLUMNS = [
+  "_no",
   "name",
   "description",
   "image",
@@ -27,6 +28,7 @@ const INITIAL_VISIBLE_COLUMNS = [
 ];
 
 const columns: any[] = [
+  { name: "_id", uid: "_no" },
   { name: "Name", uid: "name" },
   { name: "Description", uid: "description" },
   { name: "Image", uid: "image" },
@@ -151,8 +153,10 @@ const Categorie_list: React.FC<Customer_list_props> = ({
       };
 
       switch (columnKey) {
+        case "_no":
+          return<p> {categorie?._no}</p>;
         case "name":
-          return <p> {categorie.name}</p>;
+          return <p> {categorie?.name}</p>;
         case "image":
           return (
             <div className='w-[50%] sm:w-"50%" md:w-[40%] lg:w-[40%]'>
