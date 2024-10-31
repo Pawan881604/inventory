@@ -1,6 +1,7 @@
 import mongoose, { Document, Types, Model, Schema } from "mongoose";
 import { primaryConnection } from "../../loaders/config";
 export interface Icategory extends Document {
+  _no: number;
   cat_id: string;
   name: string;
   description: string;
@@ -13,6 +14,10 @@ export interface Icategory extends Document {
 
 const categorieSchema: Schema<Icategory> = new mongoose.Schema(
   {
+    _no: {
+      type: Number,
+      default:0,
+    },
     cat_id: {
       type: String,
       trim: true,

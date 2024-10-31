@@ -18,8 +18,9 @@ class ProductRepository {
 
     // Destructure and prepare image ids
     const image_ids = image_data.map((item: any) => item._id);
-
+    const counter = await Product_model.countDocuments();
     const updated_data: any = {
+      _no: counter + 1,
       prod_id: `prod_${data.uuid}_${rendom_id}`,
       name: data.name,
       status: data.status,

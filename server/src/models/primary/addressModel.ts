@@ -2,6 +2,7 @@ import mongoose, { Document, Model, Types, Schema } from "mongoose";
 import { primaryConnection } from "../../loaders/config";
 
 export interface IAddress extends Document {
+  _no: number;
   address_line_1: string;
   address_line_2?: string; // Make optional if not always provided
   pin_code: string;
@@ -13,6 +14,10 @@ export interface IAddress extends Document {
 
 const addressSchema: Schema<IAddress> = new mongoose.Schema(
   {
+    _no: {
+      type: Number,
+      default:0,
+    },
     address_line_1: {
       type: String,
       trim: true,

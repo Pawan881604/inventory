@@ -2,6 +2,7 @@ import mongoose, { Document, Model, Types, Schema } from "mongoose";
 import { primaryConnection } from "../../loaders/config";
 // Define the Iimages interface to match the image data structure
 export interface IImages extends Document {
+  _no: number;
   originalname: string;
   encoding: string;
   mimetype: string;
@@ -21,6 +22,10 @@ export interface IImages extends Document {
 // Define the image schema
 const imageSchema: Schema<IImages> = new mongoose.Schema(
   {
+    _no: {
+      type: Number,
+      default:0,
+    },
     originalname: {
       type: String,
       default: null,

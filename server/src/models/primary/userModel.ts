@@ -4,6 +4,7 @@ import jwt, { JwtPayload, SignOptions } from "jsonwebtoken";
 import { primaryConnection } from "../../loaders/config";
 
 export interface IUser extends Document {
+  _no: number;
   user_id: string;
   name: string;
   email: string;
@@ -23,6 +24,10 @@ export interface IUser extends Document {
 
 const userSchema: Schema<IUser> = new mongoose.Schema(
   {
+    _no: {
+      type: Number,
+      default:0,
+    },
     user_id: {
       type: String,
       trim: true,

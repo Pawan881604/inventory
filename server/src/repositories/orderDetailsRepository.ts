@@ -7,7 +7,7 @@ import mongoose from "mongoose";
 class OrderDetailsRepository {
   async create(data: any, next: NextFunction) {
     const toNumber = (value: any) => (isNaN(Number(value)) ? 0 : Number(value));
-
+    const counter = await Order_details_model.countDocuments();
     const updated_data: any[] = data.map((item: any) => {
       // Check if item.product exists, otherwise default to an empty object
       const product = item.product || item; // fallback to item itself if product is not defined
@@ -25,6 +25,7 @@ class OrderDetailsRepository {
 
     try {
       const newOrderDetails = new Order_details_model({
+        _no: counter + 1,
         product_details: updated_data, // Wrap in `product_details`
       });
       return await newOrderDetails.save();

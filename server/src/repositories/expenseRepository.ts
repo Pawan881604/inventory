@@ -8,17 +8,28 @@ const toNumber = (value: any) => (isNaN(Number(value)) ? 0 : Number(value));
 class ExpenseRepository {
   async create(data: any, image_data: any, user_id: string) {
     const rendom_id = generateRandomId();
-    const { name, description, uuid,payment_type, categorie, payment_mode, notes, amount } =
-      data;
-      const image_ids =
+    const {
+      name,
+      description,
+      uuid,
+      payment_type,
+      categorie,
+      payment_mode,
+      notes,
+      amount,
+    } = data;
+    const image_ids =
       Array.isArray(image_data) && image_data.length > 0
         ? image_data.map((item: any) => item._id)
         : [];
+    const counter = await Expenses_model.countDocuments();
     const updated_data = {
+      _no: counter + 1,
       expense_id: `Expence${uuid}_${rendom_id}`,
       name,
       description,
-      categorie,payment_type,
+      categorie,
+      payment_type,
       payment_mode,
       notes,
       amount: toNumber(amount),
@@ -48,7 +59,8 @@ class ExpenseRepository {
       name,
       description,
       categorie,
-      payment_mode,payment_type,
+      payment_mode,
+      payment_type,
       notes,
       amount: toNumber(amount),
       images_id: image_ids.length > 0 ? image_ids : images,

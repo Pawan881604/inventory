@@ -1,6 +1,7 @@
 import mongoose, { Document, Model, Types, Schema } from "mongoose";
 import { primaryConnection } from "../../loaders/config";
 export interface IVendor extends Document {
+  _no: number;
   vendor_id: string;
   name: string;
   phone: string;
@@ -18,6 +19,10 @@ export interface IVendor extends Document {
 
 const vendorSchema: Schema<IVendor> = new mongoose.Schema(
   {
+    _no: {
+      type: Number,
+      default:0,
+    },
     vendor_id: {
       type: String,
       trim: true,

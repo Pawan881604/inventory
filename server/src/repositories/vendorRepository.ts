@@ -30,9 +30,10 @@ class VendorRepository {
       AddressModel.create(billing_data),
       AddressModel.create(shipping_data),
     ]);
-
+    const counter = await VendorModel.countDocuments();
     // Create vendor data object
     const vendor_data = {
+      _no:counter+1,
       vendor_id: `vendor_${uuid}_${rendom_id}`,
       name: name,
       phone,

@@ -1,6 +1,7 @@
 import mongoose, { Document, Types, Model, Schema } from "mongoose";
 import { primaryConnection } from "../../loaders/config";
 export interface Iproduct extends Document {
+  _no: number;
   prod_id: string;
   name?: string;
   status?: string;
@@ -26,6 +27,10 @@ export interface Iproduct extends Document {
 
 const productschema: Schema<Iproduct> = new mongoose.Schema(
   {
+    _no: {
+      type: Number,
+      default:0,
+    },
     prod_id: {
       type: String,
       trim: true,

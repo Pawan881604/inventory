@@ -9,7 +9,10 @@ class CategorieRepository {
     const rendom_id = generateRandomId();
     const { name, description, uuid, status } = data;
     const image_ids = image_data.map((item: any) => item._id);
+    const counter = await Categorie_model.countDocuments();
+
     const updated_data = {
+      _no:counter+1,
       cat_id: `cat_${uuid}_${rendom_id}`,
       name,
       description,

@@ -7,8 +7,11 @@ class AuditLogger {
     userId: string, // Make sure this is of type ObjectId
     updatedData: any
   ) {
+    const counter = await AuditLog.countDocuments();
+
     // Specify the return type
     const newAuditLog = new AuditLog({
+      _no:counter+1,
       userId,
       updateLogs: [
         {

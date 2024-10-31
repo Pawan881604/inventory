@@ -12,7 +12,7 @@ class ImageRepository {
      
       // Create an array to hold image objects
       const images_arr: any[] = [];
-
+      const counter = await ImageModel.countDocuments();
       // Check if data is an array or an object
       if (Array.isArray(data)) {
         // Handle the case when data is an array
@@ -20,6 +20,7 @@ class ImageRepository {
 
         data.forEach((image: any, i: number) => {
           images_arr.push({
+            _no: counter + 1 + i,
             fieldname: image.fieldname,
             originalname: image.originalname,
             encoding: image.encoding,
@@ -38,6 +39,7 @@ class ImageRepository {
           if (Array.isArray(value)) {
             value.forEach((image: any, i: number) => {
               images_arr.push({
+                _no: counter + 1 + i,
                 fieldname: key,
                 originalname: image.originalname,
                 encoding: image.encoding,

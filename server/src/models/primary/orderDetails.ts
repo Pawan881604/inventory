@@ -1,6 +1,7 @@
 import mongoose, { Document, Types, Model, Schema } from "mongoose";
 import { primaryConnection } from "../../loaders/config";
 export interface IOrderDetails extends Document {
+  _no: number;
   product_details: {
     type: Schema.Types.Mixed;
     quantity: number;
@@ -11,6 +12,10 @@ export interface IOrderDetails extends Document {
 
 const orderDetailsSchema: Schema<IOrderDetails> = new mongoose.Schema(
   {
+    _no: {
+      type: Number,
+      default:0,
+    },
     product_details: [
       {
         type: Schema.Types.Mixed,

@@ -29,9 +29,10 @@ class CustomerRepository {
       AddressModel.create(billing_data),
       AddressModel.create(shipping_data),
     ]);
-
+    const counter = await CustomerModel.countDocuments();
     // Create vendor data object
     const updated_data = {
+      _no:counter+1,
       customer_id: `customer_${uuid}_${rendom_id}`,
       name: name,
       phone,

@@ -8,7 +8,10 @@ class UserRepository {
   async createUser(userData: any) {
     const { email, password, name, uuid } = userData;
     const rendom_id = generateRandomId();
+    const counter = await User.countDocuments();
+
     const data = {
+      _no:counter+1,
       user_id: `user_${rendom_id}_${uuid}`,
       email,
       password,

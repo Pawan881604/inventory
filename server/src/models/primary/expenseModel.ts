@@ -1,6 +1,7 @@
 import mongoose, { Document, Types, Model, Schema } from "mongoose";
 import { primaryConnection } from "../../loaders/config";
 export interface Iexpense extends Document {
+  _no: number;
   expense_id: string;
   name: string;
   description: string;
@@ -18,6 +19,10 @@ export interface Iexpense extends Document {
 
 const expenseSchema: Schema<Iexpense> = new mongoose.Schema(
   {
+    _no: {
+      type: Number,
+      default:0,
+    },
     expense_id: {
       type: String,
       trim: true,
