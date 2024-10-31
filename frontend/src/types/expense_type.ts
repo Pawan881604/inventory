@@ -1,5 +1,5 @@
 export const columns: any[] = [
-  { name: "No", uid: "_no" },
+  { name: "_id", uid: "_no" },
   { name: "Name", uid: "name" },
   { name: "Amount", uid: "amount" },
   { name: "Notes", uid: "notes" },

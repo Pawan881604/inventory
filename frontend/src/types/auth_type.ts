@@ -1,4 +1,5 @@
 export const columns: any[] = [
+  { name: "_id", uid: "_no" },
   { name: "User id", uid: "user_id" },
   { name: "Name", uid: "name" },
   { name: "Email", uid: "email" },
@@ -8,7 +9,7 @@ export const columns: any[] = [
   { name: "Status", uid: "isActive" },
 ];
 export const INITIAL_VISIBLE_COLUMNS = [
-  "user_id",
+  "_no",
   "name",
   "email",
   "number",
