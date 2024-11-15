@@ -117,6 +117,17 @@ export const navItems: MenuListProps[] = [
     ],
   },
   {
+    key: "karnalwebtech",
+    pages: [
+      {
+        title: "Post",
+        label: "Post",
+        icon: 'CirclePlus',
+        href: paths.karnalwebtech.post,
+      }
+    ]
+  },
+  {
     key: "streaming",
     pages: [
       {

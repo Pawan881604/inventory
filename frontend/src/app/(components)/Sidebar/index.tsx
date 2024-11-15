@@ -12,6 +12,7 @@ export const workspce_selector = [
   { key: "crm", label: "CRM" },
   { key: "dashboard", label: "Dashboard" },
   { key: "streaming", label: "Streaming" },
+  { key: "karnalwebtech", label: "Karnal Web Tech" },
 ];
 
 const Sidebar: React.FC = () => {

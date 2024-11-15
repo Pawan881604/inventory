@@ -7,41 +7,83 @@ const config: Config = {
 
   ],
   theme: {
-    extend: {
-      screens: {
-        'sm': '640px',   // Small devices (portrait phones)
-        'md': '768px',   // Medium devices (landscape tablets)
-        'lg': '1024px',  // Large devices (desktops)
-        'xl': '1280px',  // Extra large devices (large desktops)
-        '2xl': '1536px', // 2x extra large devices (very large desktops)
-        '900px': '900px', // Custom breakpoint at 900px
-      },
-      colors: {
-        background: "var(--background)",
-        foreground: "var(--foreground)",
-        dark_color: "#ef4444",
-        light_color: "#1f1228",
-        dark50:'#27272a' // page header
-      },
-      fontSize: {
-        'xxs': '0.625rem',  // Custom size: 10px
-        'xs': '0.75rem',    // Tailwind default: 12px
-        'sm': '0.875rem',   // Tailwind default: 14px
-        'base': '1rem',     // Tailwind default: 16px
-        'lg': '1.125rem',   // Tailwind default: 18px
-        'xl': '1.25rem',    // Tailwind default: 20px
-        '2xl': '1.5rem',    // Tailwind default: 24px
-        '3xl': '1.875rem',  // Tailwind default: 30px
-        'custom-lg': '2.5rem', // Custom large size
-      },
-      borderColor: {
-        light_color: "#000",  // Custom border color for light mode
-        dark_color: "#ef4444",   // Custom border color for dark mode
-      
-      },
-    },
+  	extend: {
+  		screens: {
+  			sm: '640px',
+  			md: '768px',
+  			lg: '1024px',
+  			xl: '1280px',
+  			'2xl': '1536px',
+  			'900px': '900px'
+  		},
+  		colors: {
+  			background: 'hsl(var(--background))',
+  			foreground: 'hsl(var(--foreground))',
+  			dark_color: '#ef4444',
+  			light_color: '#1f1228',
+  			dark50: '#27272a',
+  			card: {
+  				DEFAULT: 'hsl(var(--card))',
+  				foreground: 'hsl(var(--card-foreground))'
+  			},
+  			popover: {
+  				DEFAULT: 'hsl(var(--popover))',
+  				foreground: 'hsl(var(--popover-foreground))'
+  			},
+  			primary: {
+  				DEFAULT: 'hsl(var(--primary))',
+  				foreground: 'hsl(var(--primary-foreground))'
+  			},
+  			secondary: {
+  				DEFAULT: 'hsl(var(--secondary))',
+  				foreground: 'hsl(var(--secondary-foreground))'
+  			},
+  			muted: {
+  				DEFAULT: 'hsl(var(--muted))',
+  				foreground: 'hsl(var(--muted-foreground))'
+  			},
+  			accent: {
+  				DEFAULT: 'hsl(var(--accent))',
+  				foreground: 'hsl(var(--accent-foreground))'
+  			},
+  			destructive: {
+  				DEFAULT: 'hsl(var(--destructive))',
+  				foreground: 'hsl(var(--destructive-foreground))'
+  			},
+  			border: 'hsl(var(--border))',
+  			input: 'hsl(var(--input))',
+  			ring: 'hsl(var(--ring))',
+  			chart: {
+  				'1': 'hsl(var(--chart-1))',
+  				'2': 'hsl(var(--chart-2))',
+  				'3': 'hsl(var(--chart-3))',
+  				'4': 'hsl(var(--chart-4))',
+  				'5': 'hsl(var(--chart-5))'
+  			}
+  		},
+  		fontSize: {
+  			xxs: '0.625rem',
+  			xs: '0.75rem',
+  			sm: '0.875rem',
+  			base: '1rem',
+  			lg: '1.125rem',
+  			xl: '1.25rem',
+  			'2xl': '1.5rem',
+  			'3xl': '1.875rem',
+  			'custom-lg': '2.5rem'
+  		},
+  		borderColor: {
+  			light_color: '#000',
+  			dark_color: '#ef4444'
+  		},
+  		borderRadius: {
+  			lg: 'var(--radius)',
+  			md: 'calc(var(--radius) - 2px)',
+  			sm: 'calc(var(--radius) - 4px)'
+  		}
+  	}
   },
-  darkMode: "class",
+  darkMode: ["class", "class"],
   plugins: [ nextui({
     layout: {
       disabledOpacity: "0.3",
@@ -88,6 +130,8 @@ const config: Config = {
         },
       },
     },
-  }),],
+  }),
+      require("tailwindcss-animate")
+],
 };
 export default config;

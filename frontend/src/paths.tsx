@@ -25,6 +25,11 @@ interface Paths {
     users: string;
     inventory: string;
   };
+  karnalwebtech: {
+    post: string;
+    users: string;
+    inventory: string;
+  };
 }
 
 export const paths: Paths = {
@@ -51,6 +56,11 @@ export const paths: Paths = {
   },
   streaming: {
     uploadVideo: "/streaming/upload-video",
+    users: "/streaming/users",
+    inventory: "/streaming/inventory",
+  },
+  karnalwebtech: {
+    post: "/karnalwebtech/post",
     users: "/streaming/users",
     inventory: "/streaming/inventory",
   },
