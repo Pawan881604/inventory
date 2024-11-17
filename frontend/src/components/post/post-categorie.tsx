@@ -19,16 +19,16 @@ const categories: Category[] = [
 ];
 interface categorie_props {
   class_cat: string;
+  selectedCategories:any;
+  setSelectedCategories:any;
 }
-export default function CategorySelector({ class_cat }: categorie_props) {
-  const [selectedCategories, setSelectedCategories] = React.useState<string[]>(
-    []
-  );
+export default function CategorySelector({ class_cat,setSelectedCategories,selectedCategories }: categorie_props) {
+
 
   const handleCategoryChange = (categoryId: string) => {
-    setSelectedCategories((prev) =>
+    setSelectedCategories((prev:any) =>
       prev.includes(categoryId)
-        ? prev.filter((id) => id !== categoryId)
+        ? prev.filter((id:any) => id !== categoryId)
         : [...prev, categoryId]
     );
   };

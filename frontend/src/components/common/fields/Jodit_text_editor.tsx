@@ -152,7 +152,7 @@ export const Jodit_text_editor = ({ value, onChange }: TextEditorProps) => {
             <JoditEditor
                 value={value}
                 config={editorConfig}
-                onBlur={onChange}
+                onChange={onChange}
             />
         </div>
     );
